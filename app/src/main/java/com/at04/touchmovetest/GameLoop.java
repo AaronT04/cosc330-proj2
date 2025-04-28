@@ -1,15 +1,20 @@
 package com.at04.touchmovetest;
 
 import android.app.Activity;
+import android.graphics.Canvas;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.widget.TextView;
 import android.view.View;
 
-public class GameLoop extends Thread {
+import java.util.ArrayList;
 
+public class GameLoop extends Thread {
     TextView testDisplay;
     TextView hitTimerDisplay;
-    private static final long FPS = 24;
+    private SurfaceView view;
+    Canvas canvas;
+    private static final long FPS = 30;
     private static final long ticksPS = 1000 / FPS;
 
     public static final float delta_ms = (float)FPS / 1000;
@@ -20,8 +25,15 @@ public class GameLoop extends Thread {
     private long startTime;
     private long sleepTime;
     GameModel model;
+
+    private float lagPercent;
+    private long totalMs = 0;
+    private long laggedMs = 0;
     public static boolean running;
-    public GameLoop(GameModel model) {
+    public void registerView(GameView view) {
+        this.view = view;
+    }
+    public void registerModel(GameModel model) {
         this.model = model;
     }
     public void setRunning(boolean b) {
@@ -29,21 +41,37 @@ public class GameLoop extends Thread {
     }
 
     public void registerTextView(View[] display) {
-        this.testDisplay = (TextView)display[0];//td;
-        this.hitTimerDisplay = (TextView)display[1];//ht;
+        if(display != null) {
+            this.testDisplay = (TextView) display[0];//td;
+            this.hitTimerDisplay = (TextView) display[1];//ht;
+        }
     }
 
     public void run() {
         while(running) {
             startTime = System.currentTimeMillis();
             //start
-            checkCollision();
-            updateView();
+            handleCollision();
+            model.update();
+            draw();
+            updateView2();
 
             //end
             long time_elapsed = System.currentTimeMillis() - startTime;
             hitTimer.update((1000 / FPS));
             sleepTime = ticksPS - time_elapsed;
+            //Log.d("frame length", String.valueOf(time_elapsed));
+            //Log.d("lag amt", String.valueOf((time_elapsed - ticksPS)) + " ms");
+
+            totalMs += ticksPS + Math.max(0, time_elapsed - ticksPS);
+            laggedMs += Math.max(0, time_elapsed - ticksPS);
+            if(totalMs > 10000) {
+                totalMs = 1;
+                laggedMs = 0;
+            }
+            lagPercent = 100 * ((float)(laggedMs + totalMs)/totalMs) - 100;
+
+            //Log.d("lag%", String.valueOf(lagPercent) + "%");
             try {
                 if (sleepTime > 0)
                     sleep(sleepTime);
@@ -53,36 +81,42 @@ public class GameLoop extends Thread {
         }
     }
 
-    private void checkCollision() {
-        boolean collision = checkAABBCollision(model.player, model.bullets);
+    private void handleCollision() {
+        boolean collision = model.checkCollision();
         if(collision) {
-            //Log.d("Collision", "HitsLeft: " + hitsLeft);
+            Log.d("Collision", "HitsLeft: " + hitsLeft);
             if(!(hitTimer.isActive())) {
                 hitsLeft--;
                 hitTimer.setActive();
             }
             if(hitsLeft < 0) {
-                //Log.d("hitsLeft < 0", "end()");
-                model.context.end();}
+                Log.d("hitsLeft < 0", "end()");
+                model.context.end();
+                setRunning(false);
+            }
 
         }
     }
-    private void updateView() {
-        ((Activity) model.context).runOnUiThread(() -> {
-            //testDisplay.setText(collision?"hit":"not hit");
-            hitTimerDisplay.setText(hitTimer.toString());
-            model.bullets[0].setPlayerPos(model.player.getPos());
-            model.bullets[0].rotateBitmap(15f);
-            model.bullets[1].rotateBitmap(15f);
-        });
-    }
-    private boolean checkAABBCollision(DraggableSquare p, Obstacle[] bullets) {
-        for(int i = 0; i < bullets.length; i++) {
-            Obstacle o = bullets[i];
-            if (!(p.bounds.left > o.bounds.right || p.bounds.right < o.bounds.left
-                    || p.bounds.bottom > o.bounds.top || p.bounds.top < o.bounds.bottom))
-                return true;
+
+    private void updateView2() {
+        if(hitTimerDisplay != null) {
+            ((Activity) model.context).runOnUiThread(() -> {
+                //testDisplay.setText(collision?"hit":"not hit");
+                hitTimerDisplay.setText(hitTimer.toString());
+            });
         }
-        return false;
+    }
+
+    private void draw() {
+        try {
+            canvas = view.getHolder().lockCanvas();
+            synchronized (view.getHolder()) {
+                model.draw(canvas);
+            }
+        } finally {
+            if (canvas != null) {
+                view.getHolder().unlockCanvasAndPost(canvas);
+            }
+        }
     }
 }

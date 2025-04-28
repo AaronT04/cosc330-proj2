@@ -9,6 +9,11 @@ public class Timer {
         length_ms = length;
         time_ms = length;
     }
+
+    public void reset() {
+        timerActive = false;
+        time_ms = length_ms;
+    }
     public void setActive() {
         time_ms = length_ms;
         timerActive = true;

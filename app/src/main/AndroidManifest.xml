@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LevelMenuActivity"></activity>
+        <activity android:name=".LevelTest01Activity"></activity>
 
     </application>
 

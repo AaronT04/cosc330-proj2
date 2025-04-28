@@ -8,15 +8,23 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LevelMenuActivity extends AppCompatActivity {
-    Button backButton;
+    Button button00;
+    Button button01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levelmenu);
 
-        backButton = findViewById(R.id.select_lv01);
-        backButton.setOnClickListener(new View.OnClickListener() {
+        button00 = findViewById(R.id.select_lv00);
+        button00.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchActivities(0);
+            }
+        });
+        button01 = findViewById(R.id.select_lv01);
+        button01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switchActivities(1);
@@ -24,8 +32,17 @@ public class LevelMenuActivity extends AppCompatActivity {
         });
     }
 
-    private void switchActivities(int levelNum) {
-        Intent intent = new Intent(this, LevelTest00Activity.class);
-        startActivity(intent);
+    private void switchActivities(int levelID) {
+        Intent intent;
+        switch(levelID) {
+            case 0:
+                intent = new Intent(this, LevelTest00Activity.class);
+                startActivity(intent);
+                break;
+            case 1:
+                intent = new Intent(this, LevelTest01Activity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

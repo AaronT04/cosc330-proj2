@@ -1,39 +1,71 @@
 package com.at04.touchmovetest;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.view.View;
+import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
+import java.util.ArrayList;
 
 public class GameModel {
-    public DraggableSquare player;
+    public Player player;
 
-    public Obstacle[] bullets;
-    public Obstacle obs;
-    public Obstacle obs2;
+    public ArrayList<Sprite> bullets;
     public GameLoop gameLoop;
+    public AttackManager attackManager;
     public Level context;
     public View[] display;
     public GameModel(Level l) {
+        Log.d("l", String.valueOf(l));
+        Log.d("l.levelID", String.valueOf(l.levelID));
         this.context = l;
-        LevelInitializer test_LI = new LevelInitializer();
+
+        LevelInitializer test_LI;
+        if(l.levelID == 0) {
+            test_LI = new Level00Initializer();
+        }
+        else if(l.levelID == 1) {
+            test_LI = new Level01Initializer();
+        }
+        else {
+            test_LI = new Level00Initializer();
+        }
 
         initialize(test_LI);//[level.levelID]);
+    }
 
-        gameLoop = new GameLoop(this);
-        gameLoop.registerTextView(display);
-
+    public void startGame() {
+        context.startGame();
     }
 
     private void initialize(LevelInitializer li) {
         player = li.setPlayer(this.context);
-        bullets = li.setBullets(this.context);
-        display = li.setDisplay(this.context);
+        attackManager = new AttackManager();
+        attackManager.setSequence(li.getAttackSequence());
+        attackManager.registerPlayerPosition(player.pos);
+        bullets = attackManager.getActiveBullets();
+        display = li.setViews(this.context);
+        //Log.d("this.context", String.valueOf(this.context));
+        //Log.d("this.context.levelID", String.valueOf(this.context.levelID));
     }
-    public void startGame() {
-        gameLoop.setRunning(true);
-        gameLoop.start();
+    public void update() {
+        player.update();
+        attackManager.update();
     }
-
+    public void draw(Canvas canvas) {
+        if(canvas!= null) {
+            canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+            player.draw(canvas);
+            attackManager.draw(canvas);
+        }
+    }
+    public boolean checkCollision() {
+        bullets = attackManager.getActiveBullets();
+        for(int i = 0; i < bullets.size(); i++) {
+            Sprite b = bullets.get(i);
+            if (!(player.bounds.left > b.bounds.right || player.bounds.right < b.bounds.left
+                    || player.bounds.bottom > b.bounds.top || player.bounds.top < b.bounds.bottom))
+                return true;
+        }
+        return false;
+    }
 }
