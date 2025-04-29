@@ -38,9 +38,12 @@ public class FallAttack extends Attack {
         bullets = new ArrayList<>();
         for(int i = 0; i < count; i++) {
             Position p = calcInitialPosition(i, count);
-            Bullet b = new Bullet(GameAssets.pinkStar,
+            AttackManager.bullets[AttackManager.bulletIdx % AttackManager.MAX_BULLETS]
+                    = new Bullet(GameAssets.pinkStar,
                     p,
                     spd);
+
+            Bullet b = AttackManager.bullets[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
 
             bulletInfo.wrapped[i] = false;
             bulletInfo.offsetAmtX[i] = Math.copySign(((float)i / count) * offsetSizeX, i - (count / 2));
@@ -49,6 +52,10 @@ public class FallAttack extends Attack {
             bullets.add(b);
             //Log.d("new bullet position", p.toString());
             //Log.d("bullets.size()", String.valueOf(bullets.size()));
+            AttackManager.bulletIdx++;
+            if(AttackManager.bulletIdx == AttackManager.MAX_BULLETS) {
+                Log.d("bulletIdx == 256", "");
+            }
         }
     }
 

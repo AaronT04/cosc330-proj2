@@ -62,12 +62,15 @@ public class GameModel {
         }
     }
     public boolean checkCollision() {
-        bullets = attackManager.getActiveBullets();
-        for(int i = 0; i < bullets.size(); i++) {
-            Bullet b = bullets.get(i);
-            if (!(player.bounds.left > b.bounds.right || player.bounds.right < b.bounds.left
-                    || player.bounds.bottom > b.bounds.top || player.bounds.top < b.bounds.bottom))
-                return true;
+        //bullets = attackManager.getActiveBullets();
+
+        for(int i = 0; i < AttackManager.MAX_BULLETS; i++) {
+            Bullet b = AttackManager.bullets[i];
+            if(b != null) {
+                if (!(player.bounds.left > b.bounds.right || player.bounds.right < b.bounds.left
+                        || player.bounds.bottom > b.bounds.top || player.bounds.top < b.bounds.bottom))
+                    return true;
+            }
         }
         return false;
     }

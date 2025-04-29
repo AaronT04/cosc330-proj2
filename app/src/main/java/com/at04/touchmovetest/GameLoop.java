@@ -20,12 +20,13 @@ public class GameLoop extends Thread {
     public static final float dt_sec = (float)1000 / FPS / 1000;
 
     public static final long hitbuffer_ms = 500;
-    public int hitsLeft = 2;
+    public int hitsLeft = 5;
     private CountdownTimer hitTimer = new CountdownTimer(hitbuffer_ms);
     private Timer profileTimer = new Timer();
     private long startTime;
     private long sleepTime;
     GameModel model;
+
 
     private float lagPercent;
     private long totalMs = 0;

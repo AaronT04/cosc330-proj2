@@ -25,14 +25,14 @@ public class PhysicsSprite extends Physics {
         applyMovement(); //this moves the sprite to the initial position
     }
     public PhysicsSprite(Bitmap b, Position p) {
-        this.sprite = new Sprite(b);
+        this.sprite = new Sprite(b, true);
         pos.x = p.x;
         pos.y = p.y;
         initBounds();
         applyMovement(); //this moves the sprite to the initial position
     }
 
-    private void initBounds() {
+    public void initBounds() {
         bounds = new RectF();
         int width = sprite.bitmap.getWidth();
         int height = sprite.bitmap.getHeight();

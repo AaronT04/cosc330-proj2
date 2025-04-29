@@ -25,6 +25,17 @@ public class Sprite {
         matrix = new Matrix();
         bitmap = b;
     }
+    public Sprite(Bitmap b, boolean isBullet) {
+        paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        //matrix = new Matrix();
+        bitmap = b;
+        AttackManager.matrices[AttackManager.bulletIdx % AttackManager.MAX_BULLETS]
+                = new Matrix();
+        matrix = AttackManager.matrices[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
+    }
 
     public void rotateBitmap(float angle) {
         bitmapAngle += angle;// * GameLoop.delta_ms;
