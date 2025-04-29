@@ -1,6 +1,7 @@
 package com.at04.touchmovetest;
 
 import java.util.ArrayList;
+import android.util.Log;
 
 public class AttackSequence {
     private ArrayList<Attack> sequence;
@@ -29,5 +30,9 @@ public class AttackSequence {
     }
     public void enableLoop() {
         looped = true;
+    }
+    public void remove(Attack atk) {
+        sequence.remove(atk);
+        Log.d("atkSeq.remove()", String.valueOf(sequence.size()));
     }
 }

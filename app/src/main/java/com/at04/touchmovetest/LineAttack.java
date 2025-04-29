@@ -28,7 +28,7 @@ public class LineAttack extends Attack {
             Position p = calcInitialPosition(i, count);
             Bullet b = new Bullet(GameAssets.shruikenA,
                     p,
-                    new LinearPath(p, -180f, 10f,false));
+                    10f);
             bullets.add(b);
         }
     }

@@ -14,9 +14,10 @@ public class GameModel {
     public AttackManager attackManager;
     public Level context;
     public View[] display;
+    private Timer profileTimer = new Timer();
     public GameModel(Level l) {
-        Log.d("l", String.valueOf(l));
-        Log.d("l.levelID", String.valueOf(l.levelID));
+        //Log.d("l", String.valueOf(l));
+        //Log.d("l.levelID", String.valueOf(l.levelID));
         this.context = l;
 
         LevelInitializer test_LI;
@@ -44,20 +45,20 @@ public class GameModel {
         attackManager.registerPlayerPosition(player.pos);
         bullets = attackManager.getActiveBullets();
         display = li.setViews(this.context);
-        Log.d("gameModel.initialize()", String.valueOf(bullets.size()));
-        //Log.d("this.context", String.valueOf(this.context));
-        //Log.d("this.context.levelID", String.valueOf(this.context.levelID));
     }
     public void update() {
-        Log.d("gameModel.update()", "");
+        //Log.d("gameModel.update()", "");
         player.update();
         attackManager.update();
     }
     public void draw(Canvas canvas) {
+
         if(canvas!= null) {
             canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             player.draw(canvas);
+            //profileTimer.start();
             attackManager.draw(canvas);
+            //profileTimer.debugStop("attackManager.draw(canvas)");
         }
     }
     public boolean checkCollision() {

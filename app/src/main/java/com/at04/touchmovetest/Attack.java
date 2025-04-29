@@ -3,21 +3,20 @@ package com.at04.touchmovetest;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
-import android.util.Log;
 
 public abstract class Attack {
     public abstract Attack copy();
     protected ArrayList<Bullet> bullets;
     protected int count;
     protected float offsetSec;
-    protected Timer timer;
+    protected CountdownTimer timer;
     protected AttackManager attackManager;
 
     public Attack(int count, float offsetSec) {
         this.count = count;
         this.offsetSec = offsetSec;
         if(offsetSec > 0) {
-            timer = new Timer((long) (offsetSec * 1000));
+            timer = new CountdownTimer((long) (offsetSec * 1000));
             timer.setActive();
         }
     }
@@ -25,7 +24,6 @@ public abstract class Attack {
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
-
     public void draw(Canvas canvas) {
         for(int i = 0; i < bullets.size(); i++) {
             bullets.get(i).draw(canvas);
@@ -38,12 +36,7 @@ public abstract class Attack {
             if (!timer.isActive()) {
                 attackManager.notifyOffsetExpired();
                 timer = null;
-                //Log.d("attack", "offset expired");
             }
-        }
-        for(int i = 0; i < bullets.size(); i++) {
-            Log.d("Attack.update()", String.valueOf(bullets.size()));
-            bullets.get(i).update();
         }
     }
     protected abstract void initialize();

@@ -32,26 +32,14 @@ public class Sprite {
             bitmapAngle -= 360;
         }
     }
-
-    public void setPlayerPos(Position playerPos) {
-    }
-
+    private Timer profileTimer = new Timer();
     public void draw(Canvas canvas) {
         if(bitmap != null) {
+            //profileTimer.start();
             canvas.drawBitmap(bitmap, matrix, paint);
+            //profileTimer.debugStop("sprite->draw()");
         }
         else
             Log.d("Sprite->draw()", "bitmap==null");
     }
-
-    /*
-    public void update() {
-        applyMovement();
-        float hitRadius = radius - skinWidth;
-        centerX = pos.x + radius;
-        centerY = pos.y + radius;
-        bounds.set(centerX - hitRadius, centerY + hitRadius,
-                centerX + hitRadius, centerY - hitRadius);
-    }
-    */
 }

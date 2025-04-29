@@ -21,7 +21,8 @@ public class GameLoop extends Thread {
 
     public static final long hitbuffer_ms = 500;
     public int hitsLeft = 2;
-    private Timer hitTimer = new Timer(hitbuffer_ms);
+    private CountdownTimer hitTimer = new CountdownTimer(hitbuffer_ms);
+    private Timer profileTimer = new Timer();
     private long startTime;
     private long sleepTime;
     GameModel model;
@@ -53,7 +54,9 @@ public class GameLoop extends Thread {
             //start
             handleCollision();
             model.update();
+            //profileTimer.start();
             draw();
+            //profileTimer.debugStop("draw()");
             updateView2();
 
             //end
@@ -118,5 +121,8 @@ public class GameLoop extends Thread {
                 view.getHolder().unlockCanvasAndPost(canvas);
             }
         }
+    }
+    public void startPerformanceTest() {
+
     }
 }

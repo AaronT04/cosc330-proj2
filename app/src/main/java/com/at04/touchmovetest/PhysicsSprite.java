@@ -19,14 +19,15 @@ public class PhysicsSprite extends Physics {
         initBounds();
     }
     public PhysicsSprite(Sprite s, Position p) {
-        this.sprite = s;
-        this.pos = p;
+        pos.x = p.x;
+        pos.y = p.y;
         initBounds();
         applyMovement(); //this moves the sprite to the initial position
     }
     public PhysicsSprite(Bitmap b, Position p) {
         this.sprite = new Sprite(b);
-        this.pos = p;
+        pos.x = p.x;
+        pos.y = p.y;
         initBounds();
         applyMovement(); //this moves the sprite to the initial position
     }
@@ -53,7 +54,6 @@ public class PhysicsSprite extends Physics {
         applyMovement(); // apply pos, angle information to the sprite
         updateBounds(); // bounds will be used for collision detection
     }
-
     public void draw(Canvas canvas) {
         if(sprite.bitmap != null) {
             sprite.draw(canvas);
@@ -67,7 +67,7 @@ public class PhysicsSprite extends Physics {
         sprite.matrix.reset();
         sprite.matrix.postTranslate(-radius, -radius);
         sprite.matrix.postScale(0.8f, 0.8f);
-        sprite.matrix.postRotate(this.angle);
+        sprite.matrix.postRotate(sprite.bitmapAngle);
         sprite.matrix.postTranslate(pos.x + radius * 0.8f, pos.y + radius * 0.8f);
     }
 
