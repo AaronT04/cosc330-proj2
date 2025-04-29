@@ -30,11 +30,16 @@ public class Sprite {
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
-        //matrix = new Matrix();
+
         bitmap = b;
-        AttackManager.matrices[AttackManager.bulletIdx % AttackManager.MAX_BULLETS]
-                = new Matrix();
-        matrix = AttackManager.matrices[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
+        if(isBullet) {
+            //AttackManager.matrices[AttackManager.bulletIdx % AttackManager.MAX_BULLETS]
+                    //= new Matrix();
+            matrix = AttackManager.matrices[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
+        }
+        else {
+            matrix = new Matrix();
+        }
     }
 
     public void rotateBitmap(float angle) {

@@ -2,6 +2,7 @@ package com.at04.touchmovetest;
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.TextView;
@@ -53,12 +54,14 @@ public class GameLoop extends Thread {
         while(running) {
             startTime = System.currentTimeMillis();
             //start
+            profileTimer.start();
             handleCollision();
             model.update();
+            profileTimer.debugStop("game Logic");
             //profileTimer.start();
             draw();
             //profileTimer.debugStop("draw()");
-            updateView2();
+            //updateView2();
 
             //end
             long time_elapsed = System.currentTimeMillis() - startTime;
@@ -112,16 +115,21 @@ public class GameLoop extends Thread {
     }
 
     private void draw() {
-        try {
+        synchronized (view.getHolder()) {
             canvas = view.getHolder().lockCanvas();
-            synchronized (view.getHolder()) {
-                model.draw(canvas);
-            }
+            model.draw(canvas);
+            view.getHolder().unlockCanvasAndPost(canvas);
+        }
+        /*
+        try {
+
         } finally {
             if (canvas != null) {
-                view.getHolder().unlockCanvasAndPost(canvas);
+
             }
         }
+        */
+
     }
     public void startPerformanceTest() {
 

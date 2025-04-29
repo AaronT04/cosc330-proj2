@@ -18,6 +18,7 @@ public class CountdownTimer {
         time_ms = length_ms;
         timerActive = true;
     }
+
     public void update(long time_elapsed){
         if(timerActive) {
             time_ms -= time_elapsed;

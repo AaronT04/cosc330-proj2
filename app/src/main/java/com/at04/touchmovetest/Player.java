@@ -23,7 +23,7 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
 
 
     public Player(Bitmap b) {
-        super(b);
+        super(b, false);
 
         touchBounds = new RectF(centerX - radius, centerY + radius,
                 centerX + radius, centerY - radius);

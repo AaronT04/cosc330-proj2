@@ -10,10 +10,18 @@ public class Level00Initializer extends LevelInitializer {
         sq.add(new FallAttack(30, 0.3f, false, 5f, 1));
         sq.add(new FallAttack(30, 0.3f, false, 5f, -1));
         sq.add(new FallAttack(30, 0.1f, false, 5f, 1));
-        sq.add(new FallAttack(30, 0.3f, false, 5f, -1));
+        sq.add(new FallAttack(30, 0.5f, false, 5f, -1));
+        sq.add(new FallAttack(30, 0.5f, false, 5f, 1));
+        sq.add(new FallAttack(30, 0.5f, false, 5f, -1));
+        sq.add(new FallAttack(30, 0.5f, false, 5f, 1));
         sq.add(new FallAttack(30, 0.3f, false, 5f, 1));
-        sq.add(new FallAttack(30, 1f, false, 5f, -1));
-        sq.enableLoop();
+        sq.add(new FallAttack(30, 0.3f, false, 5f, -1));
+        sq.add(new FallAttack(30, 0.1f, false, 5f, 1));
+        sq.add(new FallAttack(30, 0.5f, false, 5f, -1));
+        sq.add(new FallAttack(30, 0.5f, false, 5f, 1));
+        sq.add(new FallAttack(30, 0.5f, false, 5f, -1));
+        sq.add(new FallAttack(30, 0.5f, false, 5f, 1));
+        //sq.enableLoop();
         return sq;
     }
 }

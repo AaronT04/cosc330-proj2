@@ -14,15 +14,10 @@ public class PhysicsSprite extends Physics {
         this.sprite = s;
         initBounds();
     }
-    public PhysicsSprite(Bitmap b) {
-        this.sprite = new Sprite(b);
+    public PhysicsSprite(Bitmap b, boolean isBullet) {
+        this.sprite = new Sprite(b, isBullet);
         initBounds();
-    }
-    public PhysicsSprite(Sprite s, Position p) {
-        pos.x = p.x;
-        pos.y = p.y;
-        initBounds();
-        applyMovement(); //this moves the sprite to the initial position
+        applyMovement();
     }
     public PhysicsSprite(Bitmap b, Position p) {
         this.sprite = new Sprite(b, true);
@@ -62,6 +57,7 @@ public class PhysicsSprite extends Physics {
             Log.d("physicsSprite.draw", "bitmap==null");
         }
     }
+
 
     protected void applyMovement() {
         sprite.matrix.reset();

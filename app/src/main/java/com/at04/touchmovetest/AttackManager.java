@@ -23,23 +23,18 @@ public class AttackManager {
     public static int bulletIdx = 0;
     public static Bullet[] bullets;
     public static Matrix[] matrices;
-    private Paint paint;
     static Bitmap pinkStar = GameAssets.pinkStar;//BitmapFactory.decodeResource(res, R.drawable.pink_star);
 
-    public AttackManager(AttackSequence seq) {
-        sequence = seq;
-        for(int i = 0; i < sequence.size(); i++) {
-            sequence.get(i).registerAttackManager(this);
-        }
-        paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setAntiAlias(true);
-        paint.setFilterBitmap(true);
-    }
-
     public AttackManager() {
+        bulletIdx = 0;
         matrices = new Matrix[MAX_BULLETS];
         bullets = new Bullet[MAX_BULLETS];
+        for(int i = 0; i < MAX_BULLETS; i++) {
+            matrices[i] = new Matrix();
+            bullets[i] = new Bullet(GameAssets.pinkStar);
+            bulletIdx++;
+        }
+        bulletIdx = 0;
     }
 
     public void setSequence(AttackSequence seq) {
@@ -55,6 +50,11 @@ public class AttackManager {
         for(int i = 0; i < sequence.size(); i++) {
             sequence.get(i).registerPlayerPosition(p);
         }
+
+    }
+
+    public void startAttacks() {
+        sequence.get(0).initialize();
     }
 
     public ArrayList<Bullet> getActiveBullets() {
@@ -72,43 +72,24 @@ public class AttackManager {
         }
     }
     public void draw(Canvas canvas) {
-        /*
-        for(int i = 0; i < activeAttacks.size(); i++) {
-            profileTimer.start();
-            activeAttacks.get(i).draw(canvas);
-            profileTimer.debugStop("attack: i = " + i);
-        }
-         */
-        /*
-        for(int i = 0; i < activeBullets.size(); i++) {
-            Bullet b = activeBullets.get(i);
-            canvas.drawBitmap(b.sprite.bitmap, b.sprite.matrix, b.sprite.paint);
-        }
-        */
-        /*
         for(int i = 0; i < MAX_BULLETS; i++) {
-            if (bullets[i] != null) {
-                canvas.drawBitmap(GameAssets.pinkStar, bullets[i].sprite.matrix, paint);
-            }
+            canvas.drawBitmap(GameAssets.pinkStar, matrices[i], null);
         }
-
-         */
-        for(int i = 0; i < MAX_BULLETS; i++) {
-            if (matrices[i] != null) {
-                canvas.drawBitmap(pinkStar, matrices[i], paint);
-            }
-        }
-
     }
 
-    public void notifyOffsetExpired() {
+    public void loadNextAttack() {
         currentAttackIndex++;
-        activeAttacks.add(sequence.get(currentAttackIndex));
-        activeBullets = getActiveBullets();
+        if(sequence.get(currentAttackIndex) != null) {
+            activeAttacks.add(sequence.get(currentAttackIndex));
+            if (!activeAttacks.isEmpty())
+                activeAttacks.get(activeAttacks.size() - 1).initialize();
+        }
+
+        //activeBullets = getActiveBullets();
         //Log.d("notifyOffsetExpired", String.valueOf(activeAttacks.size()));
     }
     public void notifyAttackOffscreen(Attack atk) {
         activeAttacks.remove(atk);
-        activeBullets = getActiveBullets();
+        //activeBullets = getActiveBullets();
     }
 }

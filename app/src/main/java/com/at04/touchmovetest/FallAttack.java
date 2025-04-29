@@ -17,14 +17,18 @@ public class FallAttack extends Attack {
         this.wrapEnabled = wrapEnabled;
         this.spd = spd;
         this.offsetYDir = (int)Math.copySign(1, offsetYDir);
+        bulletInfo = new BulletInfo(count);
+        bullets = new ArrayList<>();
         //Log.d("offsetYDir", String.valueOf(this.offsetYDir));
-        initialize();
+        //initialize();
     }
     public FallAttack(int count, float offsetSec) {
         super(count, offsetSec);
         this.wrapEnabled = false;
         this.spd = 10f;
-        initialize();
+        bulletInfo = new BulletInfo(count);
+        bullets = new ArrayList<>();
+        //initialize();
     }
     public Attack copy(){
         //Log.d("fallAttack.copy()", "");
@@ -34,25 +38,21 @@ public class FallAttack extends Attack {
         return copy;
     }
     public void initialize() {
-        bulletInfo = new BulletInfo(count);
-        bullets = new ArrayList<>();
         for(int i = 0; i < count; i++) {
             Position p = calcInitialPosition(i, count);
-            AttackManager.bullets[AttackManager.bulletIdx % AttackManager.MAX_BULLETS]
-                    = new Bullet(GameAssets.pinkStar,
-                    p,
-                    spd);
 
             Bullet b = AttackManager.bullets[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
-
+            b.load(p, spd, 0);
+            //Bullet b = AttackManager.bullets[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
             bulletInfo.wrapped[i] = false;
             bulletInfo.offsetAmtX[i] = Math.copySign(((float)i / count) * offsetSizeX, i - (count / 2));
             bulletInfo.offsetAmtY[i] = ((float)Math.abs((count / 2) - i) / (count / 2) * offsetSizeY);
             b.pos.y += offsetYDir * bulletInfo.offsetAmtY[i];
             bullets.add(b);
-            //Log.d("new bullet position", p.toString());
-            //Log.d("bullets.size()", String.valueOf(bullets.size()));
+            setAngleToTarget(i);
+
             AttackManager.bulletIdx++;
+
             if(AttackManager.bulletIdx == AttackManager.MAX_BULLETS) {
                 Log.d("bulletIdx == 256", "");
             }
@@ -65,37 +65,36 @@ public class FallAttack extends Attack {
 
     @Override
     public void registerPlayerPosition(Position p) {
-        this.playerPos  = p;
-        for(int i = 0; i < bullets.size(); i++) {
-            setAngleToTarget(i);
-        }
+        this.playerPos = p;
     }
 
     public void update() {
-        super.update();
-        boolean canRemove;
-        for(int i = 0; i < bullets.size(); i++) {
-            canRemove = false;
-            Bullet b = bullets.get(i);
-            b.move();
-            checkOffscreenHorizontal(i, b.pos, b.radius);
-            checkOffscreenVertical(i, b.pos, b.radius);
-            if(bulletInfo.wrapped[i]) {
-                if(wrapEnabled) {
-                    setAngleToTarget(i);
-                    bulletInfo.wrapped[i] = false;
+        if(bullets != null) {
+            super.update();
+            boolean canRemove;
+            for(int i = 0; i < bullets.size(); i++) {
+                canRemove = false;
+                Bullet b = bullets.get(i);
+                b.move();
+                checkOffscreenHorizontal(i, b.pos, b.radius);
+                checkOffscreenVertical(i, b.pos, b.radius);
+                if (bulletInfo.wrapped[i]) {
+                    if (wrapEnabled) {
+                        setAngleToTarget(i);
+                        bulletInfo.wrapped[i] = false;
+                    } else {
+                        canRemove = true;
+                    }
                 }
-                else {
-                    canRemove = true;
+                b.update();
+                if (canRemove) {
+                    b.unloadAndReset();
+                    bullets.remove(i);
+                    i--;
                 }
-            }
-            bullets.get(i).update();
-            if(canRemove) {
-                bullets.remove(i);
-                i--;
-            }
-            if(bullets.isEmpty()) {
-                attackManager.notifyAttackOffscreen(this);
+                if (bullets.isEmpty()) {
+                    attackManager.notifyAttackOffscreen(this);
+                }
             }
         }
 
@@ -147,6 +146,7 @@ public class FallAttack extends Attack {
 
     private void setAngleToTarget(int i) {
         Bullet b = bullets.get(i);
+
         b.angle = (float)Math.atan2((playerPos.y - b.pos.y),(playerPos.x + bulletInfo.offsetAmtX[i] - b.pos.x));
     }
     static class BulletInfo {

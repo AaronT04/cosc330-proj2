@@ -34,7 +34,7 @@ public abstract class Attack {
         if(timer != null) {
             timer.update((long)(GameLoop.dt_sec * 1000));
             if (!timer.isActive()) {
-                attackManager.notifyOffsetExpired();
+                attackManager.loadNextAttack();
                 timer = null;
             }
         }
