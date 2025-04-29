@@ -1,6 +1,7 @@
 package com.at04.touchmovetest;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -37,13 +38,8 @@ public class AttackManager {
         }
     }
 
-    public ArrayList<Sprite> getActiveBullets() {
-        //assume for now that only the first attack is "active"
-        //normally "activeAttacks" would have to be updated in a more complicated way
-            //that I haven't thought of yet
-
-        ArrayList<Sprite> allBullets = new ArrayList<>();
-        //
+    public ArrayList<Bullet> getActiveBullets() {
+        ArrayList<Bullet> allBullets = new ArrayList<>();
         for(int i = 0; i < activeAttacks.size(); i++) {
             allBullets.addAll(activeAttacks.get(i).getBullets());
         }
@@ -52,6 +48,7 @@ public class AttackManager {
 
     public void update() {
         for(int i = 0; i < activeAttacks.size(); i++) {
+            Log.d("AttackManager.update()", String.valueOf(activeAttacks.size()));
             activeAttacks.get(i).update();
         }
     }

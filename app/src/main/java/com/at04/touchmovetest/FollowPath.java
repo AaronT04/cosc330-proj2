@@ -1,10 +1,10 @@
 package com.at04.touchmovetest;
 
-public class FollowPath extends BulletPath{
+public class FollowPath extends Path {
 
     float spd;
     float angle;
-    float delta_ms = GameLoop.delta_ms;
+    float dt_sec = GameLoop.dt_sec;
     Position targetPos;
     Position currentPos;
     private Flag wrappedFlag;
@@ -31,8 +31,8 @@ public class FollowPath extends BulletPath{
         this.wrapEnabled = wrapEnabled;
     }
     public void move() {
-        currentPos.x += spd * delta_ms * (float)Math.cos(angle);
-        currentPos.y += spd * delta_ms * (float)Math.sin(angle);
+        currentPos.x += spd * dt_sec * (float)Math.cos(angle);
+        currentPos.y += spd * dt_sec * (float)Math.sin(angle);
     }
 
     public void updateTarget(Position targetPos) {
@@ -43,8 +43,8 @@ public class FollowPath extends BulletPath{
     public void update(Bullet b) {
         move();
         if(wrapEnabled) {
-            wrapScreenHorizontal(currentPos, b.radius, b.skinWidth);
-            wrapScreenVertical(currentPos, b.radius, b.skinWidth);
+            wrapScreenHorizontal(currentPos, b.radius);
+            wrapScreenVertical(currentPos, b.radius);
             wrappedFlag.check(() -> {
                 setAngleToTarget();
             });
@@ -54,25 +54,25 @@ public class FollowPath extends BulletPath{
         b.pos.y = currentPos.y;
     }
 
-    public void wrapScreenHorizontal(Position pos, float radius, float skinWidth) {
+    public void wrapScreenHorizontal(Position pos, float radius) {
         if(pos.x >  (radius * 2) + DisplaySize.screenWidth) {
-            pos.x = 0 - radius * 2 + skinWidth;
+            pos.x = 0 - radius * 2;
             //wrappedFlag.set();
         }
         else if(pos.x < 0 - (radius * 2) ) {
-            pos.x = DisplaySize.screenWidth + radius * 2 - skinWidth;
+            pos.x = DisplaySize.screenWidth + radius * 2;
             //wrappedFlag.set();
         }
     }
-    public void wrapScreenVertical(Position pos, float radius, float skinWidth) {
+    public void wrapScreenVertical(Position pos, float radius) {
         if(pos.y >  (radius * 2) + DisplaySize.screenHeight) {
             pos.y = 0 +
                     (pos.y - (radius * 2 + DisplaySize.screenHeight)) //accounts for amt traveled past the screen edge
-                    - radius * 2 + skinWidth; //account for sprite height
+                    - radius * 2; //account for sprite height
             wrappedFlag.set();
         }
         else if(pos.y < 0 - (radius * 2) ) {
-            pos.y = DisplaySize.screenHeight + radius * 2 - skinWidth;
+            pos.y = DisplaySize.screenHeight + radius * 2;
             wrappedFlag.set();
         }
     }

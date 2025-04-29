@@ -1,23 +1,20 @@
 package com.at04.touchmovetest;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
-public class Bullet extends Sprite {
-    public BulletPath path;
+public class Bullet extends PhysicsSprite {
+    public Path path;
     private float rotationSpeed = 5;
-    public Bullet(Bitmap bitmap, Position p, BulletPath bp) {
-        super(bitmap, 50);
+    public Bullet(Bitmap bitmap, Position p, Path bp) {
+        super(bitmap, p);
         path = bp;
-        this.pos = p;
-        matrix.postTranslate(pos.x, pos.y);
     }
 
     public void update() {
         path.update(this);
-        rotateBitmap(rotationSpeed);
+        sprite.rotateBitmap(rotationSpeed);
         super.update();
-
+        Log.d("bullet.update", pos.toString());
     }
-
-
 }

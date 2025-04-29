@@ -7,8 +7,6 @@ import android.view.SurfaceView;
 import android.widget.TextView;
 import android.view.View;
 
-import java.util.ArrayList;
-
 public class GameLoop extends Thread {
     TextView testDisplay;
     TextView hitTimerDisplay;
@@ -17,7 +15,9 @@ public class GameLoop extends Thread {
     private static final long FPS = 30;
     private static final long ticksPS = 1000 / FPS;
 
-    public static final float delta_ms = (float)FPS / 1000;
+
+    //dt_sec: This is the time in seconds that passes each frame
+    public static final float dt_sec = (float)1000 / FPS / 1000;
 
     public static final long hitbuffer_ms = 500;
     public int hitsLeft = 2;

@@ -1,8 +1,6 @@
 package com.at04.touchmovetest;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.util.DisplayMetrics;
 
 import java.util.ArrayList;
 import android.util.Log;
@@ -33,21 +31,20 @@ public abstract class Attack {
             bullets.get(i).draw(canvas);
         }
     }
+
     public void update() {
         if(timer != null) {
-            timer.update((long)(GameLoop.delta_ms * 1000));
+            timer.update((long)(GameLoop.dt_sec * 1000));
             if (!timer.isActive()) {
                 attackManager.notifyOffsetExpired();
                 timer = null;
-                Log.d("attack", "offset expired");
+                //Log.d("attack", "offset expired");
             }
         }
         for(int i = 0; i < bullets.size(); i++) {
+            Log.d("Attack.update()", String.valueOf(bullets.size()));
             bullets.get(i).update();
         }
-    }
-    public void reset() {
-        initialize();
     }
     protected abstract void initialize();
 

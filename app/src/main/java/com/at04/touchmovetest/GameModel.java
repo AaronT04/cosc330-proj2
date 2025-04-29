@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class GameModel {
     public Player player;
 
-    public ArrayList<Sprite> bullets;
+    public ArrayList<Bullet> bullets;
     public GameLoop gameLoop;
     public AttackManager attackManager;
     public Level context;
@@ -44,10 +44,12 @@ public class GameModel {
         attackManager.registerPlayerPosition(player.pos);
         bullets = attackManager.getActiveBullets();
         display = li.setViews(this.context);
+        Log.d("gameModel.initialize()", String.valueOf(bullets.size()));
         //Log.d("this.context", String.valueOf(this.context));
         //Log.d("this.context.levelID", String.valueOf(this.context.levelID));
     }
     public void update() {
+        Log.d("gameModel.update()", "");
         player.update();
         attackManager.update();
     }
@@ -61,7 +63,7 @@ public class GameModel {
     public boolean checkCollision() {
         bullets = attackManager.getActiveBullets();
         for(int i = 0; i < bullets.size(); i++) {
-            Sprite b = bullets.get(i);
+            Bullet b = bullets.get(i);
             if (!(player.bounds.left > b.bounds.right || player.bounds.right < b.bounds.left
                     || player.bounds.bottom > b.bounds.top || player.bounds.top < b.bounds.bottom))
                 return true;

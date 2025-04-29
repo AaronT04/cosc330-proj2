@@ -11,7 +11,7 @@ import android.view.MotionEvent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class Player extends Sprite implements GestureDetector.OnGestureListener{
+public class Player extends PhysicsSprite implements GestureDetector.OnGestureListener{
 
     boolean isGrabbed = false;
     private GestureDetector gestureDetector;
@@ -23,15 +23,13 @@ public class Player extends Sprite implements GestureDetector.OnGestureListener{
 
 
     public Player(Bitmap b) {
-        super(b, 75);
-        this.bitmap = b;
+        super(b);
 
         touchBounds = new RectF(centerX - radius, centerY + radius,
                 centerX + radius, centerY - radius);
 
         setInitialPosition();
-        rotateBitmap(180f);
-        matrix.postTranslate(pos.x, pos.y);
+        sprite.rotateBitmap(180f);
     }
 
     public void setInitialPosition() {
@@ -45,14 +43,6 @@ public class Player extends Sprite implements GestureDetector.OnGestureListener{
         touchBounds.set(centerX - radius, centerY + radius,
                 centerX + radius, centerY - radius);
         super.update();
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        if(bitmap != null) {
-            canvas.drawRect(bounds, paint);
-            canvas.drawBitmap(bitmap, matrix, paint);
-        }
     }
 
     public boolean onTouchEvent(MotionEvent e) {
