@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LevelMenuActivity extends AppCompatActivity {
-    Button button00;
-    Button button01;
+    ImageButton button00;
+    ImageButton button01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

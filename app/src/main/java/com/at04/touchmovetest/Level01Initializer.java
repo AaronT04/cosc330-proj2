@@ -6,17 +6,22 @@ import android.view.View;
 
 public class Level01Initializer extends LevelInitializer {
     public AttackSequence getAttackSequence() {
-        AttackSequence sq = new AttackSequence();
-        sq.add(new LineAttack(5, 0.3f));
-        sq.add(new LineAttack(3, 0.3f, 0.1f));
-        sq.add(new LineAttack(5, 0.3f));
-        sq.add(new LineAttack(3, 0.3f, 0.1f));
-        sq.add(new LineAttack(5, 0.3f));
-        sq.add(new LineAttack(2, 1f, 0.35f));
-        sq.add(new FallAttack(2, 0.1f, false, 10f, 1));
-        sq.add(new FallAttack(3, 0.5f, false, 15f, -1));
-        sq.enableLoop();
-        return sq;
+        AttackSequence sq1 = new AttackSequence();
+        float spd = 10f;
+        float offsetSec = 0.3f;
+        sq1.add(5,
+                new Attack[]
+                {new LineAttack(2, offsetSec, spd/2, 0),
+                 new LineAttack(3, offsetSec, spd, 0.1f)});
+        AttackSequence sq2 = new AttackSequence();
+        sq2.add(new FallAttack(2, 0.1f, false, 10f, 1));
+        sq2.add(new FallAttack(3, 0.5f, false, 15f, -1));
+
+        AttackSequence full = new AttackSequence();
+
+        
+        full.add(3, new AttackSequence[] {sq1, sq2});
+        return full;
     }
     public View[] setViews(Level context) {
         return null;

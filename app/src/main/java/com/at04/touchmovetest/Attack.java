@@ -11,7 +11,6 @@ public abstract class Attack {
     protected float offsetSec;
     protected CountdownTimer timer;
     protected AttackManager attackManager;
-
     public Attack(int count, float offsetSec) {
         this.count = count;
         this.offsetSec = offsetSec;
@@ -38,7 +37,9 @@ public abstract class Attack {
                 timer = null;
             }
         }
+        attackUpdate();
     }
+    protected abstract void attackUpdate();
     protected abstract void initialize();
 
     public void registerAttackManager(AttackManager am) {

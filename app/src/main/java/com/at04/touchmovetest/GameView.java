@@ -52,7 +52,6 @@ public class GameView extends SurfaceView implements GestureDetector.OnGestureLi
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-        //stop the game loop from running
     }
 
     /*

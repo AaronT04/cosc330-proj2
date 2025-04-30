@@ -7,9 +7,8 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 public class Bullet extends PhysicsSprite {
-    //public Path path;
     private static final int SPEED_MULTIPLIER = 200;
-    private float rotationSpeed = 5;
+    private float rotationSpeed = 0;
 
     public boolean isLoaded = false;
     public Bullet(Bitmap bitmap, Position p, float spd) {//, Path bp) {
@@ -19,11 +18,17 @@ public class Bullet extends PhysicsSprite {
     public Bullet(Bitmap bitmap) {
         super(bitmap, true);
     }
+    public Bullet() {
+        super();
+    }
 
     public void update() {
         sprite.rotateBitmap(rotationSpeed);
         super.update();
         //Log.d("bullet.update", pos.toString());
+    }
+    public void setBitmapRotationSpeed(float anglePerFrame) {
+        this.rotationSpeed = anglePerFrame;
     }
 
     public void unloadAndReset() {
@@ -32,24 +37,24 @@ public class Bullet extends PhysicsSprite {
         pos.y = FAR_AWAY.y;
         spd = 0;
         angle = 0;
+        rotationSpeed = 0;
         initBounds();
         applyMovement();
-        //Log.d("unloaded", String.valueOf(this.sprite.matrix));
     }
 
-    public void load(Position pos, float spd, float angle) {
+    public void load(Bitmap bitmap, Position pos, float spd, float angle) {
         isLoaded = true;
+        this.sprite.bitmap = bitmap;
         this.pos.x = pos.x;
         this.pos.y = pos.y;
         this.spd = spd;
         this.angle = angle;
         initBounds();
         applyMovement();
-        //Log.d("loaded", String.valueOf(this.sprite.matrix));
     }
 
     public void move() {
-        pos.x += spd * SPEED_MULTIPLIER * GameLoop.dt_sec * cos(angle);
-        pos.y += spd * SPEED_MULTIPLIER * GameLoop.dt_sec * sin(angle);
+        pos.x += (float) (spd * SPEED_MULTIPLIER * GameLoop.dt_sec * cos(angle));
+        pos.y += (float) (spd * SPEED_MULTIPLIER * GameLoop.dt_sec * sin(angle));
     }
 }

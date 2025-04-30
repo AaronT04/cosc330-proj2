@@ -115,11 +115,13 @@ public class GameLoop extends Thread {
     }
 
     private void draw() {
+        canvas = view.getHolder().lockCanvas();
         synchronized (view.getHolder()) {
-            canvas = view.getHolder().lockCanvas();
+
             model.draw(canvas);
-            view.getHolder().unlockCanvasAndPost(canvas);
+
         }
+        view.getHolder().unlockCanvasAndPost(canvas);
         /*
         try {
 

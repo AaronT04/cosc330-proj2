@@ -6,13 +6,13 @@ import android.graphics.RectF;
 import android.util.Log;
 
 public class PhysicsSprite extends Physics {
-    private int percentage = 50;
+    private int percentage = 25;
     protected Sprite sprite;
     float hitRadius;
 
-    public PhysicsSprite(Sprite s) {
-        this.sprite = s;
-        initBounds();
+    public PhysicsSprite() {
+        this.sprite = new Sprite(null, true);
+        this.sprite.matrix = AttackManager.getBulletMatrix();
     }
     public PhysicsSprite(Bitmap b, boolean isBullet) {
         this.sprite = new Sprite(b, isBullet);
@@ -62,9 +62,8 @@ public class PhysicsSprite extends Physics {
     protected void applyMovement() {
         sprite.matrix.reset();
         sprite.matrix.postTranslate(-radius, -radius);
-        sprite.matrix.postScale(0.8f, 0.8f);
         sprite.matrix.postRotate(sprite.bitmapAngle);
-        sprite.matrix.postTranslate(pos.x + radius * 0.8f, pos.y + radius * 0.8f);
+        sprite.matrix.postTranslate(pos.x + radius, pos.y + radius);
     }
 
     public void setPosition(Position p) {

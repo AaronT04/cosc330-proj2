@@ -1,6 +1,8 @@
 package com.at04.touchmovetest;
 
 
+import static java.lang.Thread.sleep;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -39,6 +41,7 @@ public abstract class Level extends AppCompatActivity {
         finish();
     }
     public void end() {
+        gameLoop.setRunning(false);
         switchToMenuActivity();
     }
 }

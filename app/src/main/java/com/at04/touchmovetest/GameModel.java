@@ -44,6 +44,7 @@ public class GameModel {
         attackManager = new AttackManager();
         attackManager.setSequence(li.getAttackSequence());
         attackManager.registerPlayerPosition(player.pos);
+        attackManager.registerModel(this);
         //bullets = attackManager.getActiveBullets();
         display = li.setViews(this.context);
     }
@@ -56,6 +57,7 @@ public class GameModel {
 
         if(canvas!= null) {
             canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+            canvas.drawBitmap(GameAssets.bg_sky, 0, 0, null);
             player.draw(canvas);
             //profileTimer.start();
             attackManager.draw(canvas);

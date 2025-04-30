@@ -33,9 +33,9 @@ public class Sprite {
 
         bitmap = b;
         if(isBullet) {
-            //AttackManager.matrices[AttackManager.bulletIdx % AttackManager.MAX_BULLETS]
-                    //= new Matrix();
-            matrix = AttackManager.matrices[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
+            //Matrices are stored directly in AttackManager for increased speed during rendering
+            //This sprite's "matrix" field stores a reference to the one in AttackManager
+            matrix = AttackManager.getBulletMatrix();
         }
         else {
             matrix = new Matrix();

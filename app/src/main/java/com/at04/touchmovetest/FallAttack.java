@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class FallAttack extends Attack {
     private Position playerPos;
     private BulletInfo bulletInfo;
+    private ArrayList<Bullet> toRemove = new ArrayList<>();
     private boolean wrapEnabled;
     private float spd;
     private static final int offsetSizeX = 500;
@@ -19,8 +20,6 @@ public class FallAttack extends Attack {
         this.offsetYDir = (int)Math.copySign(1, offsetYDir);
         bulletInfo = new BulletInfo(count);
         bullets = new ArrayList<>();
-        //Log.d("offsetYDir", String.valueOf(this.offsetYDir));
-        //initialize();
     }
     public FallAttack(int count, float offsetSec) {
         super(count, offsetSec);
@@ -28,33 +27,25 @@ public class FallAttack extends Attack {
         this.spd = 10f;
         bulletInfo = new BulletInfo(count);
         bullets = new ArrayList<>();
-        //initialize();
-    }
-    public Attack copy(){
-        //Log.d("fallAttack.copy()", "");
-        FallAttack copy = new FallAttack(count, offsetSec, wrapEnabled, spd, offsetYDir);
-        copy.registerPlayerPosition(playerPos);
-        copy.registerAttackManager(attackManager);
-        return copy;
     }
     public void initialize() {
         for(int i = 0; i < count; i++) {
+            //setup Bullet and BulletInfo fields based on index
             Position p = calcInitialPosition(i, count);
-
-            Bullet b = AttackManager.bullets[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
-            b.load(p, spd, 0);
-            //Bullet b = AttackManager.bullets[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
             bulletInfo.wrapped[i] = false;
+            bulletInfo.removed[i] = false;
             bulletInfo.offsetAmtX[i] = Math.copySign(((float)i / count) * offsetSizeX, i - (count / 2));
             bulletInfo.offsetAmtY[i] = ((float)Math.abs((count / 2) - i) / (count / 2) * offsetSizeY);
-            b.pos.y += offsetYDir * bulletInfo.offsetAmtY[i];
+
+            //Load bullet and add it to the array
+            Bullet b = AttackManager.initializeBullet(GameAssets.pinkStar, p, spd, 0);
             bullets.add(b);
+
+            //Apply setup to bullet
+            b.pos.y += offsetYDir * bulletInfo.offsetAmtY[i];
             setAngleToTarget(i);
-
-            AttackManager.bulletIdx++;
-
-            if(AttackManager.bulletIdx == AttackManager.MAX_BULLETS) {
-                Log.d("bulletIdx == 256", "");
+            if(count < 10) {
+                b.setBitmapRotationSpeed(15f);
             }
         }
     }
@@ -68,45 +59,61 @@ public class FallAttack extends Attack {
         this.playerPos = p;
     }
 
-    public void update() {
+    public void attackUpdate() {
         if(bullets != null) {
-            super.update();
-            boolean canRemove;
             for(int i = 0; i < bullets.size(); i++) {
-                canRemove = false;
-                Bullet b = bullets.get(i);
-                b.move();
-                checkOffscreenHorizontal(i, b.pos, b.radius);
-                checkOffscreenVertical(i, b.pos, b.radius);
-                if (bulletInfo.wrapped[i]) {
-                    if (wrapEnabled) {
-                        setAngleToTarget(i);
-                        bulletInfo.wrapped[i] = false;
-                    } else {
-                        canRemove = true;
-                    }
-                }
-                b.update();
-                if (canRemove) {
-                    b.unloadAndReset();
-                    bullets.remove(i);
-                    i--;
-                }
-                if (bullets.isEmpty()) {
-                    attackManager.notifyAttackOffscreen(this);
+                if(!(bulletInfo.removed[i])) {
+                    Bullet b = bullets.get(i);
+                    b.move();
+                    checkBulletOffscreen(i);
+                    b.update();
+                    checkAttackOffscreen();
                 }
             }
         }
-
     }
+
+    private void checkAttackOffscreen() {
+        int numRemoved = 0;
+        for(int j = 0; j < count; j++) {
+            if(bulletInfo.removed[j])
+                numRemoved++;
+        }
+        if(numRemoved == count) {
+            attackManager.notifyAttackOffscreen(this);
+        }
+    }
+    private void checkBulletOffscreen(int i) {
+        Bullet b = bullets.get(i);
+        checkOffscreenHorizontal(i, b.pos, b.radius);
+        checkOffscreenVertical(i, b.pos, b.radius);
+        if (bulletInfo.wrapped[i]) {
+            if (wrapEnabled) {
+                setAngleToTarget(i);
+                bulletInfo.wrapped[i] = false;
+            } else {
+                toRemove.add(b);
+                bulletInfo.removed[i] = true;
+            }
+        }
+
+        if (bulletInfo.removed[i]) {
+            Log.d("unloaded", String.valueOf(i));
+            b.unloadAndReset();
+            //bullets.remove(i);
+        }
+    }
+
     private void checkOffscreenHorizontal(int i, Position pos, float radius) {
         int wrapDir = 0;
         //Check whether bullet is offscreen, and which direction
         if(pos.x >  (radius * 2) + DisplaySize.screenWidth) {
+            Log.d("wrap", "hz1");
             wrapDir = 1;
             bulletInfo.wrapped[i] = true;
         }
         else if(pos.x < 0 - (radius * 2) ) {
+            Log.d("wrap", "hz-1");
             wrapDir = - 1;
             bulletInfo.wrapped[i] = true;
         }
@@ -124,10 +131,12 @@ public class FallAttack extends Attack {
         int wrapDir = 0;
 
         if(pos.y >  (radius * 2) + DisplaySize.screenHeight) {
+            Log.d("wrap", "v1");
             bulletInfo.wrapped[i] = true;
             wrapDir = 1;
         }
         else if(pos.y < 0 - (radius * 2) ) {
+            Log.d("wrap", "v-1");
             bulletInfo.wrapped[i] = true;
             wrapDir = -1;
         }
@@ -146,8 +155,14 @@ public class FallAttack extends Attack {
 
     private void setAngleToTarget(int i) {
         Bullet b = bullets.get(i);
-
         b.angle = (float)Math.atan2((playerPos.y - b.pos.y),(playerPos.x + bulletInfo.offsetAmtX[i] - b.pos.x));
+    }
+
+    public Attack copy(){
+        FallAttack copy = new FallAttack(count, offsetSec, wrapEnabled, spd, offsetYDir);
+        copy.registerPlayerPosition(playerPos);
+        copy.registerAttackManager(attackManager);
+        return copy;
     }
     static class BulletInfo {
         boolean[] wrapped;
@@ -155,9 +170,12 @@ public class FallAttack extends Attack {
         float[] offsetAmtY;
         int liveBullets;
 
+        boolean[] removed;
+
         public BulletInfo(int count) {
             liveBullets = count;
             wrapped = new boolean[count];
+            removed = new boolean[count];
             offsetAmtX = new float[count];
             offsetAmtY = new float[count];
         }
