@@ -1,33 +1,22 @@
 package com.at04.touchmovetest;
 
-import java.util.ArrayList;
-
 public class LineAttack extends Attack {
 
     private float hzInsetRatio;
-    private float spd;
     @Override
-    public Position calcInitialPosition(int idx, int count) {
+    public Point calcInitialPosition(int idx, int count) {
         float hzInset = hzInsetRatio * (float)(DisplaySize.screenWidth - 200);
         float offsetFromLeftPerIndex = ((float)(DisplaySize.screenWidth - 200) - (hzInset * 2)) / (count - 1);
-        return new Position(hzInset + offsetFromLeftPerIndex * idx, 0);
+        return new Point(hzInset + offsetFromLeftPerIndex * idx, 0 - GameAssets.arrow.getHeight());
     }
 
-    public LineAttack(int count, float offsetSec, float spd, float hzInsetRatio) {
-        super(count, offsetSec);
+    public LineAttack(BaseAttackInfo atk_init, float hzInsetRatio) {
+        super(atk_init);
         this.hzInsetRatio = hzInsetRatio;
-        this.spd = spd;
-        bullets = new ArrayList<>();
-    }
-    public LineAttack(int count, float offsetSec) {
-        super(count, offsetSec);
-        this.hzInsetRatio = 0;
-        this.spd = 10f;
-        bullets = new ArrayList<>();
     }
     public void initialize() {
         for(int i = 0; i < count; i++) {
-            Position p = calcInitialPosition(i, count);
+            Point p = calcInitialPosition(i, count);
             Bullet b = AttackManager.initializeBullet(GameAssets.arrow, p, spd, (float)Math.toRadians(90));
             bullets.add(b);
         }
@@ -58,7 +47,7 @@ public class LineAttack extends Attack {
     }
 
     public Attack copy(){
-        LineAttack copy = new LineAttack(count, offsetSec, spd, hzInsetRatio);
+        LineAttack copy = new LineAttack(new BaseAttackInfo(count, spd, offsetSec), hzInsetRatio);
         copy.registerPlayerPosition(null);
         copy.registerAttackManager(attackManager);
         return copy;

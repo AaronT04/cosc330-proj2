@@ -1,9 +1,9 @@
 package com.at04.touchmovetest;
-public class Position {
+public class Point {
     float x;
     float y;
 
-    public Position(float x, float y) {
+    public Point(float x, float y) {
         this.x = x;
         this.y = y;
     }

@@ -4,14 +4,13 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 public class Bullet extends PhysicsSprite {
     private static final int SPEED_MULTIPLIER = 200;
     private float rotationSpeed = 0;
 
     public boolean isLoaded = false;
-    public Bullet(Bitmap bitmap, Position p, float spd) {//, Path bp) {
+    public Bullet(Bitmap bitmap, Point p, float spd) {//, Path bp) {
         super(bitmap, p);
         this.spd = spd;
     }
@@ -42,7 +41,7 @@ public class Bullet extends PhysicsSprite {
         applyMovement();
     }
 
-    public void load(Bitmap bitmap, Position pos, float spd, float angle) {
+    public void load(Bitmap bitmap, Point pos, float spd, float angle) {
         isLoaded = true;
         this.sprite.bitmap = bitmap;
         this.pos.x = pos.x;

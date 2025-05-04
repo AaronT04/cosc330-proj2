@@ -6,8 +6,13 @@ import android.util.Log;
 public class AttackSequence {
     private ArrayList<Attack> sequence;
     private boolean looped = false;
+    public float initOffset = 0;
     public AttackSequence() {
         sequence = new ArrayList<>();
+    }
+    public AttackSequence(float initOffset) {
+        this();
+        this.initOffset = initOffset;
     }
     public void add(Attack a) {
         sequence.add(a);
@@ -15,7 +20,7 @@ public class AttackSequence {
     public void add(int repeat, Attack[] atks) {
         for(int i = 0; i < repeat; i++) {
             for(int j = 0; j < atks.length; j++) {
-                sequence.add(atks[j].copy());
+                add(atks[j].copy());
             }
         }
     }
@@ -24,7 +29,7 @@ public class AttackSequence {
         for(int i = 0; i < repeat; i++) {
             for(int j = 0; j < seqs.length; j++) {
                 for(int k = 0; k < seqs[j].size(); k++) {
-                    sequence.add(seqs[j].get(k).copy());
+                    add(seqs[j].get(k).copy());
                 }
             }
         }

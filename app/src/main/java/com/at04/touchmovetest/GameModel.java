@@ -1,4 +1,6 @@
 package com.at04.touchmovetest;
+import static com.at04.touchmovetest.GameLoop.FPS;
+
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.view.View;
@@ -13,25 +15,17 @@ public class GameModel {
     public GameLoop gameLoop;
     public AttackManager attackManager;
     public Level context;
-    public View[] display;
     private Timer profileTimer = new Timer();
+    private HealthBar healthBar;
+
+    public static final long hitbuffer_ms = 500;
+    public int hitsLeft;
+    public int hitCount = 6;
+    private CountdownTimer hitTimer = new CountdownTimer(hitbuffer_ms);
+
     public GameModel(Level l) {
-        //Log.d("l", String.valueOf(l));
-        //Log.d("l.levelID", String.valueOf(l.levelID));
         this.context = l;
-
-        LevelInitializer test_LI;
-        if(l.levelID == 0) {
-            test_LI = new Level00Initializer();
-        }
-        else if(l.levelID == 1) {
-            test_LI = new Level01Initializer();
-        }
-        else {
-            test_LI = new Level00Initializer();
-        }
-
-        initialize(test_LI);//[level.levelID]);
+        initialize(LevelStorage.getLevelInitializer(l.levelID));
     }
 
     public void startGame() {
@@ -41,15 +35,18 @@ public class GameModel {
 
     private void initialize(LevelInitializer li) {
         player = li.setPlayer(this.context);
+        player.registerHitTimer(this.hitTimer);
         attackManager = new AttackManager();
         attackManager.setSequence(li.getAttackSequence());
         attackManager.registerPlayerPosition(player.pos);
         attackManager.registerModel(this);
-        //bullets = attackManager.getActiveBullets();
-        display = li.setViews(this.context);
+        hitsLeft = hitCount;
+        healthBar = new HealthBar(30, 30, 100, hitCount);
     }
     public void update() {
         //Log.d("gameModel.update()", "");
+        handleCollision();
+        healthBar.update(hitsLeft);
         player.update();
         attackManager.update();
     }
@@ -58,14 +55,30 @@ public class GameModel {
         if(canvas!= null) {
             canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             canvas.drawBitmap(GameAssets.bg_sky, 0, 0, null);
+            healthBar.draw(canvas);
             player.draw(canvas);
             //profileTimer.start();
             attackManager.draw(canvas);
             //profileTimer.debugStop("attackManager.draw(canvas)");
         }
     }
-    public boolean checkCollision() {
-        //bullets = attackManager.getActiveBullets();
+
+    public void handleCollision() {
+        hitTimer.update((1000 / FPS));
+        boolean collision = checkCollision();
+        if(collision) {
+            Log.d("Collision", "HitsLeft: " + hitsLeft);
+            if(!(hitTimer.isActive())) {
+                hitsLeft--;
+                hitTimer.setActive();
+            }
+            if(hitsLeft == 0) {
+                Log.d("hitsLeft < 0", "end()");
+                this.context.end();
+            }
+        }
+    }
+    private boolean checkCollision() {
 
         for(int i = 0; i < AttackManager.MAX_BULLETS; i++) {
             Bullet b = AttackManager.bullets[i];

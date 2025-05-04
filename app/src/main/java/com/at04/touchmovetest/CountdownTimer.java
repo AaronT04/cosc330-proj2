@@ -30,6 +30,11 @@ public class CountdownTimer {
             time_ms = 0;
         }
     }
+
+    public long getTimeElapsed() {
+        return length_ms - time_ms;
+    }
+
     public boolean isActive() {
         return timerActive;
     }

@@ -9,7 +9,7 @@ import android.os.StrictMode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class Level extends AppCompatActivity {
+public class Level extends AppCompatActivity {
 
     GameModel gameModel;
     GameView gameView;
@@ -20,6 +20,9 @@ public abstract class Level extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        GameAssets.init(getResources());
+
+        levelID = getIntent().getIntExtra("LEVEL_ID", 0);
         gameView = (GameView) findViewById(R.id.gameView);
 
         gameModel = new GameModel(this);
@@ -27,7 +30,6 @@ public abstract class Level extends AppCompatActivity {
 
         gameLoop = new GameLoop();
         gameLoop.registerModel(gameModel);
-        gameLoop.registerTextView(gameModel.display);
         gameLoop.registerView(gameView);
     }
     public void startGame() {

@@ -9,12 +9,6 @@ public abstract class LevelInitializer {
         Player player = new Player(GameAssets.playerSprite);// = context.findViewById(R.id.square);
         return player;
     }
-    public View[] setViews(Level context) {
-        return new View[] {
-                context.findViewById(R.id.testDisplay),
-                context.findViewById(R.id.hitTimerDisplay)
-        };
-    }
     public abstract AttackSequence getAttackSequence();
 
 }

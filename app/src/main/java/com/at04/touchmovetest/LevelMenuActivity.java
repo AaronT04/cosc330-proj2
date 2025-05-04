@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LevelMenuActivity extends AppCompatActivity {
     ImageButton button00;
     ImageButton button01;
+    ImageButton button02;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +32,19 @@ public class LevelMenuActivity extends AppCompatActivity {
                 switchActivities(1);
             }
         });
+        button02 = findViewById(R.id.select_lv02);
+        button02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchActivities(2);
+            }
+        });
     }
 
     private void switchActivities(int levelID) {
         Intent intent;
-        switch(levelID) {
-            case 0:
-                intent = new Intent(this, LevelTest00Activity.class);
-                startActivity(intent);
-                break;
-            case 1:
-                intent = new Intent(this, LevelTest01Activity.class);
-                startActivity(intent);
-                break;
-        }
+        intent = new Intent(this, Level.class);
+        intent.putExtra("LEVEL_ID", levelID);
+        startActivity(intent);
     }
 }

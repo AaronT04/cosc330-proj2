@@ -17,20 +17,10 @@ public class Sprite {
 
     protected float bitmapAngle = 0;
 
-    public Sprite(Bitmap b) {
-        paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setAntiAlias(true);
-        paint.setFilterBitmap(true);
-        matrix = new Matrix();
-        bitmap = b;
-    }
     public Sprite(Bitmap b, boolean isBullet) {
         paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
-
         bitmap = b;
         if(isBullet) {
             //Matrices are stored directly in AttackManager for increased speed during rendering

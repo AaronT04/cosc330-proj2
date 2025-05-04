@@ -13,7 +13,7 @@ public class GameLoop extends Thread {
     TextView hitTimerDisplay;
     private SurfaceView view;
     Canvas canvas;
-    private static final long FPS = 30;
+    public static final long FPS = 45;
     private static final long ticksPS = 1000 / FPS;
 
 
@@ -43,25 +43,18 @@ public class GameLoop extends Thread {
         running = b;
     }
 
-    public void registerTextView(View[] display) {
-        if(display != null) {
-            this.testDisplay = (TextView) display[0];//td;
-            this.hitTimerDisplay = (TextView) display[1];//ht;
-        }
-    }
 
     public void run() {
         while(running) {
             startTime = System.currentTimeMillis();
             //start
-            profileTimer.start();
-            handleCollision();
+            //profileTimer.start();
+            //handleCollision();
             model.update();
-            profileTimer.debugStop("game Logic");
+            //profileTimer.debugStop("game Logic");
             //profileTimer.start();
             draw();
             //profileTimer.debugStop("draw()");
-            //updateView2();
 
             //end
             long time_elapsed = System.currentTimeMillis() - startTime;
@@ -88,52 +81,18 @@ public class GameLoop extends Thread {
         }
     }
 
-    private void handleCollision() {
-        boolean collision = model.checkCollision();
-        if(collision) {
-            Log.d("Collision", "HitsLeft: " + hitsLeft);
-            if(!(hitTimer.isActive())) {
-                hitsLeft--;
-                hitTimer.setActive();
-            }
-            if(hitsLeft < 0) {
-                Log.d("hitsLeft < 0", "end()");
-                model.context.end();
-                setRunning(false);
-            }
-
-        }
-    }
-
-    private void updateView2() {
-        if(hitTimerDisplay != null) {
-            ((Activity) model.context).runOnUiThread(() -> {
-                //testDisplay.setText(collision?"hit":"not hit");
-                hitTimerDisplay.setText(hitTimer.toString());
-            });
-        }
-    }
-
     private void draw() {
-        canvas = view.getHolder().lockCanvas();
-        synchronized (view.getHolder()) {
-
-            model.draw(canvas);
-
-        }
-        view.getHolder().unlockCanvasAndPost(canvas);
-        /*
         try {
+            canvas = view.getHolder().lockCanvas();
+            synchronized (view.getHolder()) {
 
+                model.draw(canvas);
+
+            }
         } finally {
             if (canvas != null) {
-
+                view.getHolder().unlockCanvasAndPost(canvas);
             }
         }
-        */
-
-    }
-    public void startPerformanceTest() {
-
     }
 }

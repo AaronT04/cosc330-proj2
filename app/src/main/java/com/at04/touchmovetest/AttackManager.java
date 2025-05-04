@@ -1,10 +1,8 @@
 package com.at04.touchmovetest;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -12,7 +10,7 @@ import java.util.ArrayList;
 public class AttackManager {
     private AttackSequence sequence;
     private GameModel model;
-    private Position playerPosition;
+    private Point playerPosition;
     private ArrayList<Bullet> activeBullets = new ArrayList<>();
     private ArrayList<Attack> activeAttacks = new ArrayList<>();
     private int currentAttackIndex = 0;
@@ -43,10 +41,13 @@ public class AttackManager {
         for(int i = 0; i < sequence.size(); i++) {
             sequence.get(i).registerAttackManager(this);
         }
+        sequence.get(0).setInitialOffset(sequence.initOffset);
+        Log.d("sequence.initOffset", String.valueOf(sequence.initOffset));
+        Log.d("sequence[0] offset", String.valueOf(sequence.get(0).initialOffset));
         activeAttacks.add(sequence.get(0));
     }
 
-    public void registerPlayerPosition(Position p) {
+    public void registerPlayerPosition(Point p) {
         playerPosition = p;
         for(int i = 0; i < sequence.size(); i++) {
             sequence.get(i).registerPlayerPosition(p);
@@ -72,7 +73,7 @@ public class AttackManager {
         }
     }
 
-    public static Bullet initializeBullet(Bitmap bitmap, Position p, float spd, float angle) {
+    public static Bullet initializeBullet(Bitmap bitmap, Point p, float spd, float angle) {
         Bullet bullet = bullets[AttackManager.bulletIdx % AttackManager.MAX_BULLETS];
         if(bullet.isLoaded){
             bullet.unloadAndReset();

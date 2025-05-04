@@ -3,10 +3,9 @@ package com.at04.touchmovetest;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.util.Log;
 
 public class PhysicsSprite extends Physics {
-    private int percentage = 25;
+    private int percentage = 50;
     protected Sprite sprite;
     float hitRadius;
 
@@ -19,7 +18,7 @@ public class PhysicsSprite extends Physics {
         initBounds();
         applyMovement();
     }
-    public PhysicsSprite(Bitmap b, Position p) {
+    public PhysicsSprite(Bitmap b, Point p) {
         this.sprite = new Sprite(b, true);
         pos.x = p.x;
         pos.y = p.y;
@@ -53,9 +52,6 @@ public class PhysicsSprite extends Physics {
         if(sprite.bitmap != null) {
             sprite.draw(canvas);
         }
-        else {
-            Log.d("physicsSprite.draw", "bitmap==null");
-        }
     }
 
 
@@ -66,7 +62,7 @@ public class PhysicsSprite extends Physics {
         sprite.matrix.postTranslate(pos.x + radius, pos.y + radius);
     }
 
-    public void setPosition(Position p) {
+    public void setPosition(Point p) {
         pos.x = p.x;
         pos.y = p.y;
     }

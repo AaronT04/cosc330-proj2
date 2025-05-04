@@ -14,7 +14,7 @@ public class GameAssets {
     public static Bitmap arrow;
     public static void init(Resources res) {
         Bitmap playerSprite_ = BitmapFactory.decodeResource(res, R.drawable.head);
-        playerSprite = Bitmap.createScaledBitmap(playerSprite_, 150, 150, true);
+        playerSprite = Bitmap.createScaledBitmap(playerSprite_, 125, 125, true);
         shruikenA = BitmapFactory.decodeResource(res, R.drawable.spike_thingy);
         shruikenB = BitmapFactory.decodeResource(res, R.drawable.another_spike);
         Bitmap pinkStar_ = BitmapFactory.decodeResource(res, R.drawable.pink_star);

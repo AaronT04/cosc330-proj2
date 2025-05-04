@@ -2,36 +2,23 @@ package com.at04.touchmovetest;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-
 public class FallAttack extends Attack {
-    private Position playerPos;
-    private BulletInfo bulletInfo;
-    private ArrayList<Bullet> toRemove = new ArrayList<>();
-    private boolean wrapEnabled;
-    private float spd;
+    private final BulletInfo bulletInfo;
+    private final boolean wrapEnabled;
     private static final int offsetSizeX = 500;
     private static final int offsetSizeY = 200;
-    int offsetYDir;
-    public FallAttack(int count, float offsetSec, boolean wrapEnabled, float spd, int offsetYDir) {
-        super(count, offsetSec);
+    private final int offsetYDir;
+    private Point playerPos;
+    public FallAttack(BaseAttackInfo atk_init, boolean wrapEnabled, int offsetYDir) {
+        super(atk_init);
         this.wrapEnabled = wrapEnabled;
-        this.spd = spd;
         this.offsetYDir = (int)Math.copySign(1, offsetYDir);
         bulletInfo = new BulletInfo(count);
-        bullets = new ArrayList<>();
-    }
-    public FallAttack(int count, float offsetSec) {
-        super(count, offsetSec);
-        this.wrapEnabled = false;
-        this.spd = 10f;
-        bulletInfo = new BulletInfo(count);
-        bullets = new ArrayList<>();
     }
     public void initialize() {
         for(int i = 0; i < count; i++) {
             //setup Bullet and BulletInfo fields based on index
-            Position p = calcInitialPosition(i, count);
+            Point p = calcInitialPosition(i, count);
             bulletInfo.wrapped[i] = false;
             bulletInfo.removed[i] = false;
             bulletInfo.offsetAmtX[i] = Math.copySign(((float)i / count) * offsetSizeX, i - (count / 2));
@@ -50,12 +37,12 @@ public class FallAttack extends Attack {
         }
     }
 
-    public Position calcInitialPosition(int idx, int count) {
-        return new Position(idx * ((float)DisplaySize.screenWidth - 200) / count, 0);
+    public Point calcInitialPosition(int idx, int count) {
+        return new Point(idx * ((float)DisplaySize.screenWidth - 200) / count, 0 - GameAssets.pinkStar.getHeight());
     }
 
     @Override
-    public void registerPlayerPosition(Position p) {
+    public void registerPlayerPosition(Point p) {
         this.playerPos = p;
     }
 
@@ -92,7 +79,6 @@ public class FallAttack extends Attack {
                 setAngleToTarget(i);
                 bulletInfo.wrapped[i] = false;
             } else {
-                toRemove.add(b);
                 bulletInfo.removed[i] = true;
             }
         }
@@ -104,16 +90,16 @@ public class FallAttack extends Attack {
         }
     }
 
-    private void checkOffscreenHorizontal(int i, Position pos, float radius) {
+    private void checkOffscreenHorizontal(int i, Point pos, float radius) {
         int wrapDir = 0;
         //Check whether bullet is offscreen, and which direction
         if(pos.x >  (radius * 2) + DisplaySize.screenWidth) {
-            Log.d("wrap", "hz1");
+            //Log.d("wrap", "hz1");
             wrapDir = 1;
             bulletInfo.wrapped[i] = true;
         }
         else if(pos.x < 0 - (radius * 2) ) {
-            Log.d("wrap", "hz-1");
+            //Log.d("wrap", "hz-1");
             wrapDir = - 1;
             bulletInfo.wrapped[i] = true;
         }
@@ -127,17 +113,17 @@ public class FallAttack extends Attack {
             }
         }
     }
-    private void checkOffscreenVertical(int i, Position pos, float radius) {
+    private void checkOffscreenVertical(int i, Point pos, float radius) {
         int wrapDir = 0;
 
         if(pos.y >  (radius * 2) + DisplaySize.screenHeight) {
-            Log.d("wrap", "v1");
+            //Log.d("wrap", "v1");
             bulletInfo.wrapped[i] = true;
             wrapDir = 1;
         }
         else if(pos.y < 0 - (radius * 2) ) {
-            Log.d("wrap", "v-1");
-            bulletInfo.wrapped[i] = true;
+            //Log.d("wrap", "v-1");
+            //bulletInfo.wrapped[i] = true;
             wrapDir = -1;
         }
         if(wrapEnabled) {
@@ -159,7 +145,8 @@ public class FallAttack extends Attack {
     }
 
     public Attack copy(){
-        FallAttack copy = new FallAttack(count, offsetSec, wrapEnabled, spd, offsetYDir);
+        BaseAttackInfo atk_init = new BaseAttackInfo(this.count, this.spd, this.offsetSec);
+        FallAttack copy = new FallAttack(atk_init, wrapEnabled, offsetYDir);
         copy.registerPlayerPosition(playerPos);
         copy.registerAttackManager(attackManager);
         return copy;
