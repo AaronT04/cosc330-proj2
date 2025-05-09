@@ -12,6 +12,7 @@ public class LevelMenuActivity extends AppCompatActivity {
     ImageButton button00;
     ImageButton button01;
     ImageButton button02;
+    ImageButton button03;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,10 @@ public class LevelMenuActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switchActivities(2);
             }
+        });
+        button03 = findViewById(R.id.select_lv03);
+        button03.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {switchActivities(3);}
         });
     }
 

@@ -20,7 +20,11 @@ public class AttackSequence {
     public void add(int repeat, Attack[] atks) {
         for(int i = 0; i < repeat; i++) {
             for(int j = 0; j < atks.length; j++) {
-                add(atks[j].copy());
+                Attack newAttack = atks[j].copy();
+                if(j == 0 && initOffset != 0) {
+                    newAttack.setInitialOffset(initOffset);
+                }
+                add(newAttack);
             }
         }
     }
@@ -29,7 +33,11 @@ public class AttackSequence {
         for(int i = 0; i < repeat; i++) {
             for(int j = 0; j < seqs.length; j++) {
                 for(int k = 0; k < seqs[j].size(); k++) {
-                    add(seqs[j].get(k).copy());
+                    Attack newAttack = seqs[j].get(k).copy();
+                    if(k == 0 && seqs[j].initOffset != 0) {
+                        newAttack.setInitialOffset(seqs[j].initOffset);
+                    }
+                    add(newAttack);
                 }
             }
         }

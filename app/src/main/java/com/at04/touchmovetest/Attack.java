@@ -28,7 +28,7 @@ public abstract class Attack {
         if(initialTimer == null) {      //The attack has been started
             if (nextTimer != null) {    //The next attack has not been triggered yet
                 nextTimer.update((long) (GameLoop.dt_sec * 1000));
-                if (!nextTimer.isActive()) {
+                if (!nextTimer.isActive()) { //If the nextTimer has expired
                     attackManager.loadNextAttack();
                     nextTimer = null;
                 }
@@ -37,9 +37,10 @@ public abstract class Attack {
         }
         else { //If there is an initial offset
             initialTimer.update((long) (GameLoop.dt_sec * 1000));
-            if (!initialTimer.isActive()) {
+            if (!initialTimer.isActive()) { //If the initial offset timer is over
                 initialTimer = null;
-                nextTimer.setActive();
+                if(nextTimer != null) //If this is not the last attack
+                    nextTimer.setActive();
             }
         }
     }
@@ -55,7 +56,10 @@ public abstract class Attack {
         this.initialOffset = initOff;
         initialTimer = new CountdownTimer((long) (initialOffset * 1000));
         initialTimer.setActive();
-        nextTimer.reset();
+        //nextTimer == null if offsetSec was set to 0 in the constructor
+        //(meaning this is the last or only attack)
+        if(nextTimer != null)
+            nextTimer.reset();
     }
     protected abstract void attackUpdate();
     protected abstract void initialize();

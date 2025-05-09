@@ -8,6 +8,7 @@ public class LevelStorage {
                     new Level00Initializer(),
                     new Level01Initializer(),
                     new Level02Initializer(),
+                    new Level03Initializer()
             };
     public static LevelInitializer getLevelInitializer(int levelID) {
         return initializers[levelID % initializers.length];
@@ -47,20 +48,6 @@ public class LevelStorage {
         @Override
         public AttackSequence getAttackSequence() {
             AttackSequence seq = new AttackSequence();
-            /*
-            seq.add(5, new Attack[] {
-                    new EllipseAttack(
-                            new BaseAttackInfo(5, 1f, 0.1f),
-                            new Line(DisplaySize.screenWidth, new Range(0, 200)), //startLine
-                            new Line(new Range(0, DisplaySize.screenWidth), DisplaySize.screenHeight)//stopLine
-                    ),
-                    new EllipseAttack(
-                            new BaseAttackInfo(5, 1f, 0.1f),
-                            new Line(100, new Range(100, 200)), //startLine
-                            new Line(new Range(100, DisplaySize.screenWidth), DisplaySize.screenHeight)//stopLine
-                    )
-            });
-            */
             BaseAttackInfo atk_init = new BaseAttackInfo(3, 2f, 0.1f);
             seq.add(5, new Attack[] {
                     new EllipseAttack(
@@ -89,4 +76,23 @@ public class LevelStorage {
             return seq;
         }
     }
+    static class Level03Initializer extends LevelInitializer {
+        @Override
+        public AttackSequence getAttackSequence() {
+            AttackSequence main = new AttackSequence();
+            BaseAttackInfo atk_init1 = new BaseAttackInfo(10, 5f, 1f);
+            main.add(new CircleAttack(atk_init1, 1f/2, -1f/2));
+            main.add(new CircleAttack(atk_init1, 1f/2, 1f/2));
+            main.add(new CircleAttack(atk_init1, 1f/3, 0));
+            AttackSequence seq_0 = new AttackSequence(1f);
+            BaseAttackInfo simult_atk1 = new BaseAttackInfo(10, 2f, 0.001f);
+            seq_0.add(new CircleAttack(simult_atk1, 1f/3, 0));
+            seq_0.add(new CircleAttack(simult_atk1, 1f/2, 0));
+            seq_0.add(new CircleAttack(simult_atk1, 1f/4, 0));
+            main.add(2, new AttackSequence[] {seq_0});
+            //main.add(2, new AttackSequence[] {seq_0}, AttackSequenceModifier.SHIFT_HORIZONTAL(0, 1, -1))
+            return main;
+        }
+    }
 }
+
