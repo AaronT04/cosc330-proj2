@@ -28,24 +28,6 @@ public class CircleAttack extends Attack{
         return copy;
     }
 
-    //blank constructor used for firebase storage
-    public CircleAttack() {
-        super();
-    }
-
-    public CircleAttack(BaseAttackInfo atk_init) {
-        super(atk_init);
-        radius = DisplaySize.screenWidth * 1f/6;
-        offsetCenter = 0; //a large number
-
-        centerScreen=(DisplaySize.screenWidth/2f)+((DisplaySize.screenWidth/2f) * offsetCenter);
-        startOffSet=0;
-        clockWise=false;
-        degreesBetween=2*PI/count;
-        spd=10;
-        bullets = new ArrayList<>();
-
-    }
     //radius is the fraction denomator of the screen that the attack should take up
     //offsetCenter: -1 = left edge of screen, 0 = center, 1 = right
     public CircleAttack(BaseAttackInfo atk_init, float inputRadius, float offsetCenter){

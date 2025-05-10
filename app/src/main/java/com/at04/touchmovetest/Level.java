@@ -26,7 +26,11 @@ public class Level extends AppCompatActivity {
         gameView = (GameView) findViewById(R.id.gameView);
 
 
-        gameModel = new GameModel(this);
+        try {
+            gameModel = new GameModel(this);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         gameView.registerGameModel(gameModel);
 
         gameLoop = new GameLoop();

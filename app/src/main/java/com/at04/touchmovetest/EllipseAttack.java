@@ -28,7 +28,9 @@ public class EllipseAttack extends Attack{
             if(!bulletInfo.removed[i]) {
                 Bullet b = bullets.get(i);
                 moveParametric(origin, b.pos, bulletInfo.hRadius[i], bulletInfo.vRadius[i]);
+                checkBulletOffscreen(i);
                 b.update();
+                checkAttackOffscreen();
             }
         }
         t_param +=  (spd * 0.005f);//(spd / (bulletInfo.hRadius[0]));
@@ -37,6 +39,24 @@ public class EllipseAttack extends Attack{
     private void moveParametric(Point origin, Point pos, float hRad, float vRad) {
         pos.x = origin.x + hRad * (float)Math.cos(t_param);
         pos.y = origin.y + vRad * (float)Math.sin(t_param);
+    }
+
+    private void checkAttackOffscreen() {
+        int numRemoved = 0;
+        for(int j = 0; j < count; j++) {
+            if(bulletInfo.removed[j])
+                numRemoved++;
+        }
+        if(numRemoved == count) {
+            attackManager.notifyAttackOffscreen(this);
+        }
+    }
+    private void checkBulletOffscreen(int i) {
+        Bullet b = bullets.get(i);
+        if(b.pos.y > b.radius * 2 + DisplaySize.screenHeight) {
+            bulletInfo.removed[i] = true;
+            b.unloadAndReset();
+        }
     }
 
     @Override

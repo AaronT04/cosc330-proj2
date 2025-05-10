@@ -1,6 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="50dp">
+    <FrameLayout
+        android:id="@+id/button1"
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="100dp">
+        <ImageButton
+            android:id="@+id/select_lv00"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/button"/>
+
+        <TextView
+            android:id="@+id/buttonText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Level 00"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/new_rodin_pro"/>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/button2"
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/button1">
+
+        <ImageButton
+            android:id="@+id/select_lv01"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:scaleType="fitXY"
+            android:src="@drawable/button"
+            android:background="@android:color/transparent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Level 01"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/new_rodin_pro"/>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/button3"
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/button2">
+
+        <ImageButton
+            android:id="@+id/select_lv02"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:scaleType="fitXY"
+            android:src="@drawable/button"
+            android:background="@android:color/transparent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Level 02"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/new_rodin_pro"/>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/button3">
+
+        <ImageButton
+            android:id="@+id/select_lv03"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:scaleType="fitXY"
+            android:src="@drawable/button"
+            android:background="@android:color/transparent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Level 03"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/new_rodin_pro"/>
+    </FrameLayout>
 
 </RelativeLayout>

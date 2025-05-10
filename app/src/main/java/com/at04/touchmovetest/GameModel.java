@@ -21,7 +21,7 @@ public class GameModel {
     public int hitCount = 6;
     private CountdownTimer hitTimer = new CountdownTimer(hitbuffer_ms);
 
-    public GameModel(Level l) {
+    public GameModel(Level l) throws InterruptedException {
         this.context = l;
         initialize(LevelStorage.getLevelInitializer(l.levelID));
     }
@@ -31,11 +31,12 @@ public class GameModel {
         attackManager.startAttacks();
     }
 
-    private void initialize(LevelInitializer li) {
+    private void initialize(LevelInitializer li) throws InterruptedException {
         player = li.setPlayer(this.context);
         player.registerHitTimer(this.hitTimer);
         attackManager = new AttackManager();
-        AttackSequence mainSequence = li.getAttackSequence();
+        AttackSequence mainSequence;
+        mainSequence = li.getAttackSequence();
         //If a level has not been properly downloaded from the database,
         //"li.getAttackSequence()" may return an empty ArrayList
         //in that case, quit and go back to level menu

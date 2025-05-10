@@ -63,7 +63,7 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
         if(!((dy == 0) && (dx == 0))) {
             float facingAngle =(float)Math.copySign(Math.max(Math.min(Math.toDegrees(Math.atan((dy) / (dx))) + 90, 45), -45), dx);
             angV = facingAngle - sprite.bitmapAngle;
-            float angA = 3;
+            float angA = 1;
             sprite.bitmapAngle += angV * angA * dt_sec;
         }
         else {

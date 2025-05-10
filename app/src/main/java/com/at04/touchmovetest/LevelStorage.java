@@ -42,6 +42,7 @@ public class LevelStorage {
         });
         return initializers[levelID % initializers.length];
     }
+
     static class Level00Initializer extends LevelInitializer {
         @Override
         public AttackSequence getAttackSequence() {

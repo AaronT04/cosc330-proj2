@@ -14,9 +14,6 @@ public abstract class Attack implements Serializable {
     protected AttackManager attackManager;
     protected float initialOffset = 0;
 
-    //blank constructor used for firebase storage
-    public Attack() {}
-
     public Attack(BaseAttackInfo atk_init) {
         this.spd = atk_init.spd;
         this.count = atk_init.count;
