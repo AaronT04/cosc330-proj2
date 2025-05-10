@@ -25,6 +25,7 @@ public class Level extends AppCompatActivity {
         levelID = getIntent().getIntExtra("LEVEL_ID", 0);
         gameView = (GameView) findViewById(R.id.gameView);
 
+
         gameModel = new GameModel(this);
         gameView.registerGameModel(gameModel);
 
@@ -43,7 +44,10 @@ public class Level extends AppCompatActivity {
         finish();
     }
     public void end() {
-        gameLoop.setRunning(false);
+        //If the level failed to load properly, gameLoop might be null
+        if(gameLoop != null) {
+            gameLoop.setRunning(false);
+        }
         switchToMenuActivity();
     }
 }

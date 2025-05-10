@@ -42,8 +42,8 @@ public class AttackManager {
             sequence.get(i).registerAttackManager(this);
         }
         //sequence.get(0).setInitialOffset(sequence.initOffset);
-        Log.d("sequence.initOffset", String.valueOf(sequence.initOffset));
-        Log.d("sequence[0] offset", String.valueOf(sequence.get(0).initialOffset));
+        //Log.d("sequence.initOffset", String.valueOf(sequence.initOffset));
+        //Log.d("sequence[0] offset", String.valueOf(sequence.get(0).initialOffset));
         activeAttacks.add(sequence.get(0));
     }
 

@@ -8,7 +8,7 @@ public class FallAttack extends Attack {
     private static final int offsetSizeX = 500;
     private static final int offsetSizeY = 200;
     private final int offsetYDir;
-    private Point playerPos;
+    private Point playerPos; //set at runtime (after constructor)
     public FallAttack(BaseAttackInfo atk_init, boolean wrapEnabled, int offsetYDir) {
         super(atk_init);
         this.wrapEnabled = wrapEnabled;

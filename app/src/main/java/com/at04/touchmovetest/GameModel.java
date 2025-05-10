@@ -11,8 +11,6 @@ import java.util.ArrayList;
 public class GameModel {
     public Player player;
 
-    public ArrayList<Bullet> bullets;
-    public GameLoop gameLoop;
     public AttackManager attackManager;
     public Level context;
     private Timer profileTimer = new Timer();
@@ -37,7 +35,14 @@ public class GameModel {
         player = li.setPlayer(this.context);
         player.registerHitTimer(this.hitTimer);
         attackManager = new AttackManager();
-        attackManager.setSequence(li.getAttackSequence());
+        AttackSequence mainSequence = li.getAttackSequence();
+        //If a level has not been properly downloaded from the database,
+        //"li.getAttackSequence()" may return an empty ArrayList
+        //in that case, quit and go back to level menu
+        if(mainSequence.isEmpty()) {
+            context.end();
+        }
+        attackManager.setSequence(mainSequence);
         attackManager.registerPlayerPosition(player.pos);
         attackManager.registerModel(this);
         hitsLeft = hitCount;

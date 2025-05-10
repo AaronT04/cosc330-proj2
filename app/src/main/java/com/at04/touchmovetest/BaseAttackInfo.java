@@ -1,9 +1,9 @@
 package com.at04.touchmovetest;
 
 public class BaseAttackInfo {
-    final float offsetSec;
-    final float spd;
-    final int count;
+    public final float offsetSec;
+    public final float spd;
+    public final int count;
 
     //blank constructor for firebase storage
     public BaseAttackInfo() {

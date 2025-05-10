@@ -60,6 +60,9 @@ public class AttackSequence implements Serializable {
     public int size() {
         return sequence.size();
     }
+    public boolean isEmpty() {
+        return sequence.isEmpty();
+    }
 
 
     public ArrayList<Attack> getSequence() {
