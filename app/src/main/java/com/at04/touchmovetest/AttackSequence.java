@@ -1,9 +1,10 @@
 package com.at04.touchmovetest;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import android.util.Log;
 
-public class AttackSequence {
+public class AttackSequence implements Serializable {
     private ArrayList<Attack> sequence;
     private boolean looped = false;
     public float initOffset = 0;
@@ -59,9 +60,16 @@ public class AttackSequence {
     public int size() {
         return sequence.size();
     }
-    public void enableLoop() {
-        looped = true;
+
+
+    public ArrayList<Attack> getSequence() {
+        return sequence;
     }
+    public boolean getLooped() {
+        return looped;
+    }
+
+
     public void remove(Attack atk) {
         sequence.remove(atk);
         Log.d("atkSeq.remove()", String.valueOf(sequence.size()));

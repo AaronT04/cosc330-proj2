@@ -1,8 +1,9 @@
 package com.at04.touchmovetest;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Attack {
+public abstract class Attack implements Serializable {
     public abstract Attack copy();
     protected ArrayList<Bullet> bullets;
     protected int count;
@@ -12,6 +13,9 @@ public abstract class Attack {
     protected CountdownTimer initialTimer;
     protected AttackManager attackManager;
     protected float initialOffset = 0;
+
+    //blank constructor used for firebase storage
+    public Attack() {}
 
     public Attack(BaseAttackInfo atk_init) {
         this.spd = atk_init.spd;

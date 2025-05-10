@@ -8,17 +8,17 @@ import java.util.ArrayList;
 
 public class CircleAttack extends Attack{
     //radius is the distance from the center point to the edges
-    float radius;
+    public float radius;
     // this is the degree of rotation that the first plotted bullet will start from the bottom
-    float startOffSet;
+    public float startOffSet;
     //this designates the direction the bullets are rotated from the first plotted bullet
-    boolean clockWise;
-    float centerScreen;
+    public boolean clockWise;
+    public float centerScreen;
     //this keeps track of the angle between points based on count
-    double degreesBetween;
+    public double degreesBetween;
 
-    float offsetCenter;
-    float inputRadius;
+    public float offsetCenter;
+    public float inputRadius;
 
     @Override
     public Attack copy() {
@@ -26,6 +26,11 @@ public class CircleAttack extends Attack{
         copy.registerPlayerPosition(null);
         copy.registerAttackManager(attackManager);
         return copy;
+    }
+
+    //blank constructor used for firebase storage
+    public CircleAttack() {
+        super();
     }
 
     public CircleAttack(BaseAttackInfo atk_init) {

@@ -1,7 +1,10 @@
 package com.at04.touchmovetest;
 
-public class LevelStorage {
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+public class LevelStorage {
+    private static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private LevelStorage() {}
     private static final LevelInitializer[] initializers = new LevelInitializer[]
             {
@@ -79,6 +82,7 @@ public class LevelStorage {
     static class Level03Initializer extends LevelInitializer {
         @Override
         public AttackSequence getAttackSequence() {
+
             AttackSequence main = new AttackSequence();
             BaseAttackInfo atk_init1 = new BaseAttackInfo(10, 5f, 1f);
             main.add(new CircleAttack(atk_init1, 1f/2, -1f/2));
@@ -90,6 +94,9 @@ public class LevelStorage {
             seq_0.add(new CircleAttack(simult_atk1, 1f/2, 0));
             seq_0.add(new CircleAttack(simult_atk1, 1f/4, 0));
             main.add(2, new AttackSequence[] {seq_0});
+
+
+            //mDatabase.child("levels").child("level03").setValue(main);
             //main.add(2, new AttackSequence[] {seq_0}, AttackSequenceModifier.SHIFT_HORIZONTAL(0, 1, -1))
             return main;
         }

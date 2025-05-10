@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "811069823253",
+    "project_id": "cosc330-proj2",
+    "storage_bucket": "cosc330-proj2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811069823253:android:97bec2d4e295011412711c",
+        "android_client_info": {
+          "package_name": "com.at04.touchmovetest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBKx99Wl7FfdEhiaDEfFOCFjbxzKtQM_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
