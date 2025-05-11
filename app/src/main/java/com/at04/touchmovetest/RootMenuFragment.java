@@ -1,8 +1,12 @@
 package com.at04.touchmovetest;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +14,7 @@ import androidx.fragment.app.Fragment;
 public class RootMenuFragment extends Fragment {
     ImageButton demoLevelsButton;
     ImageButton customLevelsButton;
+    Button createButton;
     public RootMenuFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,29 +29,34 @@ public class RootMenuFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         demoLevelsButton = view.findViewById(R.id.select_demoLevels);
-        demoLevelsButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    requireActivity()
-                            .getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, new DemoLevelsFragment())
-                            .addToBackStack(null)
-                            .commit();
-                }
+        demoLevelsButton.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new DemoLevelsFragment())
+                    .addToBackStack(null)
+                    .commit();
             }
         );
         customLevelsButton = view.findViewById(R.id.select_customLevels);
-        customLevelsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new CustomLevelsFragment())
-                        .addToBackStack(null)
-                        .commit();
-            }
+        customLevelsButton.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new CustomLevelsFragment())
+                    .addToBackStack(null)
+                    .commit();
         });
+        createButton = view.findViewById(R.id.select_create);
+        createButton.setOnClickListener(v -> {
+            createButton.setTextColor(Color.BLACK);
+            createButton.setBackgroundColor(Color.WHITE);
+            switchToLevelCreator();
+        });
+    }
+    private void switchToLevelCreator() {
+        Intent intent;
+        intent = new Intent(requireActivity(), LevelCreator.class);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.at04.touchmovetest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,9 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class CustomLevelsFragment extends Fragment{
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference levelListRef = mDatabase.child("LevelEntries");
-    private DatabaseReference levelLoadRef; // accesses level contents - unused until a level is clicked
+    private static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private static DatabaseReference levelListRef = mDatabase.child("LevelEntries");
+    private static DatabaseReference levelLoadRef; // accesses level contents - unused until a level is clicked
     private CustomLevelList customLevelList;
     private ListView lvLevels;
 
@@ -38,7 +39,6 @@ public class CustomLevelsFragment extends Fragment{
         customLevelList = new CustomLevelList(this.getActivity());
         lvLevels = view.findViewById(R.id.listview_custom_levels);
         lvLevels.setAdapter(customLevelList.getListAdapter());
-        setupListViewListener();
     }
 
     private void setupValueEventListener() {
@@ -58,18 +58,10 @@ public class CustomLevelsFragment extends Fragment{
             }
         });
     }
-    private void setupListViewListener() {
-        lvLevels.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                CustomLevelListEntry selectedLevel = customLevelList.get(position);
-                loadLevel(selectedLevel);
-
-                return true;
-            }
-        });
+    public static void onPlayButtonClick(CustomLevelListEntry selectedLevel, Context context) {
+        loadLevel(selectedLevel, context);
     }
-    private void loadLevel(CustomLevelListEntry selectedLevel) {
+    private static void loadLevel(CustomLevelListEntry selectedLevel, Context context) {
         levelLoadRef = mDatabase.child("LevelContents").child(selectedLevel.id);
         levelLoadRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -79,7 +71,7 @@ public class CustomLevelsFragment extends Fragment{
                 AttackInfoList atkList = snapshot.getValue(AttackInfoList.class);
                 //AttackSequence main = LevelStorage.createSequenceFromInfoList(atkList);
                 //now need to initialize GameModel with that sequence
-                switchActivities(atkList);
+                switchActivities(atkList, context);
             }
 
             @Override
@@ -88,11 +80,11 @@ public class CustomLevelsFragment extends Fragment{
             }
         });
     }
-    private void switchActivities(AttackInfoList atkInfoList) {
+    private static void switchActivities(AttackInfoList atkInfoList, Context context) {
         Intent intent;
-        intent = new Intent(requireActivity(), Level.class);
+        intent = new Intent(context, Level.class);
         intent.putExtra("LEVEL_TYPE", "remote");
         intent.putExtra("ATK_LIST", atkInfoList);
-        startActivity(intent);
+        context.startActivity(intent);
     }
 }

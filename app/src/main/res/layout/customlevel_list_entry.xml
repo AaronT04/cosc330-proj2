@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_entry_container"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/list_entry_border">
-    <TextView
-        android:id="@+id/customlevel_levelname_text"
-        android:fontFamily="@font/new_rodin_pro_db"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@color/white"/>
-    <TextView
-        android:id="@+id/customlevel_username_text"
-        android:fontFamily="@font/new_rodin_pro_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textColor="@color/white"/>
-    <TextView
-        android:id="@+id/customlevel_timestamp_text"
-        android:fontFamily="@font/new_rodin_pro_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="@color/white"/>
+    <LinearLayout
+        android:id="@+id/list_entry_visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/customlevel_levelname_text"
+            android:fontFamily="@font/new_rodin_pro_db"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/customlevel_username_text"
+            android:fontFamily="@font/new_rodin_pro_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/customlevel_timestamp_text"
+            android:fontFamily="@font/new_rodin_pro_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/white"/>
+        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/list_entry_expand"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:paddingTop="8dp">
+        <Button
+            android:id="@+id/list_entry_play_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play"
+            android:layout_gravity="right"
+            android:background="@color/black"
+            android:fontFamily="@font/new_rodin_pro_db"
+            android:textColor="@color/white"/>
+    </LinearLayout>
 </LinearLayout>

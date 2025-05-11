@@ -19,7 +19,7 @@ public class GameAssets {
         shruikenB = BitmapFactory.decodeResource(res, R.drawable.another_spike);
         Bitmap pinkStar_ = BitmapFactory.decodeResource(res, R.drawable.pink_star);
         pinkStar = Bitmap.createScaledBitmap(pinkStar_, 100, 100, true);
-        Bitmap bg_sky_ = BitmapFactory.decodeResource(res, R.drawable.bg_dark2);
+        Bitmap bg_sky_ = BitmapFactory.decodeResource(res, R.drawable.bg_sky_blur);
         bg_sky = Bitmap.createScaledBitmap(bg_sky_, DisplaySize.screenWidth, DisplaySize.screenHeight, true);
         Bitmap arrow_ = BitmapFactory.decodeResource(res, R.drawable.arrow);
         arrow = Bitmap.createScaledBitmap(arrow_, 125, 175, true);
