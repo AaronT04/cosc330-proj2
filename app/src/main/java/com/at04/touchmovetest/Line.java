@@ -1,8 +1,13 @@
 package com.at04.touchmovetest;
 
-public class Line {
-    Range x;
-    Range y;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Line implements Serializable {
+    public Range x;
+    public Range y;
+    public Line() {}
     public Line(Range x, float y) {
         this.x = x;
         this.y = new Range(y, y);
@@ -19,5 +24,4 @@ public class Line {
         }
         return segments;
     }
-
 }

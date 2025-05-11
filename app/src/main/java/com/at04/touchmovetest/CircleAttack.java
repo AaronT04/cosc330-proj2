@@ -5,6 +5,7 @@ import static java.lang.Math.sin;
 
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CircleAttack extends Attack{
     //radius is the distance from the center point to the edges
@@ -20,15 +21,6 @@ public class CircleAttack extends Attack{
     public float offsetCenter;
     public float inputRadius;
 
-    @Override
-    public Attack copy() {
-        CircleAttack copy = new CircleAttack(new BaseAttackInfo(count, spd, offsetSec), inputRadius, offsetCenter);
-        copy.registerPlayerPosition(null);
-        copy.registerAttackManager(attackManager);
-        return copy;
-    }
-
-    //radius is the fraction denomator of the screen that the attack should take up
     //offsetCenter: -1 = left edge of screen, 0 = center, 1 = right
     public CircleAttack(BaseAttackInfo atk_init, float inputRadius, float offsetCenter){
         super(atk_init);
@@ -41,6 +33,34 @@ public class CircleAttack extends Attack{
         degreesBetween=2*PI/count;
         bullets = new ArrayList<>();
     }
+    public CircleAttack(BaseAttackInfo baseAttackInfo, List<AttackParameter> params) {
+        super(baseAttackInfo);
+        this.inputRadius = (float)params.get(0).unwrap();
+        this.radius = DisplaySize.screenWidth * inputRadius;
+        this.offsetCenter = (float)params.get(1).unwrap();
+        centerScreen=(DisplaySize.screenWidth/2f)+((DisplaySize.screenWidth/2f) * offsetCenter);
+        startOffSet=0;
+        clockWise=false;
+        degreesBetween=2*PI/count;
+        bullets = new ArrayList<>();
+    }
+
+    public static AttackInfo getInitializer(BaseAttackInfo atkInit, float inputRadius, float offsetCenter) {
+        ArrayList<AttackParameter> params = new ArrayList<>();
+        params.add(new AttackParameter("float", inputRadius));
+        params.add(new AttackParameter("float", offsetCenter));
+        return new AttackInfo(AttackInfo.CIRCLE_ATTACK, atkInit, params);
+    }
+
+    @Override
+    public Attack copy() {
+        CircleAttack copy = new CircleAttack(new BaseAttackInfo(count, spd, offsetSec), inputRadius, offsetCenter);
+        copy.registerPlayerPosition(null);
+        copy.registerAttackManager(attackManager);
+        return copy;
+    }
+
+
 
     @Override
     protected void attackUpdate() {

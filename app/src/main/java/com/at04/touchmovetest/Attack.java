@@ -62,6 +62,20 @@ public abstract class Attack implements Serializable {
         if(nextTimer != null)
             nextTimer.reset();
     }
+
+    public static Attack make(AttackInfo info) {
+        switch(info.attackType) {
+            case AttackInfo.CIRCLE_ATTACK:
+                return new CircleAttack(info.baseAttackInfo, info.params);
+            case AttackInfo.LINE_ATTACK:
+                return new LineAttack(info.baseAttackInfo, info.params);
+            case AttackInfo.FALL_ATTACK:
+                return new FallAttack(info.baseAttackInfo, info.params);
+            case AttackInfo.ELLIPSE_ATTACK:
+                return new EllipseAttack(info.baseAttackInfo, info.params);
+        }
+        return null;
+    }
     protected abstract void attackUpdate();
     protected abstract void initialize();
     public abstract Point calcInitialPosition(int idx, int count);

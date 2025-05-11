@@ -1,5 +1,8 @@
 package com.at04.touchmovetest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EllipseAttack extends Attack{
 
     private Line startLine;
@@ -12,6 +15,12 @@ public class EllipseAttack extends Attack{
         super(atk_init);
         this.startLine = startLine;
         this.stopLine = stopLine;
+        bulletInfo = new BulletInfo(count);
+    }
+    public EllipseAttack(BaseAttackInfo atk_init, List<AttackParameter> params) {
+        super(atk_init);
+        this.startLine = (Line)params.get(0).unwrap();
+        this.stopLine = (Line)params.get(1).unwrap();
         bulletInfo = new BulletInfo(count);
     }
     @Override
@@ -70,9 +79,14 @@ public class EllipseAttack extends Attack{
             Bullet b = AttackManager.initializeBullet(GameAssets.pinkStar,
                                                             startLinePoints[i], spd, 0);
             bullets.add(b);
-            //b.setBitmapRotationSpeed(3f);
-
         }
+    }
+
+    public static AttackInfo getInitializer(BaseAttackInfo atk_init, Line startLine, Line stopLine) {
+        ArrayList<AttackParameter> params = new ArrayList<>();
+        params.add(new AttackParameter("Line", startLine));
+        params.add(new AttackParameter("Line", stopLine));
+        return new AttackInfo(AttackInfo.ELLIPSE_ATTACK, atk_init, params);
     }
 
     @Override

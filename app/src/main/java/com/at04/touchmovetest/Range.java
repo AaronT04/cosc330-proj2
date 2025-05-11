@@ -1,8 +1,13 @@
 package com.at04.touchmovetest;
 
-public class Range {
-    float min;
-    float max;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Range implements Serializable {
+    public float min;
+    public float max;
+    public Range() {}
     public Range(float min, float max) {
         this.min = min;
         this.max = max;

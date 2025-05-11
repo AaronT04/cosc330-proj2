@@ -1,5 +1,8 @@
 package com.at04.touchmovetest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LineAttack extends Attack {
 
     private float hzInsetRatio;
@@ -13,6 +16,10 @@ public class LineAttack extends Attack {
     public LineAttack(BaseAttackInfo atk_init, float hzInsetRatio) {
         super(atk_init);
         this.hzInsetRatio = hzInsetRatio;
+    }
+    public LineAttack(BaseAttackInfo atk_init, List<AttackParameter> params) {
+        super(atk_init);
+        this.hzInsetRatio = (float)params.get(0).unwrap();
     }
     public void initialize() {
         for(int i = 0; i < count; i++) {
@@ -51,5 +58,11 @@ public class LineAttack extends Attack {
         copy.registerPlayerPosition(null);
         copy.registerAttackManager(attackManager);
         return copy;
+    }
+
+    public static AttackInfo getInitializer(BaseAttackInfo atk_init, float hzInsetRatio) {
+        ArrayList<AttackParameter> params = new ArrayList<>();
+        params.add(new AttackParameter("float", hzInsetRatio));
+        return new AttackInfo(AttackInfo.LINE_ATTACK, atk_init, params);
     }
 }

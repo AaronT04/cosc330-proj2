@@ -2,6 +2,9 @@ package com.at04.touchmovetest;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FallAttack extends Attack {
     private final BulletInfo bulletInfo;
     private final boolean wrapEnabled;
@@ -15,6 +18,14 @@ public class FallAttack extends Attack {
         this.offsetYDir = (int)Math.copySign(1, offsetYDir);
         bulletInfo = new BulletInfo(count);
     }
+    public FallAttack(BaseAttackInfo atk_init, List<AttackParameter> params) {
+        super(atk_init);
+        this.wrapEnabled = (boolean)params.get(0).unwrap();
+        int offsetYDirTemp = (int)params.get(1).unwrap();
+        this.offsetYDir = (int)Math.copySign(1, offsetYDirTemp);
+        bulletInfo = new BulletInfo(count);
+    }
+
     public void initialize() {
         for(int i = 0; i < count; i++) {
             //setup Bullet and BulletInfo fields based on index
@@ -151,6 +162,14 @@ public class FallAttack extends Attack {
         copy.registerAttackManager(attackManager);
         return copy;
     }
+
+    public static AttackInfo getInitializer(BaseAttackInfo baseAttackInfo, boolean wrapEnabled, int offsetYDir) {
+        ArrayList<AttackParameter> params = new ArrayList<>();
+        params.add(new AttackParameter("boolean", wrapEnabled));
+        params.add(new AttackParameter("int", offsetYDir));
+        return new AttackInfo(AttackInfo.FALL_ATTACK, baseAttackInfo, params);
+    }
+
     static class BulletInfo {
         boolean[] wrapped;
         float[] offsetAmtX;
