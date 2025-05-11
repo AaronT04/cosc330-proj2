@@ -2,17 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/list_entry_border">
     <TextView
         android:id="@+id/customlevel_levelname_text"
+        android:fontFamily="@font/new_rodin_pro_db"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/white"/>
     <TextView
         android:id="@+id/customlevel_username_text"
+        android:fontFamily="@font/new_rodin_pro_light"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/white"/>
     <TextView
         android:id="@+id/customlevel_timestamp_text"
+        android:fontFamily="@font/new_rodin_pro_light"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/white"/>
 </LinearLayout>

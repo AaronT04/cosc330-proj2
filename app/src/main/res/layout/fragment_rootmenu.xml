@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="50dp">
     <FrameLayout
         android:id="@+id/button1"
         android:layout_width="400dp"
@@ -14,7 +15,7 @@
             android:background="@android:color/transparent"
             android:fitsSystemWindows="true"
             android:scaleType="fitXY"
-            android:src="@drawable/button"/>
+            android:src="@drawable/button_image_selector"/>
 
         <TextView
             android:id="@+id/buttonText"
@@ -22,7 +23,7 @@
             android:layout_height="match_parent"
             android:text="Demo Levels"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:fontFamily="@font/new_rodin_pro"/>
     </FrameLayout>
@@ -39,7 +40,7 @@
         android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
         android:scaleType="fitXY"
-        android:src="@drawable/button"/>
+        android:src="@drawable/button_image_selector"/>
 
     <TextView
         android:id="@+id/buttonText2"
@@ -47,7 +48,7 @@
         android:layout_height="match_parent"
         android:text="Custom Levels"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:fontFamily="@font/new_rodin_pro"/>
 </FrameLayout>

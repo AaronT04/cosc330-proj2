@@ -15,7 +15,7 @@
             android:background="@android:color/transparent"
             android:fitsSystemWindows="true"
             android:scaleType="fitXY"
-            android:src="@drawable/button"/>
+            android:src="@drawable/button_image_selector"/>
 
         <TextView
             android:id="@+id/buttonText"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:text="Level 00"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:fontFamily="@font/new_rodin_pro"/>
     </FrameLayout>
@@ -39,14 +39,14 @@
             android:layout_height="match_parent"
 
             android:scaleType="fitXY"
-            android:src="@drawable/button"
+            android:src="@drawable/button_image_selector"
             android:background="@android:color/transparent" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Level 01"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:fontFamily="@font/new_rodin_pro"/>
     </FrameLayout>
@@ -62,14 +62,14 @@
             android:layout_height="match_parent"
 
             android:scaleType="fitXY"
-            android:src="@drawable/button"
+            android:src="@drawable/button_image_selector"
             android:background="@android:color/transparent" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Level 02"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:fontFamily="@font/new_rodin_pro"/>
     </FrameLayout>
@@ -84,14 +84,14 @@
             android:layout_height="match_parent"
 
             android:scaleType="fitXY"
-            android:src="@drawable/button"
+            android:src="@drawable/button_image_selector"
             android:background="@android:color/transparent" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Level 03"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:fontFamily="@font/new_rodin_pro"/>
     </FrameLayout>
