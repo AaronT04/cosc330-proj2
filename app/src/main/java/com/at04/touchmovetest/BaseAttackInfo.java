@@ -1,6 +1,8 @@
 package com.at04.touchmovetest;
 
-public class BaseAttackInfo {
+import java.io.Serializable;
+
+public class BaseAttackInfo implements Serializable {
     public final float offsetSec;
     public final float spd;
     public final int count;

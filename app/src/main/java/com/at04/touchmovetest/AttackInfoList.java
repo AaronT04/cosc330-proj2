@@ -1,8 +1,9 @@
 package com.at04.touchmovetest;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AttackInfoList {
+public class AttackInfoList implements Serializable {
     public ArrayList<AttackInfo> attackInfoList;
     public AttackInfoList() {
         attackInfoList = new ArrayList<>();

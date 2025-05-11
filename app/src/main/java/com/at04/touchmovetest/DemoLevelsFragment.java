@@ -54,6 +54,7 @@ public class DemoLevelsFragment extends Fragment {
     private void switchActivities(int levelID) {
         Intent intent;
         intent = new Intent(requireActivity(), Level.class);
+        intent.putExtra("LEVEL_TYPE", "local");
         intent.putExtra("LEVEL_ID", levelID);
         startActivity(intent);
     }

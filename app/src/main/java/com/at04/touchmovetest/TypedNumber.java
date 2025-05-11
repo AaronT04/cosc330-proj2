@@ -1,9 +1,11 @@
 package com.at04.touchmovetest;
 
-public class TypedNumber {
+import java.io.Serializable;
+
+public class TypedNumber implements Serializable {
     public String type;
-    //For a generic number, "double" is used to prevent loss
     public double value;
+    //Empty default constructor is required for firebase storage
     public TypedNumber() {}
     public TypedNumber(String type, double value) {
         this.type = type;

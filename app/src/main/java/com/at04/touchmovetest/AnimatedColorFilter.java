@@ -36,5 +36,4 @@ public class AnimatedColorFilter {
         }
         return null;
     }
-
 }

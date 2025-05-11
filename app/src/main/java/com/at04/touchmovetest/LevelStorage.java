@@ -10,12 +10,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class LevelStorage {
     private static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    private static DatabaseReference level03Reference = mDatabase.child("levels").child("level03");
-    private static AttackInfoList lv03AtkList;
     private LevelStorage() {
     }
     private static final LevelInitializer[] initializers = new LevelInitializer[]
@@ -23,23 +23,13 @@ public class LevelStorage {
                     new Level00Initializer(),
                     new Level01Initializer(),
                     new Level02Initializer(),
-                    new CustomLevelInitializer(),
                     new Level03Initializer(),
-
+                    new CustomLevelInitializer(),
             };
     public static LevelInitializer getLevelInitializer(int levelID) {
-        level03Reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                lv03AtkList = snapshot.getValue(AttackInfoList.class);
-                Log.d("lv03AtkList onDataChange", String.valueOf(lv03AtkList));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        //used to test adding a level, before level editor is created
+        testmethod_addlinetesttodatabase();
+        //testmethod_add03todatabase();
         return initializers[levelID % initializers.length];
     }
 
@@ -121,10 +111,6 @@ public class LevelStorage {
             seq_0.add(new CircleAttack(simult_atk1, 1f/2, 0));
             seq_0.add(new CircleAttack(simult_atk1, 1f/4, 0));
             main.add(2, new AttackSequence[] {seq_0});
-
-
-            //mDatabase.child("levels").child("level03").setValue(main);
-            //main.add(2, new AttackSequence[] {seq_0}, AttackSequenceModifier.SHIFT_HORIZONTAL(0, 1, -1))
             return main;
         }
     }
@@ -132,50 +118,80 @@ public class LevelStorage {
         @Override
         public AttackSequence getAttackSequence() {
             AttackSequence main = new AttackSequence();
+            return main;
+        }
+    }
+    private static void testmethod_add03todatabase() {
+        AttackInfoList atkInfoList = new AttackInfoList();
+        BaseAttackInfo atk_init0 = new BaseAttackInfo(10, 5, 1);
+        atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, atk_init0, new Number[] {1f/2, -1f/2}));
+        atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, atk_init0, new Number[] {1f/2, 1f/2}));
+        atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, atk_init0, new Number[] {1f/3, 0f}));
+        BaseAttackInfo simult_atk1 = new BaseAttackInfo(10, 2f, 0.001f);
+        atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, simult_atk1, new Number[] {1f/3, 0f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, simult_atk1, new Number[] {1f/2, 0f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, simult_atk1, new Number[] {1f/4, 0f}));
 
-            /*
-            AttackInfoList atkInfoList = new AttackInfoList();
-            BaseAttackInfo atk_init0 = new BaseAttackInfo(10, 5, 1);
-            atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, atk_init0, new Number[] {1f/2, -1f/2}));
-            atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, atk_init0, new Number[] {1f/2, 1f/2}));
-            atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, atk_init0, new Number[] {1f/3, 0f}));
-            BaseAttackInfo simult_atk1 = new BaseAttackInfo(10, 2f, 0.001f);
-            atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, simult_atk1, new Number[] {1f/3, 0f}));
-            atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, simult_atk1, new Number[] {1f/2, 0f}));
-            atkInfoList.add(new AttackInfo(AttackInfo.CIRCLE_ATTACK, simult_atk1, new Number[] {1f/4, 0f}));
+        CustomLevelListEntry newEntry = new CustomLevelListEntry();
+        newEntry.id = "1";
+        newEntry.levelName = "Level03 test";
+        newEntry.username = "Aaron";
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy  - hh:mm:ss a", Locale.getDefault());
+        newEntry.timestamp = sdf.format(new Date());
 
-            for(int i = 0; i < atkInfoList.size(); i++) {
-                AttackInfo thisAtk = atkInfoList.get(i);
-                switch(thisAtk.attackType) {
+        mDatabase.child("LevelEntries").child(newEntry.id).setValue(newEntry);
+        mDatabase.child("LevelContents").child(newEntry.id).setValue(atkInfoList);
+    }
+    private static void testmethod_addlinetesttodatabase() {
+        AttackInfoList atkInfoList = new AttackInfoList();
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(2, 5, 0.3f), new Number[] {0f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(3, 10, 0.3f), new Number[] {0.1f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(2, 5, 0.3f), new Number[] {0f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(3, 10, 0.3f), new Number[] {0.1f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(2, 5, 0.3f), new Number[] {0f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(3, 10, 0.3f), new Number[] {0.1f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(2, 5, 0.3f), new Number[] {0f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(3, 10, 0.3f), new Number[] {0.1f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(2, 5, 0.3f), new Number[] {0f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.LINE_ATTACK, new BaseAttackInfo(3, 10, 0.3f), new Number[] {0.1f}));
+        atkInfoList.add(new AttackInfo(AttackInfo.FALL_ATTACK, new BaseAttackInfo(2, 10, 0.5f), new Number[] {1}));
+        atkInfoList.add(new AttackInfo(AttackInfo.FALL_ATTACK, new BaseAttackInfo(3, 15, 0.5f), new Number[] {-1}));
+        CustomLevelListEntry newEntry = new CustomLevelListEntry();
+        newEntry.id = "0";
+        newEntry.levelName = "Line test";
+        newEntry.username = "Aaron";
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy  - hh:mm:ss a", Locale.getDefault());
+        newEntry.timestamp = sdf.format(new Date());
+
+        mDatabase.child("LevelEntries").child(newEntry.id).setValue(newEntry);
+        mDatabase.child("LevelContents").child(newEntry.id).setValue(atkInfoList);
+    }
+    public static AttackSequence createSequenceFromInfoList(AttackInfoList atkList) {
+        AttackSequence main = new AttackSequence();
+        if(atkList != null) {
+            for (int i = 0; i < atkList.size(); i++) {
+                AttackInfo thisAtk = atkList.get(i);
+                switch (thisAtk.attackType) {
                     case AttackInfo.CIRCLE_ATTACK:
                         main.add(new CircleAttack(thisAtk.baseAttackInfo, (float)TypedNumber.unwrap(thisAtk.info.get(0)), (float)TypedNumber.unwrap(thisAtk.info.get(1))));
                         break;
+                    case AttackInfo.FALL_ATTACK:
+                        main.add(new FallAttack(thisAtk.baseAttackInfo, false, (int)TypedNumber.unwrap(thisAtk.info.get(0))));
+                        break;
+                    case AttackInfo.LINE_ATTACK:
+                        main.add(new LineAttack(thisAtk.baseAttackInfo, (float)TypedNumber.unwrap(thisAtk.info.get(0))));
+                        break;
+                    case AttackInfo.ELLIPSE_ATTACK:
+                        main.add(new EllipseAttack(thisAtk.baseAttackInfo, null, null));
                     default:
                         break;
                 }
             }
-            mDatabase.child("levels").child("level03").setValue(atkInfoList);
-            */
-
-            if(lv03AtkList != null) {
-                for (int i = 0; i < lv03AtkList.size(); i++) {
-                    AttackInfo thisAtk = lv03AtkList.get(i);
-                    switch (thisAtk.attackType) {
-                        case AttackInfo.CIRCLE_ATTACK:
-                            main.add(new CircleAttack(thisAtk.baseAttackInfo, (float)TypedNumber.unwrap(thisAtk.info.get(0)), (float)TypedNumber.unwrap(thisAtk.info.get(1))));
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-            else {
-                Log.d("lv03AtkList == null", "");
-            }
-
-
-            return main;
         }
+        else {
+            Log.d("createSequenceFromInfoList", "atkList is null");
+        }
+        return main;
     }
 }
 

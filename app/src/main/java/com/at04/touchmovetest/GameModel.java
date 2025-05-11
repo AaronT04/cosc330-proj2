@@ -21,22 +21,36 @@ public class GameModel {
     public int hitCount = 6;
     private CountdownTimer hitTimer = new CountdownTimer(hitbuffer_ms);
 
-    public GameModel(Level l) throws InterruptedException {
+    public GameModel(Level l) {
         this.context = l;
         initialize(LevelStorage.getLevelInitializer(l.levelID));
     }
-
-    public void startGame() {
-        context.startGame();
-        attackManager.startAttacks();
+    public GameModel(Level l, AttackInfoList atkList) {
+        this.context = l;
+        player = new Player(GameAssets.playerSprite);
+        player.registerHitTimer(this.hitTimer);
+        AttackSequence mainSequence = LevelStorage.createSequenceFromInfoList(atkList);
+        if(mainSequence.isEmpty()) {
+            context.end();
+        }
+        attackManager = new AttackManager();
+        attackManager.setSequence(mainSequence);
+        attackManager.registerPlayerPosition(player.pos);
+        attackManager.registerModel(this);
+        hitsLeft = hitCount;
+        healthBar = new HealthBar(30, 30, 100, hitCount);
     }
 
-    private void initialize(LevelInitializer li) throws InterruptedException {
-        player = li.setPlayer(this.context);
+    public void startGame() {
+        attackManager.startAttacks();
+        context.startGame();
+    }
+
+    private void initialize(LevelInitializer li) {
+        player = new Player(GameAssets.playerSprite);
         player.registerHitTimer(this.hitTimer);
         attackManager = new AttackManager();
-        AttackSequence mainSequence;
-        mainSequence = li.getAttackSequence();
+        AttackSequence mainSequence = li.getAttackSequence();
         //If a level has not been properly downloaded from the database,
         //"li.getAttackSequence()" may return an empty ArrayList
         //in that case, quit and go back to level menu
