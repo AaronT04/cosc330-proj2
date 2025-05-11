@@ -62,7 +62,7 @@ public class LineAttack extends Attack {
 
     public static AttackInfo getInitializer(BaseAttackInfo atk_init, float hzInsetRatio) {
         ArrayList<AttackParameter> params = new ArrayList<>();
-        params.add(new AttackParameter("float", hzInsetRatio));
+        params.add(new AttackParameter("float", hzInsetRatio, "hzInsetRatio"));
         return new AttackInfo(AttackInfo.LINE_ATTACK, atk_init, params);
     }
 }

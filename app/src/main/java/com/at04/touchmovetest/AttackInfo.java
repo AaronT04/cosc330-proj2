@@ -18,4 +18,7 @@ public class AttackInfo implements Serializable {
         this.baseAttackInfo = baseAttackInfo;
         this.params = params;
     }
+    public AttackInfo copy() {
+        return new AttackInfo(attackType, baseAttackInfo, params);
+    }
 }

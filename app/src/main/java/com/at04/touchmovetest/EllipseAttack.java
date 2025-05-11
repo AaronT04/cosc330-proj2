@@ -19,8 +19,8 @@ public class EllipseAttack extends Attack{
     }
     public EllipseAttack(BaseAttackInfo atk_init, List<AttackParameter> params) {
         super(atk_init);
-        this.startLine = (Line)params.get(0).unwrap();
-        this.stopLine = (Line)params.get(1).unwrap();
+        this.startLine = AttackParameter.unflattenLine(params.subList(0, 4));
+        this.stopLine = AttackParameter.unflattenLine(params.subList(4, 8));
         bulletInfo = new BulletInfo(count);
     }
     @Override
@@ -84,8 +84,8 @@ public class EllipseAttack extends Attack{
 
     public static AttackInfo getInitializer(BaseAttackInfo atk_init, Line startLine, Line stopLine) {
         ArrayList<AttackParameter> params = new ArrayList<>();
-        params.add(new AttackParameter("Line", startLine));
-        params.add(new AttackParameter("Line", stopLine));
+        params.addAll(AttackParameter.flattenLine(startLine));
+        params.addAll(AttackParameter.flattenLine(stopLine));
         return new AttackInfo(AttackInfo.ELLIPSE_ATTACK, atk_init, params);
     }
 

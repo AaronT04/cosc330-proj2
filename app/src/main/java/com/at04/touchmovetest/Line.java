@@ -8,12 +8,21 @@ public class Line implements Serializable {
     public Range x;
     public Range y;
     public Line() {}
+
+    public Line(float x, float y) {
+        this.x = new Range(x, x);
+        this.y = new Range(y, y);
+    }
     public Line(Range x, float y) {
         this.x = x;
         this.y = new Range(y, y);
     }
     public Line(float x, Range y) {
         this.x = new Range(x, x);
+        this.y = y;
+    }
+    public Line(Range x, Range y) {
+        this.x = x;
         this.y = y;
     }
     public Point[] getSegmentPoints(int numSegments) {

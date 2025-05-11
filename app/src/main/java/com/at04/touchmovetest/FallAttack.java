@@ -165,8 +165,8 @@ public class FallAttack extends Attack {
 
     public static AttackInfo getInitializer(BaseAttackInfo baseAttackInfo, boolean wrapEnabled, int offsetYDir) {
         ArrayList<AttackParameter> params = new ArrayList<>();
-        params.add(new AttackParameter("boolean", wrapEnabled));
-        params.add(new AttackParameter("int", offsetYDir));
+        params.add(new AttackParameter("boolean", wrapEnabled, "wrapEnabled"));
+        params.add(new AttackParameter("int", offsetYDir, "offsetYDir"));
         return new AttackInfo(AttackInfo.FALL_ATTACK, baseAttackInfo, params);
     }
 

@@ -13,6 +13,11 @@ public class RootMenuFragment extends Fragment {
     public RootMenuFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        /*
+        CustomLevelTest.testmethod_add03todatabase();
+        CustomLevelTest.testmethod_addlinetesttodatabase();
+        CustomLevelTest.testmethod_addellipsetesttodatabase();
+        */
         return inflater.inflate(R.layout.fragment_rootmenu, container, false);
     }
     @Override

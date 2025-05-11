@@ -23,10 +23,18 @@ public class LevelStorage {
             };
     public static LevelInitializer getLevelInitializer(int levelID) {
         //used to test adding a level, before level editor is created
-        //testmethod_addlinetesttodatabase();
-        //testmethod_add03todatabase();
-        testmethod_addellipsetesttodatabase();
         return initializers[levelID % initializers.length];
+    }
+
+    public static void saveToDatabase(AttackInfoList atkInfoList, String levelName, String username, String id) {
+        CustomLevelListEntry newEntry = new CustomLevelListEntry();
+        newEntry.id = id;
+        newEntry.levelName = levelName;
+        newEntry.username = username;
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy  - hh:mm:ss a", Locale.getDefault());
+        newEntry.timestamp = sdf.format(new Date());
+        mDatabase.child("LevelEntries").child(newEntry.id).setValue(newEntry);
+        mDatabase.child("LevelContents").child(newEntry.id).setValue(atkInfoList);
     }
 
     static class Level00Initializer extends LevelInitializer {
@@ -117,68 +125,7 @@ public class LevelStorage {
             return main;
         }
     }
-    private static void testmethod_add03todatabase() {
-        AttackInfoList atkInfoList = new AttackInfoList();
 
-        BaseAttackInfo atk_init0 = new BaseAttackInfo(10, 5, 1);
-        atkInfoList.add(CircleAttack.getInitializer(atk_init0, 1f/2, -1f/2));
-        atkInfoList.add(CircleAttack.getInitializer(atk_init0, 1f/2, 1f/2));
-        atkInfoList.add(CircleAttack.getInitializer(atk_init0, 1f/3, 0f));
-        BaseAttackInfo simult_atk1 = new BaseAttackInfo(10, 2f, 0.001f);
-        atkInfoList.add(CircleAttack.getInitializer(simult_atk1, 1f/3, 0f));
-        atkInfoList.add(CircleAttack.getInitializer(simult_atk1, 1f/2, 0f));
-        atkInfoList.add(CircleAttack.getInitializer(simult_atk1, 1f/4, 0f));
-
-        CustomLevelListEntry newEntry = new CustomLevelListEntry();
-        newEntry.id = "1";
-        newEntry.levelName = "Level03 test";
-        newEntry.username = "Aaron";
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy  - hh:mm:ss a", Locale.getDefault());
-        newEntry.timestamp = sdf.format(new Date());
-
-        mDatabase.child("LevelEntries").child(newEntry.id).setValue(newEntry);
-        mDatabase.child("LevelContents").child(newEntry.id).setValue(atkInfoList);
-    }
-    private static void testmethod_addlinetesttodatabase() {
-        AttackInfoList atkInfoList = new AttackInfoList();
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(2, 5, 0.3f), 0));
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(3, 10, 0.3f), 0.1f));
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(2, 5, 0.3f), 0));
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(3, 10, 0.3f), 0.1f));
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(2, 5, 0.3f), 0));
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(3, 10, 0.3f), 0.1f));
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(2, 5, 0.3f), 0));
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(3, 10, 0.3f), 0.1f));
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(2, 5, 0.3f), 0));
-        atkInfoList.add(LineAttack.getInitializer(new BaseAttackInfo(3, 10, 0.3f), 0.1f));
-
-        atkInfoList.add(FallAttack.getInitializer(new BaseAttackInfo(2, 10, 0.5f),false, 1));
-        atkInfoList.add(FallAttack.getInitializer(new BaseAttackInfo(3, 15, 0.5f), false, -1));
-        CustomLevelListEntry newEntry = new CustomLevelListEntry();
-        newEntry.id = "0";
-        newEntry.levelName = "Line test";
-        newEntry.username = "Aaron";
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy  - hh:mm:ss a", Locale.getDefault());
-        newEntry.timestamp = sdf.format(new Date());
-
-        mDatabase.child("LevelEntries").child(newEntry.id).setValue(newEntry);
-        mDatabase.child("LevelContents").child(newEntry.id).setValue(atkInfoList);
-    }
-    private static void testmethod_addellipsetesttodatabase() {
-        AttackInfoList atkInfoList = new AttackInfoList();
-        atkInfoList.add(EllipseAttack.getInitializer(new BaseAttackInfo(3, 2, 0.1f),
-                new Line((float)(DisplaySize.screenWidth / 2) - 100, new Range(0, 0)),
-                new Line(new Range(0, (DisplaySize.screenWidth / 2) + 200), DisplaySize.screenHeight)));
-        CustomLevelListEntry newEntry = new CustomLevelListEntry();
-        newEntry.id = "2";
-        newEntry.levelName = "Ellipse test";
-        newEntry.username = "Aaron";
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy  - hh:mm:ss a", Locale.getDefault());
-        newEntry.timestamp = sdf.format(new Date());
-
-        mDatabase.child("LevelEntries").child(newEntry.id).setValue(newEntry);
-        mDatabase.child("LevelContents").child(newEntry.id).setValue(atkInfoList);
-    }
     public static AttackSequence createSequenceFromInfoList(AttackInfoList atkList) {
         AttackSequence main = new AttackSequence();
         if(atkList != null) {
@@ -193,4 +140,3 @@ public class LevelStorage {
         return main;
     }
 }
-
