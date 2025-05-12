@@ -62,7 +62,7 @@ public class EllipseAttack extends Attack{
     }
     private void checkBulletOffscreen(int i) {
         Bullet b = bullets.get(i);
-        if(b.pos.y > b.radius * 2 + DisplaySize.screenHeight) {
+        if(b.pos.y >=DisplaySize.screenHeight) {
             bulletInfo.removed[i] = true;
             b.unloadAndReset();
         }
