@@ -2,10 +2,9 @@ package com.at04.touchmovetest;
 
 /**
  * Used to count down time. <br/>
- * TODO: Currently, the timer must be updated manually. However, it could be made
+ * Currently, the timer must be updated manually. However, it could be made
  * an observer to GameLoop, or to a universal Clock class if timers are needed outside of a Level activity.
- * In addition, classes could implement a TimerListener interface to take action on a timer's completion,
- * or a Runnable object could be stored here to automatically run code when the timer completes.
+ * In addition, classes could implement a TimerListener interface to take action on a timer's completion.
  */
 public class CountdownTimer {
     private long length_ms;

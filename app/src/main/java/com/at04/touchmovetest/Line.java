@@ -10,8 +10,7 @@ public class Line implements Serializable {
     public Line() {}
 
     public Line(Point p) {
-        this.x = new Range(p.x, p.x);
-        this.y = new Range(p.y, p.y);
+        this(p.x, p.y);
     }
 
     public Line(Range x, float y) {
@@ -26,6 +25,12 @@ public class Line implements Serializable {
         this.x = x;
         this.y = y;
     }
+
+    public Line(float x, float y) {
+        this.x = new Range(x, x);
+        this.y = new Range(y, y);
+    }
+
     public Point[] getSegmentPoints(int numSegments) {
         Point[] segments = new Point[numSegments];
         for(int i = 0; i < numSegments; i++) {

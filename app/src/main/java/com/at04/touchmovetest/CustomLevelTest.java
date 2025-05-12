@@ -37,8 +37,8 @@ public class CustomLevelTest {
 
         atkInfoList.add(5, new AttackInfo[] {
                 EllipseAttack.getInitializer(new BaseAttackInfo(3, 2, 0.1f),
-                        new Line((float)(Screen.width / 2) - 100, new Range(0, 0)),
-                        new Line(new Range(0, (Screen.width / 2) + 200), Screen.height))});
+                        new Line((float)(Screen.middleX) - 100, new Range(0, 0)),
+                        new Line(new Range(0, (Screen.middleX) + 200), Screen.height))});
 
         LevelStorage.saveToDatabase(atkInfoList, "Ellipse test", "Aaron", "2");
     }

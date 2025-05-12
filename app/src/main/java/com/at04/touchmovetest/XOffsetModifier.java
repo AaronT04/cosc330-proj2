@@ -3,39 +3,43 @@ package com.at04.touchmovetest;
 /**
  * UNUSED:
  *          programmatically shift Attacks left and right across an AttackSequence.
- *          The logic in move() is wrong.
  */
 public class XOffsetModifier {
-    private final int magnitudeEach;
-    private final int numberOfSteps;
-    private int currentDir;
-    private int stepsTaken;
-    private boolean oscillate;
+    public static final int MIDDLE = 0;
+    public static final int LEFT = 1;
+    public static final int RIGHT = 2;
+    private final Range xRange;
+    private final int numSteps;
+    int curIdx;
+    int dir;
 
-    public XOffsetModifier(int totalWidth, int initialDirection, int numberOfSteps, int startIdx, boolean oscillate) {
-        this.magnitudeEach = totalWidth / numberOfSteps;
-        this.numberOfSteps = numberOfSteps;
-        this.oscillate = oscillate;
-        currentDir = initialDirection;
-        stepsTaken = startIdx;
+
+    public XOffsetModifier(Range xRange, int numSteps, int start, int dir) {
+        this.xRange = xRange;
+        this.numSteps = numSteps;
+        switch(start) {
+            case XOffsetModifier.MIDDLE:
+                curIdx = numSteps / 2;
+                break;
+            case XOffsetModifier.LEFT:
+                curIdx = 0;
+                break;
+            case XOffsetModifier.RIGHT:
+                curIdx = numSteps;
+                break;
+            default:
+                curIdx = 0;
+                break;
+        }
+        this.dir = (int)Math.copySign(1, dir);
     }
 
-    public float get(){
-                return currentDir * stepsTaken * magnitudeEach;
+    public float get() {
+        int calledIdx = curIdx;
+        curIdx += 1;
+        curIdx %= numSteps;
+        return xRange.getStep(calledIdx, numSteps, dir);
     }
-    public void move() {
-        if(oscillate) {
-            stepsTaken += currentDir;
-            if(Math.abs(stepsTaken) > numberOfSteps * 2) {
-                currentDir *= -1;
-                stepsTaken = numberOfSteps;
-            }
-        }
-        else {
-            stepsTaken += 1;
-            if (stepsTaken > numberOfSteps) {
-                stepsTaken = 0;
-            }
-        }
-    }
+
+
 }

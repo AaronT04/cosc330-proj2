@@ -115,25 +115,25 @@ public class LevelStorage {
             main.add(5, new Attack[] {
                     new EllipseAttack(
                             atk_init,
-                            new Line((float) Screen.width / 2 - 100, new Range(0, 0)),
-                            new Line(new Range(0, Screen.middleX - 200), Screen.height)
+                            new Line((float) Screen.middleX - 100, Screen.top),
+                            new Line(new Range(0, Screen.middleX - 200), Screen.bottom)
                     ),
                     new EllipseAttack(
                             atk_init,
-                            new Line((float) Screen.width / 2 - 100, new Range(0, 0)),
-                            new Line(new Range((Screen.middleX + 200), Screen.width), Screen.height)
+                            new Line((float) Screen.middleX - 100, Screen.top),
+                            new Line(new Range((Screen.middleX + 200), Screen.right), Screen.bottom)
                     ),
             });
             main.add(5, new Attack[] {
                     new EllipseAttack(
                             atk_init,
-                            new Line(0, new Range(0, 0)),
-                            new Line(new Range(200, Screen.width), Screen.height)
+                            new Line(Screen.left, Screen.top),
+                            new Line(new Range(200, Screen.right), Screen.bottom)
                     ),
                     new EllipseAttack(
                             atk_init,
-                            new Line((float) Screen.width - 200, new Range(0, 0)),
-                            new Line(new Range(0, Screen.width), Screen.height)
+                            new Line((float) Screen.right - 200, (float)Screen.bottom),
+                            new Line(Screen.xRange, Screen.bottom)
                     ),
             });
 
@@ -141,27 +141,18 @@ public class LevelStorage {
             main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.5f));
             main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.4f));
             main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.4f));
-            BaseAttackInfo atk_init3 = new BaseAttackInfo(5, 3f, 0.5f);
 
-            main.add(3, new Attack[] {new EllipseAttack(atk_init3,
-                    new Line(Screen.topMiddlePoint),
-                    new Line(Screen.xRange, Screen.bottom)),
-            new EllipseAttack(atk_init3,
-                    new Line(Screen.topMiddlePoint),
-                    new Line(Screen.xRange.add(-100), Screen.bottom)),
-            new EllipseAttack(atk_init3,
-                    new Line(Screen.topMiddlePoint),
-                    new Line(Screen.xRange.add(-200), Screen.bottom)),
-            new EllipseAttack(atk_init3,
-                    new Line(Screen.topMiddlePoint),
-                    new Line(Screen.xRange.add(200), Screen.bottom)),
-            new EllipseAttack(atk_init3,
-                    new Line(Screen.topMiddlePoint),
-                    new Line(Screen.xRange.add(100), Screen.bottom)),
-            new EllipseAttack(atk_init3,
-                    new Line(Screen.topMiddlePoint),
-                    new Line(Screen.xRange, Screen.bottom))},
-                    1.2f);
+            BaseAttackInfo atk_init3 = new BaseAttackInfo(5, 5f, 0.5f);
+
+
+            XOffsetModifier xmod = new XOffsetModifier(new Range(-300, 300), 4, XOffsetModifier.MIDDLE, -1);
+            for(int i = 0; i < 3; i++) {
+                 for(int j = 0; j < 6; j++) {
+                     main.add(new EllipseAttack(atk_init3,
+                             new Line(Screen.topMiddlePoint),
+                             new Line(Screen.xRange.add(xmod.get()), Screen.bottom)));
+                 }
+            }
 
             main.get(main.size() - 1).offsetSec = 1f;
             BaseAttackInfo atk_init2 = new BaseAttackInfo(3, 10f, 0.3f);
