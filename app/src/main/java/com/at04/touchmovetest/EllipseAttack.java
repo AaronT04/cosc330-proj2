@@ -40,18 +40,6 @@ public class EllipseAttack extends Attack{
         return copy;
     }
 
-    /**
-     * Unused method to programmatically shift Attacks left and right across an attackSequence
-     * in an oscillating pattern
-     * @param xOffset an XOffsetModifier object
-     */
-    @Override
-    public void setXOffset(XOffsetModifier xOffset) {
-        stopLine.x.min += xOffset.currentDir * xOffset.stepsTaken * xOffset.magnitudeEach;
-        stopLine.x.max += xOffset.currentDir * xOffset.stepsTaken * xOffset.magnitudeEach;
-        xOffset.takeOneStep();
-    }
-
     @Override
     protected void attackUpdate() {
         for(int i = 0; i < count; i++) {
@@ -83,7 +71,7 @@ public class EllipseAttack extends Attack{
     }
     private void checkBulletOffscreen(int i) {
         Bullet b = bullets.get(i);
-        if(b.pos.y > b.radius * 2 + DisplaySize.screenHeight) {
+        if(b.pos.y > b.radius * 2 + Screen.height) {
             bulletInfo.removed[i] = true;
             b.unloadAndReset();
         }

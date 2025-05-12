@@ -31,9 +31,9 @@ public class CircleAttack extends Attack{
     public CircleAttack(BaseAttackInfo atk_init, float inputRadius, float offsetCenter){
         super(atk_init);
         this.inputRadius = inputRadius; //stored to allow for copying
-        this.radius = DisplaySize.screenWidth * inputRadius;
+        this.radius = Screen.width * inputRadius;
         this.offsetCenter = offsetCenter;
-        centerScreen=(DisplaySize.screenWidth/2f)+((DisplaySize.screenWidth/2f) * offsetCenter);
+        centerScreen= (Screen.middleX)+ ((Screen.middleX /2f) * offsetCenter);
         startOffSet=0;
         clockWise=false;
         degreesBetween=2*PI/count;
@@ -42,9 +42,9 @@ public class CircleAttack extends Attack{
     public CircleAttack(BaseAttackInfo baseAttackInfo, List<AttackParameter> params) {
         super(baseAttackInfo);
         this.inputRadius = (float)params.get(0).unwrap();
-        this.radius = DisplaySize.screenWidth * inputRadius;
+        this.radius = Screen.width * inputRadius;
         this.offsetCenter = (float)params.get(1).unwrap();
-        centerScreen=(DisplaySize.screenWidth/2f)+((DisplaySize.screenWidth/2f) * offsetCenter);
+        centerScreen=(Screen.middleX)+((Screen.middleX /2f) * offsetCenter);
         startOffSet=0;
         clockWise=false;
         degreesBetween=2*PI/count;
@@ -70,10 +70,6 @@ public class CircleAttack extends Attack{
         return copy;
     }
 
-    @Override
-    public void setXOffset(XOffsetModifier xOffset) {
-
-    }
 
 
     @Override
@@ -113,12 +109,12 @@ public class CircleAttack extends Attack{
         float  xOffset=(float) (center-(radius*sin(degreesBetween*idx)));
         //xsin theta + ycostheta
         float  yOffset=(float) (radius-(radius*cos(degreesBetween*idx)));
-        yOffset -= DisplaySize.screenHeight / 2f;
+        yOffset -= Screen.height / 2f;
         return new Point(xOffset, yOffset);
     }
     public boolean checkOffscreen(int i) {
         Bullet b = bullets.get(i);
-        if (b.pos.y > (b.radius * 2) + DisplaySize.screenHeight) {
+        if (b.pos.y > (b.radius * 2) + Screen.bottom) {
             return true;
         }
         return false;

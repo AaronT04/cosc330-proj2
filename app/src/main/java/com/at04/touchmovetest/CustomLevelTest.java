@@ -1,9 +1,5 @@
 package com.at04.touchmovetest;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 /**
  * Used to add custom levels to the database before a LevelCreator activity has been made.
  * This is used to make sure that saving/loading levels to Firebase works properly.
@@ -41,8 +37,8 @@ public class CustomLevelTest {
 
         atkInfoList.add(5, new AttackInfo[] {
                 EllipseAttack.getInitializer(new BaseAttackInfo(3, 2, 0.1f),
-                        new Line((float)(DisplaySize.screenWidth / 2) - 100, new Range(0, 0)),
-                        new Line(new Range(0, (DisplaySize.screenWidth / 2) + 200), DisplaySize.screenHeight))});
+                        new Line((float)(Screen.width / 2) - 100, new Range(0, 0)),
+                        new Line(new Range(0, (Screen.width / 2) + 200), Screen.height))});
 
         LevelStorage.saveToDatabase(atkInfoList, "Ellipse test", "Aaron", "2");
     }

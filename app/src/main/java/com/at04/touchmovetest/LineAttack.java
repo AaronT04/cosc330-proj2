@@ -8,8 +8,8 @@ public class LineAttack extends Attack {
     private float hzInsetRatio;
     @Override
     public Point calcInitialPosition(int idx, int count) {
-        float hzInset = hzInsetRatio * (float)(DisplaySize.screenWidth - 200);
-        float offsetFromLeftPerIndex = ((float)(DisplaySize.screenWidth - 200) - (hzInset * 2)) / (count - 1);
+        float hzInset = hzInsetRatio * (float)(Screen.width - 200);
+        float offsetFromLeftPerIndex = ((float)(Screen.width - 200) - (hzInset * 2)) / (count - 1);
         return new Point(hzInset + offsetFromLeftPerIndex * idx, 0 - GameAssets.arrow.getHeight());
     }
 
@@ -47,7 +47,7 @@ public class LineAttack extends Attack {
     }
     public boolean checkOffscreen(int i) {
         Bullet b = bullets.get(i);
-        if (b.pos.y > (b.radius * 2) + DisplaySize.screenHeight) {
+        if (b.pos.y > (b.radius * 2) + Screen.height) {
             return true;
         }
         return false;
@@ -60,10 +60,6 @@ public class LineAttack extends Attack {
         return copy;
     }
 
-    @Override
-    public void setXOffset(XOffsetModifier xOffset) {
-
-    }
 
     public static AttackInfo getInitializer(BaseAttackInfo atk_init, float hzInsetRatio) {
         ArrayList<AttackParameter> params = new ArrayList<>();

@@ -24,4 +24,8 @@ public class Range implements Serializable {
             return max - (index * divide(numSegments));
         }
     }
+
+    public Range add(Number num) {
+        return new Range(this.min + (float)num, this.max + (float)num);
+    }
 }

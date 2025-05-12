@@ -2,28 +2,40 @@ package com.at04.touchmovetest;
 
 /**
  * UNUSED:
- *          programmatically shift Attacks left and right across an AttackSequence
+ *          programmatically shift Attacks left and right across an AttackSequence.
+ *          The logic in move() is wrong.
  */
 public class XOffsetModifier {
-    public int magnitudeEach;
-    public int initialDirection;
-    public int numberOfSteps;
-    public int currentDir;
-    public int stepsTaken;
+    private final int magnitudeEach;
+    private final int numberOfSteps;
+    private int currentDir;
+    private int stepsTaken;
+    private boolean oscillate;
 
-    public XOffsetModifier(int magnitudeEach, int initialDirection, int numberOfSteps) {
-        this.initialDirection = initialDirection;
-        this.magnitudeEach = magnitudeEach;
+    public XOffsetModifier(int totalWidth, int initialDirection, int numberOfSteps, int startIdx, boolean oscillate) {
+        this.magnitudeEach = totalWidth / numberOfSteps;
         this.numberOfSteps = numberOfSteps;
+        this.oscillate = oscillate;
         currentDir = initialDirection;
-        stepsTaken = numberOfSteps / 2;
+        stepsTaken = startIdx;
     }
 
-    public void takeOneStep(){
-        stepsTaken += 1;
-        if(stepsTaken > numberOfSteps) {
-            currentDir *= -1;
-            stepsTaken = 0;
+    public float get(){
+                return currentDir * stepsTaken * magnitudeEach;
+    }
+    public void move() {
+        if(oscillate) {
+            stepsTaken += currentDir;
+            if(Math.abs(stepsTaken) > numberOfSteps * 2) {
+                currentDir *= -1;
+                stepsTaken = numberOfSteps;
+            }
+        }
+        else {
+            stepsTaken += 1;
+            if (stepsTaken > numberOfSteps) {
+                stepsTaken = 0;
+            }
         }
     }
 }

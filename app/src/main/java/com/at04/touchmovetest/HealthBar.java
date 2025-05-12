@@ -28,7 +28,7 @@ public class HealthBar {
         this.hzInset = hzInset;
         this.vInset = vInset;
         this.height = height;
-        healthBarWidth = new Range(hzInset, DisplaySize.screenWidth - hzInset);
+        healthBarWidth = new Range(hzInset, Screen.width - hzInset);
         this.maxHitCount = maxHitCount;
         emptyPaint = new Paint();
         emptyPaint.setColor(Color.BLACK);
@@ -36,7 +36,7 @@ public class HealthBar {
         innerBounds = new RectF(
                 hzInset,
                 vInset,
-                DisplaySize.screenWidth - hzInset,
+                Screen.width - hzInset,
                 vInset + height
                 );
         drawArea = new RectF(innerBounds);

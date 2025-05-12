@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
@@ -26,10 +25,6 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
             new AnimatedColorFilter(0f,new Range(0.5f, 1f), new Range(1f, 0.5f),  10, 0.3f);
 
 
-    DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
-    final int screenWidth = displayMetrics.widthPixels;
-    final int screenHeight = displayMetrics.heightPixels;
-
     float oldX;
     float oldY;
 
@@ -46,10 +41,8 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
     }
 
     public void setInitialPosition() {
-        pos.x = DisplaySize.screenWidth / 2f - radius;
-        //DisplaySize.screenHeight actually sets you somewhat far below the edge of the screen
-        //-450 moves you back up to the bottom edge
-        pos.y = DisplaySize.screenHeight - 450 + radius * 2;
+        pos.x = Screen.middleX - radius;
+        pos.y = Screen.bottomVisible + radius * 2;
         centerX = pos.x + radius;
         centerY = pos.y + radius;
         oldX = pos.x;

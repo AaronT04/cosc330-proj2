@@ -9,10 +9,11 @@ public class Line implements Serializable {
     public Range y;
     public Line() {}
 
-    public Line(float x, float y) {
-        this.x = new Range(x, x);
-        this.y = new Range(y, y);
+    public Line(Point p) {
+        this.x = new Range(p.x, p.x);
+        this.y = new Range(p.y, p.y);
     }
+
     public Line(Range x, float y) {
         this.x = x;
         this.y = new Range(y, y);

@@ -1,7 +1,5 @@
 package com.at04.touchmovetest;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +69,8 @@ public class FallAttack extends Attack {
      * see offsetSizeX
      */
     public Point calcInitialPosition(int idx, int count) {
-        return new Point(idx * ((float)DisplaySize.screenWidth - 200) / count, 0 - GameAssets.pinkStar.getHeight());
+        float groupSize = (float) Screen.width - 200;
+        return new Point(idx * (groupSize / count), -GameAssets.pinkStar.getHeight());
     }
 
     /**
@@ -83,10 +82,6 @@ public class FallAttack extends Attack {
         this.playerPos = p;
     }
 
-    @Override
-    public void setXOffset(XOffsetModifier xOffset) {
-
-    }
 
     public void attackUpdate() {
         if(bullets != null) {
@@ -134,12 +129,12 @@ public class FallAttack extends Attack {
     private void checkOffscreenHorizontal(int i, Point pos, float radius) {
         int wrapDir = 0;
         //Check whether bullet is offscreen, and which direction
-        if(pos.x >  (radius * 2) + DisplaySize.screenWidth) {//if right edge was crossed
+        if(pos.x >  (radius * 2) + Screen.right) {//if right edge was crossed
             //Log.d("wrap", "hz1");
             wrapDir = 1;
             bulletInfo.wrapped[i] = true;
         }
-        else if(pos.x < 0 - (radius * 2) ) {//if left edge was crossed
+        else if(pos.x < Screen.left - (radius * 2) ) {//if left edge was crossed
             //Log.d("wrap", "hz-1");
             wrapDir = - 1;
             bulletInfo.wrapped[i] = true;
@@ -147,35 +142,35 @@ public class FallAttack extends Attack {
         //if wrap enabled, wrap around to other side
         if(wrapEnabled) {
             if(wrapDir == 1) {
-                pos.x = 0 - radius * 2; //set to left edge
+                pos.x = Screen.left - radius * 2; //set to left edge
             }
             else if(wrapDir == -1) {
-                pos.x = DisplaySize.screenWidth + radius * 2; //set to right edge
+                pos.x = Screen.right + radius * 2; //set to right edge
             }
         }
     }
     private void checkOffscreenVertical(int i, Point pos, float radius) {
         int wrapDir = 0;
 
-        if(pos.y >  (radius * 2) + DisplaySize.screenHeight) {
+        if(pos.y >  (radius * 2) + Screen.bottom) {
             //Log.d("wrap", "v1");
             bulletInfo.wrapped[i] = true;
             wrapDir = 1;
         }
-        else if(pos.y < 0 - (radius * 2) ) {
+        else if(pos.y < Screen.top - (radius * 2) ) {
             //Log.d("wrap", "v-1");
             //bulletInfo.wrapped[i] = true;
             wrapDir = -1;
         }
         if(wrapEnabled) {
-            if(wrapDir == 1) {
-                pos.y = 0 +
-                        (pos.y - (radius * 2 + DisplaySize.screenHeight))
+            if(wrapDir == 1) { //move to top edge
+                pos.y = Screen.top +
+                        (pos.y - (radius * 2 + Screen.bottom))
                         - radius * 2;
 
             }
-            else if(wrapDir == -1) {
-                pos.y = DisplaySize.screenHeight + radius * 2;
+            else if(wrapDir == -1) { //move to bottom edge
+                pos.y = Screen.bottom + radius * 2;
             }
         }
     }

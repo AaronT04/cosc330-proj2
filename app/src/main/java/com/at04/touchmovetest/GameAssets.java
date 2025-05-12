@@ -1,6 +1,5 @@
 package com.at04.touchmovetest;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,7 +22,7 @@ public class GameAssets {
         Bitmap pinkStar_ = BitmapFactory.decodeResource(res, R.drawable.pink_star);
         pinkStar = Bitmap.createScaledBitmap(pinkStar_, 100, 100, true);
         Bitmap bg_sky_ = BitmapFactory.decodeResource(res, R.drawable.bg_dark2);
-        bg_sky = Bitmap.createScaledBitmap(bg_sky_, DisplaySize.screenWidth, DisplaySize.screenHeight, true);
+        bg_sky = Bitmap.createScaledBitmap(bg_sky_, Screen.width, Screen.height, true);
         Bitmap arrow_ = BitmapFactory.decodeResource(res, R.drawable.arrow);
         arrow = Bitmap.createScaledBitmap(arrow_, 125, 175, true);
     }

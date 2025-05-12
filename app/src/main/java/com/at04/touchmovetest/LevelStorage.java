@@ -65,13 +65,13 @@ public class LevelStorage {
             for(int i = 0; i < sq.size(); i += 3) {
                 if(i % 2 == 0) {
                     sq.insert(i, new EllipseAttack(new BaseAttackInfo(5, 3f, 0.5f),
-                            new Line(DisplaySize.screenWidth, new Range(0, 500)),
-                            new Line(new Range(0, DisplaySize.screenWidth), DisplaySize.screenHeight)));
+                            new Line(Screen.width, new Range(0, 500)),
+                            new Line(new Range(0, Screen.width), Screen.height)));
                 }
                 else {
                     sq.insert(i, new EllipseAttack(new BaseAttackInfo(5, 3f, 0.5f),
                             new Line(0, new Range(0, 500)),
-                            new Line(new Range(0, DisplaySize.screenWidth), DisplaySize.screenHeight)));
+                            new Line(new Range(0, Screen.width), Screen.height)));
                 }
             }
             sq.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0));
@@ -111,52 +111,56 @@ public class LevelStorage {
         public AttackSequence getAttackSequence() {
             AttackSequence main = new AttackSequence();
             BaseAttackInfo atk_init = new BaseAttackInfo(3, 2f, 0.1f);
+
             main.add(5, new Attack[] {
                     new EllipseAttack(
                             atk_init,
-                            new Line((float)DisplaySize.screenWidth / 2 - 100, new Range(0, 0)),
-                            new Line(new Range(0, (DisplaySize.screenWidth / 2) - 200), DisplaySize.screenHeight)
+                            new Line((float) Screen.width / 2 - 100, new Range(0, 0)),
+                            new Line(new Range(0, Screen.middleX - 200), Screen.height)
                     ),
                     new EllipseAttack(
                             atk_init,
-                            new Line((float)DisplaySize.screenWidth / 2 - 100, new Range(0, 0)),
-                            new Line(new Range((DisplaySize.screenWidth / 2) + 200, DisplaySize.screenWidth), DisplaySize.screenHeight)
+                            new Line((float) Screen.width / 2 - 100, new Range(0, 0)),
+                            new Line(new Range((Screen.middleX + 200), Screen.width), Screen.height)
                     ),
             });
             main.add(5, new Attack[] {
                     new EllipseAttack(
                             atk_init,
                             new Line(0, new Range(0, 0)),
-                            new Line(new Range(200, DisplaySize.screenWidth), DisplaySize.screenHeight)
+                            new Line(new Range(200, Screen.width), Screen.height)
                     ),
                     new EllipseAttack(
                             atk_init,
-                            new Line((float)DisplaySize.screenWidth - 200, new Range(0, 0)),
-                            new Line(new Range(0,DisplaySize.screenWidth),DisplaySize.screenHeight)
+                            new Line((float) Screen.width - 200, new Range(0, 0)),
+                            new Line(new Range(0, Screen.width), Screen.height)
                     ),
             });
+
+
             main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.5f));
             main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.4f));
             main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.4f));
             BaseAttackInfo atk_init3 = new BaseAttackInfo(5, 3f, 0.5f);
+
             main.add(3, new Attack[] {new EllipseAttack(atk_init3,
-                    new Line(DisplaySize.screenWidth / 2, 0),
-                    new Line(new Range(0, DisplaySize.screenWidth), DisplaySize.screenHeight)),
+                    new Line(Screen.topMiddlePoint),
+                    new Line(Screen.xRange, Screen.bottom)),
             new EllipseAttack(atk_init3,
-                    new Line(DisplaySize.screenWidth / 2, 0),
-                    new Line(new Range(-100, DisplaySize.screenWidth - 100), DisplaySize.screenHeight)),
+                    new Line(Screen.topMiddlePoint),
+                    new Line(Screen.xRange.add(-100), Screen.bottom)),
             new EllipseAttack(atk_init3,
-                    new Line(DisplaySize.screenWidth / 2, 0),
-                    new Line(new Range(-200, DisplaySize.screenWidth - 200), DisplaySize.screenHeight)),
+                    new Line(Screen.topMiddlePoint),
+                    new Line(Screen.xRange.add(-200), Screen.bottom)),
             new EllipseAttack(atk_init3,
-                    new Line(DisplaySize.screenWidth / 2, 0),
-                    new Line(new Range(200, DisplaySize.screenWidth + 200), DisplaySize.screenHeight)),
+                    new Line(Screen.topMiddlePoint),
+                    new Line(Screen.xRange.add(200), Screen.bottom)),
             new EllipseAttack(atk_init3,
-                    new Line(DisplaySize.screenWidth / 2, 0),
-                    new Line(new Range(100, DisplaySize.screenWidth + 100), DisplaySize.screenHeight)),
+                    new Line(Screen.topMiddlePoint),
+                    new Line(Screen.xRange.add(100), Screen.bottom)),
             new EllipseAttack(atk_init3,
-                    new Line(DisplaySize.screenWidth / 2, 0),
-                    new Line(new Range(0, DisplaySize.screenWidth), DisplaySize.screenHeight))},
+                    new Line(Screen.topMiddlePoint),
+                    new Line(Screen.xRange, Screen.bottom))},
                     1.2f);
 
             main.get(main.size() - 1).offsetSec = 1f;
