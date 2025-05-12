@@ -9,6 +9,8 @@ import android.util.Log;
  * AttackSequences can also be combined together to form a larger sequence using polymorphic add() methods.
  */
 public class AttackSequence implements Serializable {
+    public static final int SPD_MODIFIER = 0;
+    public static final int X_OFF_MODIFIER = 1;
     private ArrayList<Attack> sequence;
     private boolean looped = false;
     public float initOffset = 0;
@@ -22,6 +24,9 @@ public class AttackSequence implements Serializable {
     public void add(Attack a) {
         sequence.add(a);
     }
+    public void insert(int i, Attack a) {
+        sequence.add(i, a);
+    }
     public void add(int repeat, Attack[] atks) {
         for(int i = 0; i < repeat; i++) {
             for(int j = 0; j < atks.length; j++) {
@@ -31,6 +36,20 @@ public class AttackSequence implements Serializable {
                 }
                 add(newAttack);
             }
+        }
+    }
+    public void add(int repeat, Attack[] atks, float spdMultiplier) {
+        float spdFactor = 1f;
+        for(int i = 0; i < repeat; i++) {
+            for(int j = 0; j < atks.length; j++) {
+                Attack newAttack = atks[j].copy();
+                if(j == 0 && initOffset != 0) {
+                    newAttack.setInitialOffset(initOffset);
+                }
+                newAttack.multiplySpeed(spdFactor);
+                add(newAttack);
+            }
+            spdFactor *= spdMultiplier;
         }
     }
 

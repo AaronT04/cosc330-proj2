@@ -10,9 +10,24 @@ import java.util.List;
  */
 public class FallAttack extends Attack {
     private final BulletInfo bulletInfo;
+    /**
+     * If wrapEnabled is true, the bullets will appear back at the top of the screen once they cross
+     * the bottom edge. Currently, there is no way to end the attack if this option is enabled.
+     * A solution would be to have a set number of screen wraps that can take place,
+     * after which the attack is ended.
+     */
     private final boolean wrapEnabled;
+    /**
+     * Sets the width of the bullet group
+     */
     private static final int offsetSizeX = 500;
+    /**
+     * Sets the height of the bullet group
+     */
     private static final int offsetSizeY = 200;
+    /**
+     * Sets the diagonal tilt direction of the bullet group when it is initialized.
+     */
     private final int offsetYDir;
     private Point playerPos;
     public FallAttack(BaseAttackInfo atk_init, boolean wrapEnabled, int offsetYDir) {
@@ -68,6 +83,11 @@ public class FallAttack extends Attack {
         this.playerPos = p;
     }
 
+    @Override
+    public void setXOffset(XOffsetModifier xOffset) {
+
+    }
+
     public void attackUpdate() {
         if(bullets != null) {
             for(int i = 0; i < bullets.size(); i++) {
@@ -96,7 +116,7 @@ public class FallAttack extends Attack {
         Bullet b = bullets.get(i);
         checkOffscreenHorizontal(i, b.pos, b.radius);
         checkOffscreenVertical(i, b.pos, b.radius);
-        if (bulletInfo.wrapped[i]) {
+        if (bulletInfo.wrapped[i]) {    //If the bullet has exited the screen
             if (wrapEnabled) {
                 setAngleToTarget(i);
                 bulletInfo.wrapped[i] = false;
@@ -106,21 +126,20 @@ public class FallAttack extends Attack {
         }
 
         if (bulletInfo.removed[i]) {
-            Log.d("unloaded", String.valueOf(i));
+            //Log.d("unloaded", String.valueOf(i));
             b.unloadAndReset();
-            //bullets.remove(i);
         }
     }
 
     private void checkOffscreenHorizontal(int i, Point pos, float radius) {
         int wrapDir = 0;
         //Check whether bullet is offscreen, and which direction
-        if(pos.x >  (radius * 2) + DisplaySize.screenWidth) {
+        if(pos.x >  (radius * 2) + DisplaySize.screenWidth) {//if right edge was crossed
             //Log.d("wrap", "hz1");
             wrapDir = 1;
             bulletInfo.wrapped[i] = true;
         }
-        else if(pos.x < 0 - (radius * 2) ) {
+        else if(pos.x < 0 - (radius * 2) ) {//if left edge was crossed
             //Log.d("wrap", "hz-1");
             wrapDir = - 1;
             bulletInfo.wrapped[i] = true;
@@ -128,10 +147,10 @@ public class FallAttack extends Attack {
         //if wrap enabled, wrap around to other side
         if(wrapEnabled) {
             if(wrapDir == 1) {
-                pos.x = 0 - radius * 2;
+                pos.x = 0 - radius * 2; //set to left edge
             }
             else if(wrapDir == -1) {
-                pos.x = DisplaySize.screenWidth + radius * 2;
+                pos.x = DisplaySize.screenWidth + radius * 2; //set to right edge
             }
         }
     }
@@ -181,6 +200,10 @@ public class FallAttack extends Attack {
         return new AttackInfo(AttackInfo.FALL_ATTACK, baseAttackInfo, params);
     }
 
+    /**
+     * Stores additional attack-specific information for each bullet without requiring the bullets
+     * themselves to store it.
+     */
     static class BulletInfo {
         boolean[] wrapped;
         float[] offsetAmtX;

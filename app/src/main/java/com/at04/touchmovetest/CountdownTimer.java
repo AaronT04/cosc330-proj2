@@ -8,7 +8,7 @@ package com.at04.touchmovetest;
  * or a Runnable object could be stored here to automatically run code when the timer completes.
  */
 public class CountdownTimer {
-    private static long length_ms;
+    private long length_ms;
     private long time_ms;
     private boolean timerActive = false;
 

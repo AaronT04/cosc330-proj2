@@ -60,6 +60,11 @@ public class LineAttack extends Attack {
         return copy;
     }
 
+    @Override
+    public void setXOffset(XOffsetModifier xOffset) {
+
+    }
+
     public static AttackInfo getInitializer(BaseAttackInfo atk_init, float hzInsetRatio) {
         ArrayList<AttackParameter> params = new ArrayList<>();
         params.add(new AttackParameter("float", hzInsetRatio, "hzInsetRatio"));

@@ -3,6 +3,7 @@ import static com.at04.touchmovetest.GameLoop.FPS;
 
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
+import android.util.Log;
 
 public class GameModel {
     public Player player;

@@ -5,6 +5,7 @@ import static com.at04.touchmovetest.GameLoop.dt_sec;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,7 +23,7 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
     private CountdownTimer invincibilityTimer;
 
     private AnimatedColorFilter hitAnimation =
-            new AnimatedColorFilter(0f,new Range(0.5f, 1), new Range(1f, 1f),  10, 0.3f);
+            new AnimatedColorFilter(0f,new Range(0.5f, 1f), new Range(1f, 0.5f),  10, 0.3f);
 
 
     DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
@@ -45,8 +46,10 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
     }
 
     public void setInitialPosition() {
-        pos.x = screenWidth / 2 - radius;
-        pos.y = screenHeight - 450 + radius * 2;
+        pos.x = DisplaySize.screenWidth / 2f - radius;
+        //DisplaySize.screenHeight actually sets you somewhat far below the edge of the screen
+        //-450 moves you back up to the bottom edge
+        pos.y = DisplaySize.screenHeight - 450 + radius * 2;
         centerX = pos.x + radius;
         centerY = pos.y + radius;
         oldX = pos.x;
@@ -115,21 +118,27 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
 
     @Override
     public void draw(Canvas canvas) {
-        if(invincibilityTimer.isActive()) { //Play the hit animation
-
-            sprite.paint.setAlpha(5); //Make the sprite transparent
-            //Update color using hitAnimation
-            sprite.paint.setColorFilter(hitAnimation.getColor(invincibilityTimer));
-            //9/10 of frames, the sprite is opaque. Otherwise, mostly transparent
-            if(invincibilityTimer.getTimeElapsed() % 100 < 90) {
-                sprite.paint.setAlpha(255); //Make the sprite opaque
-            }
+        if(invincibilityTimer.isActive()) {
+            applyHitAnimation(sprite.paint);
         }
         else {
-            sprite.paint.setAlpha(255);
-            sprite.paint.setColorFilter(null);
+           setUnmodified(sprite.paint);
         }
         super.draw(canvas);
+    }
+
+    private void setUnmodified(Paint p) {
+        p.setAlpha(255);
+        p.setColorFilter(null);
+    }
+    private void applyHitAnimation(Paint p) {
+        p.setAlpha(5); //Make the sprite transparent
+        //Update color using hitAnimation
+        p.setColorFilter(hitAnimation.getColor(invincibilityTimer));
+        //Flicker for 10% of frames
+        if(invincibilityTimer.getTimeElapsed() % 100 < 90) {
+            p.setAlpha(255); //Make the sprite opaque
+        }
     }
 
     private boolean checkIfTouched(float touchX, float touchY) {

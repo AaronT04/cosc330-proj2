@@ -70,6 +70,10 @@ public class CircleAttack extends Attack{
         return copy;
     }
 
+    @Override
+    public void setXOffset(XOffsetModifier xOffset) {
+
+    }
 
 
     @Override

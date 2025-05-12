@@ -57,11 +57,33 @@ public class LevelStorage {
         @Override
         public AttackSequence getAttackSequence() {
             AttackSequence sq = new AttackSequence();
-            BaseAttackInfo atk_init01 = new BaseAttackInfo(30, 5f, 0.3f);
+            BaseAttackInfo atk_init01 = new BaseAttackInfo(10, 5f, 0.3f);
             sq.add(7, new Attack[] {
                     new FallAttack(atk_init01, false, 1),
                     new FallAttack(atk_init01, false, -1)
             });
+            for(int i = 0; i < sq.size(); i += 3) {
+                if(i % 2 == 0) {
+                    sq.insert(i, new EllipseAttack(new BaseAttackInfo(5, 3f, 0.5f),
+                            new Line(DisplaySize.screenWidth, new Range(0, 500)),
+                            new Line(new Range(0, DisplaySize.screenWidth), DisplaySize.screenHeight)));
+                }
+                else {
+                    sq.insert(i, new EllipseAttack(new BaseAttackInfo(5, 3f, 0.5f),
+                            new Line(0, new Range(0, 500)),
+                            new Line(new Range(0, DisplaySize.screenWidth), DisplaySize.screenHeight)));
+                }
+            }
+            sq.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0));
+            sq.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0));
+            BaseAttackInfo atk_init02 = new BaseAttackInfo(10, 10f, 0.5f);
+            BaseAttackInfo atk_init03 = new BaseAttackInfo(2, 20f, 0.01f);
+            sq.add(7, new Attack[] {
+                    new LineAttack(atk_init03, 0),
+                    new FallAttack(atk_init02, false, 1),
+                    new LineAttack(atk_init03, 0),
+                    new FallAttack(atk_init02, false, -1)});
+
             return sq;
         }
     }
@@ -87,9 +109,9 @@ public class LevelStorage {
     static class Level02Initializer extends LevelInitializer {
         @Override
         public AttackSequence getAttackSequence() {
-            AttackSequence seq = new AttackSequence();
+            AttackSequence main = new AttackSequence();
             BaseAttackInfo atk_init = new BaseAttackInfo(3, 2f, 0.1f);
-            seq.add(5, new Attack[] {
+            main.add(5, new Attack[] {
                     new EllipseAttack(
                             atk_init,
                             new Line((float)DisplaySize.screenWidth / 2 - 100, new Range(0, 0)),
@@ -101,7 +123,7 @@ public class LevelStorage {
                             new Line(new Range((DisplaySize.screenWidth / 2) + 200, DisplaySize.screenWidth), DisplaySize.screenHeight)
                     ),
             });
-            seq.add(5, new Attack[] {
+            main.add(5, new Attack[] {
                     new EllipseAttack(
                             atk_init,
                             new Line(0, new Range(0, 0)),
@@ -113,7 +135,63 @@ public class LevelStorage {
                             new Line(new Range(0,DisplaySize.screenWidth),DisplaySize.screenHeight)
                     ),
             });
-            return seq;
+            main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.5f));
+            main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.4f));
+            main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.4f));
+            BaseAttackInfo atk_init3 = new BaseAttackInfo(5, 3f, 0.5f);
+            main.add(3, new Attack[] {new EllipseAttack(atk_init3,
+                    new Line(DisplaySize.screenWidth / 2, 0),
+                    new Line(new Range(0, DisplaySize.screenWidth), DisplaySize.screenHeight)),
+            new EllipseAttack(atk_init3,
+                    new Line(DisplaySize.screenWidth / 2, 0),
+                    new Line(new Range(-100, DisplaySize.screenWidth - 100), DisplaySize.screenHeight)),
+            new EllipseAttack(atk_init3,
+                    new Line(DisplaySize.screenWidth / 2, 0),
+                    new Line(new Range(-200, DisplaySize.screenWidth - 200), DisplaySize.screenHeight)),
+            new EllipseAttack(atk_init3,
+                    new Line(DisplaySize.screenWidth / 2, 0),
+                    new Line(new Range(200, DisplaySize.screenWidth + 200), DisplaySize.screenHeight)),
+            new EllipseAttack(atk_init3,
+                    new Line(DisplaySize.screenWidth / 2, 0),
+                    new Line(new Range(100, DisplaySize.screenWidth + 100), DisplaySize.screenHeight)),
+            new EllipseAttack(atk_init3,
+                    new Line(DisplaySize.screenWidth / 2, 0),
+                    new Line(new Range(0, DisplaySize.screenWidth), DisplaySize.screenHeight))},
+                    1.2f);
+
+            main.get(main.size() - 1).offsetSec = 1f;
+            BaseAttackInfo atk_init2 = new BaseAttackInfo(3, 10f, 0.3f);
+            main.add(3, new Attack[] {
+                    new LineAttack(atk_init2, 0),
+                    new LineAttack(atk_init2, 0.1f),
+                    new LineAttack(atk_init2, 0.2f),
+                    new LineAttack(atk_init2, 0.4f),
+                    new LineAttack(atk_init2, 0.8f),
+                    new FallAttack(atk_init2, false, -1),
+                    new LineAttack(atk_init2, 0.8f),
+                    new LineAttack(atk_init2, 0.4f),
+                    new LineAttack(atk_init2, 0.2f),
+                    new LineAttack(atk_init2, 0.1f)
+            },
+                    1.2f);
+            AttackSequence seq2 = new AttackSequence();
+            BaseAttackInfo atk_init1 = new BaseAttackInfo(15, 5f, 1f);
+            seq2.add(new CircleAttack(atk_init1, 1f/2, -3f/3));
+            seq2.add(new CircleAttack(atk_init1, 1f/2, -2f/3));
+            seq2.add(new CircleAttack(atk_init1, 1f/2, -1f/3));
+            seq2.add(new LineAttack(new BaseAttackInfo(2, 10, 0.01f), 0.3f));
+            seq2.add(new CircleAttack(atk_init1, 1f/2, 0));
+            seq2.add(new LineAttack(new BaseAttackInfo(2, 10, 0.01f), 0.2f));
+            seq2.add(new CircleAttack(atk_init1, 1f/2, 1f/6));
+            seq2.add(new CircleAttack(atk_init1, 1f/2, 2f/6));
+            seq2.add(new LineAttack(new BaseAttackInfo(4, 10, 0.01f), 0));
+            seq2.add(new CircleAttack(atk_init1, 1f/2, 3f/6));
+            seq2.add(new CircleAttack(atk_init1, 1f/2, 4f/6));
+            seq2.add(new CircleAttack(atk_init1, 1f/2, 5f/6));
+            seq2.add(new LineAttack(new BaseAttackInfo(2, 10, 0.01f), 0.2f));
+
+            main.add(1, new AttackSequence[] {seq2});
+            return main;
         }
     }
     static class Level03Initializer extends LevelInitializer {

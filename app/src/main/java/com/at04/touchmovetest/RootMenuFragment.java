@@ -18,7 +18,9 @@ import androidx.fragment.app.Fragment;
 
 public class RootMenuFragment extends Fragment {
     ImageButton demoLevelsButton;
+    TextView demoLevelsTextView;
     ImageButton customLevelsButton;
+    TextView customLevelsTextView;
     FrameLayout customLevelsExpandSection;
     Button createButton;
     Button playButton;

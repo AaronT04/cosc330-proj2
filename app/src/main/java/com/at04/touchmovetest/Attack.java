@@ -78,6 +78,10 @@ public abstract class Attack implements Serializable {
     public void registerPlayerPosition(Point p) {
         //ignored by default
     }
+    public void multiplySpeed(float spdMult) {
+        this.spd *= spdMult;
+    }
+    public abstract void setXOffset(XOffsetModifier xOffset);
     public void setInitialOffset(float initOff) {
         this.initialOffset = initOff;
         initialTimer = new CountdownTimer((long) (initialOffset * 1000));

@@ -20,11 +20,9 @@ public class GameAssets {
     public static void init(Resources res) {
         Bitmap playerSprite_ = BitmapFactory.decodeResource(res, R.drawable.head);
         playerSprite = Bitmap.createScaledBitmap(playerSprite_, 125, 125, true);
-        shruikenA = BitmapFactory.decodeResource(res, R.drawable.spike_thingy);
-        shruikenB = BitmapFactory.decodeResource(res, R.drawable.another_spike);
         Bitmap pinkStar_ = BitmapFactory.decodeResource(res, R.drawable.pink_star);
         pinkStar = Bitmap.createScaledBitmap(pinkStar_, 100, 100, true);
-        Bitmap bg_sky_ = BitmapFactory.decodeResource(res, R.drawable.bg_sky_blur);
+        Bitmap bg_sky_ = BitmapFactory.decodeResource(res, R.drawable.bg_dark2);
         bg_sky = Bitmap.createScaledBitmap(bg_sky_, DisplaySize.screenWidth, DisplaySize.screenHeight, true);
         Bitmap arrow_ = BitmapFactory.decodeResource(res, R.drawable.arrow);
         arrow = Bitmap.createScaledBitmap(arrow_, 125, 175, true);
