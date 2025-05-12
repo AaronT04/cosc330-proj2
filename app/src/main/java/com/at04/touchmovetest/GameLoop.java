@@ -44,16 +44,24 @@ public class GameLoop extends Thread {
         running = b;
     }
 
+    public static void registerTimer(CountdownTimer timer) {
+        timers.add(timer);
+    }
+    public static void updateTimers() {
+        for(int i = 0; i < timers.size(); i++) {
+            timers.get(i).updateTimeElapsed((long) (GameLoop.dt_sec * 1000));
+        }
+    }
+
 
     public void run() {
         while(running) {
             startTime = System.currentTimeMillis();
-            //profileTimer.start();
+
+            updateTimers();
             model.update();
-            //profileTimer.debugStop("game Logic");
-            //profileTimer.start();
             draw();
-            //profileTimer.debugStop("draw()");
+
 
             long time_elapsed = System.currentTimeMillis() - startTime;
             sleepTime = ticksPS - time_elapsed;

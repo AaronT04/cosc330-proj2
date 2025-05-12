@@ -10,18 +10,24 @@ public class CountdownTimer {
     private long length_ms;
     private long time_ms;
     private boolean timerActive = false;
+    private boolean isOver = false;
 
     public CountdownTimer(long length) {
+        GameLoop.registerTimer(this);
         length_ms = length;
         time_ms = length;
     }
 
     public void reset() {
-        timerActive = false;
+        isOver = false;
         time_ms = length_ms;
     }
+
+    public void stop() {
+        timerActive = false;
+    }
     public void startTimer() {
-        time_ms = length_ms;
+        reset();
         timerActive = true;
     }
 
@@ -29,7 +35,8 @@ public class CountdownTimer {
         if(timerActive) {
             time_ms -= time_elapsed;
             if(time_ms <= 0) {
-                timerActive = false;
+                stop();
+                isOver = true;
             }
         }
         else {
@@ -48,6 +55,7 @@ public class CountdownTimer {
     public boolean isActive() {
         return timerActive;
     }
+    public boolean isOver() {return isOver;}
     public String toString() {
         return Long.toString(time_ms);
     }

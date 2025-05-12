@@ -79,9 +79,11 @@ public class EllipseAttack extends Attack{
 
     @Override
     protected void initialize() {
+        super.initialize();
         Point[] startLinePoints = startLine.getSegmentPoints(count);
         Point[] stopLinePoints = stopLine.getSegmentPoints(count);
         for(int i = 0; i < count; i++) {
+
             origin = new Point(startLinePoints[0].x, stopLinePoints[0].y);
             bulletInfo.hRadius[i] = stopLinePoints[i].x - startLinePoints[i].x;
             bulletInfo.vRadius[i] = stopLinePoints[i].y - startLinePoints[i].y;

@@ -43,6 +43,7 @@ public class FallAttack extends Attack {
     }
 
     public void initialize() {
+        super.initialize();
         for(int i = 0; i < count; i++) {
             //setup Bullet and BulletInfo fields based on index
             Point p = calcInitialPosition(i, count);

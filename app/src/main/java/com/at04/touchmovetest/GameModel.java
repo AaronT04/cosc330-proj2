@@ -16,7 +16,7 @@ public class GameModel {
     public static final long hitbuffer_ms = 500;
     public int playerHealth;
     public int hitCount = 6;
-    private CountdownTimer invincibilityTimer = new CountdownTimer(hitbuffer_ms);
+    private final CountdownTimer invincibilityTimer = new CountdownTimer(hitbuffer_ms);
 
     public GameModel(Level l) {
         this.context = l;
@@ -91,7 +91,7 @@ public class GameModel {
      * It only reduces the hit count (health) if the hitTimer (invincibility frames) is not active
      */
     public void handleCollision() {
-        invincibilityTimer.updateTimeElapsed((1000 / FPS));
+        //invincibilityTimer.updateTimeElapsed((1000 / FPS));
         boolean collision = checkCollision();
         if(collision) {
             //Log.d("Collision", "HitsLeft: " + hitsLeft);

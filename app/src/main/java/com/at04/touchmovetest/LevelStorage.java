@@ -125,18 +125,20 @@ public class LevelStorage {
                     ),
             });
             main.add(5, new Attack[] {
+
                     new EllipseAttack(
                             atk_init,
                             new Line(Screen.left, Screen.top),
                             new Line(new Range(200, Screen.right), Screen.bottom)
                     ),
+
                     new EllipseAttack(
                             atk_init,
-                            new Line((float) Screen.right - 200, (float)Screen.bottom),
+                            new Line((float) Screen.right - 200, (float)Screen.top),
                             new Line(Screen.xRange, Screen.bottom)
                     ),
-            });
 
+            });
 
             main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.5f));
             main.add(new LineAttack(new BaseAttackInfo(2, 10f, 1f), 0.4f));

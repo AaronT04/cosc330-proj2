@@ -45,16 +45,22 @@ public abstract class Attack implements Serializable {
         this.offsetSec = atk_init.offsetSec;
         if(offsetSec > 0) {
             nextTimer = new CountdownTimer((long) (offsetSec * 1000));
-            nextTimer.startTimer();
+
         }
         bullets = new ArrayList<>();
+    }
+
+    protected void initialize() {
+        if(initialTimer != null)
+            initialTimer.startTimer();
+        nextTimer.startTimer();
     }
 
     public void update() {
         if(initialTimer == null) {      //The attack has been started
             if (nextTimer != null) {    //The next attack has not been triggered yet
-                nextTimer.updateTimeElapsed((long) (GameLoop.dt_sec * 1000));
-                if (!nextTimer.isActive()) { //If the nextTimer has expired
+                //nextTimer.updateTimeElapsed((long) (GameLoop.dt_sec * 1000));
+                if (nextTimer.isOver()) { //If the nextTimer has expired
                     attackManager.loadNextAttack();
                     nextTimer = null;
                 }
@@ -62,8 +68,8 @@ public abstract class Attack implements Serializable {
             attackUpdate();
         }
         else { //If there is an initial offset
-            initialTimer.updateTimeElapsed((long) (GameLoop.dt_sec * 1000));
-            if (!initialTimer.isActive()) { //If the initial offset timer is over
+            //initialTimer.updateTimeElapsed((long) (GameLoop.dt_sec * 1000));
+            if (initialTimer.isOver()) { //If the initial offset timer is over
                 initialTimer = null;
                 if(nextTimer != null) //If this is not the last attack
                     nextTimer.startTimer();
@@ -84,11 +90,12 @@ public abstract class Attack implements Serializable {
     public void setInitialOffset(float initOff) {
         this.initialOffset = initOff;
         initialTimer = new CountdownTimer((long) (initialOffset * 1000));
-        initialTimer.startTimer();
         //nextTimer == null if offsetSec was set to 0 in the constructor
         //(meaning this is the last or only attack)
-        if(nextTimer != null)
+        if(nextTimer != null) {
+            nextTimer.stop();
             nextTimer.reset();
+        }
     }
 
     /**
@@ -110,7 +117,6 @@ public abstract class Attack implements Serializable {
         return null;
     }
     protected abstract void attackUpdate();
-    protected abstract void initialize();
     public abstract Point calcInitialPosition(int idx, int count);
 
 }

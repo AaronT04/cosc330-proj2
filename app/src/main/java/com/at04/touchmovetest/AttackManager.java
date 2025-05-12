@@ -44,9 +44,6 @@ public class AttackManager {
         for(int i = 0; i < sequence.size(); i++) {
             sequence.get(i).registerAttackManager(this);
         }
-        //sequence.get(0).setInitialOffset(sequence.initOffset);
-        //Log.d("sequence.initOffset", String.valueOf(sequence.initOffset));
-        //Log.d("sequence[0] offset", String.valueOf(sequence.get(0).initialOffset));
         activeAttacks.add(sequence.get(0));
     }
 
@@ -112,5 +109,6 @@ public class AttackManager {
         if(readyToEnd && activeAttacks.isEmpty()) {
             model.context.end();
         }
+        Log.d("Active attacks: ", String.valueOf(activeAttacks.size()));
     }
 }

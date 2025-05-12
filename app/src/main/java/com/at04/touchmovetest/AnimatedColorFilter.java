@@ -36,7 +36,7 @@ public class AnimatedColorFilter {
     }
 
     public LightingColorFilter getColor(CountdownTimer timer) {
-        if(timer.isActive()) {
+        if(!timer.isOver()) {
             curIdx = (int)Math.floor(timer.getTimeElapsed() / timePerSwitchMs);
             return colorFilters[curIdx % colorFilters.length];
         }

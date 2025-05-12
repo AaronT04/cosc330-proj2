@@ -95,6 +95,7 @@ public class CircleAttack extends Attack{
 
     @Override
     protected void initialize() {
+        super.initialize();
         for(int i = 0; i < count; i++) {
             Point p = calcInitialPosition(i, count);
             Bullet b = AttackManager.initializeBullet(GameAssets.pinkStar, p, spd, (float)Math.toRadians(90));

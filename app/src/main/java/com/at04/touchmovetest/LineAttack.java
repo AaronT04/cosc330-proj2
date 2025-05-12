@@ -22,6 +22,7 @@ public class LineAttack extends Attack {
         this.hzInsetRatio = (float)params.get(0).unwrap();
     }
     public void initialize() {
+        super.initialize();
         for(int i = 0; i < count; i++) {
             Point p = calcInitialPosition(i, count);
             Bullet b = AttackManager.initializeBullet(GameAssets.arrow, p, spd, (float)Math.toRadians(90));
