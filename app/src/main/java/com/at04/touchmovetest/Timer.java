@@ -2,6 +2,9 @@ package com.at04.touchmovetest;
 
 import android.util.Log;
 
+/**
+ * A timer that just counts up instead of counting down. So far, only used for the profileTimers
+ */
 public class Timer {
     private long start_time;
     private boolean running = false;

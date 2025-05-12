@@ -9,6 +9,9 @@ import android.os.StrictMode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Basic activity for all Levels.
+ */
 public class Level extends AppCompatActivity {
 
     GameModel gameModel;
@@ -27,11 +30,14 @@ public class Level extends AppCompatActivity {
         levelID = getIntent().getIntExtra("LEVEL_ID", 0);
         levelType = getIntent().getStringExtra("LEVEL_TYPE");
 
-        if(levelType.equals("remote")) {
+        if(levelType.equals("remote")) { //Custom Level
+            //Custom Levels are initialized via "AttackInfoList"
             AttackInfoList atkList = (AttackInfoList)getIntent().getSerializableExtra("ATK_LIST");
             gameModel = new GameModel(this, atkList);
         }
-        else {
+        else { //Local/Demo level
+            //Demo levels are initialized via LevelInitializers in LevelStorage
+            //TODO: Load different types of levels (custom/local) in the same way
             gameModel = new GameModel(this);
         }
 

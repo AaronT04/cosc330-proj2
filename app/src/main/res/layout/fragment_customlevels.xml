@@ -6,5 +6,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listview_custom_levels"/>
+    <FrameLayout
+        android:id="@+id/loading_overlay"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#41C1C1C1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/new_rodin_pro_light"
+            android:textColor="@color/white"
+            android:text="Connecting..."/>
+    </FrameLayout>
 
 </RelativeLayout>

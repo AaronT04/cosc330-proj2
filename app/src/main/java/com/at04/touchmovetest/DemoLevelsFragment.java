@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
+/**
+ * Menu fragment for the list of demo levels.
+ */
 public class DemoLevelsFragment extends Fragment {
     ImageButton button00;
     ImageButton button01;

@@ -3,11 +3,19 @@ package com.at04.touchmovetest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Each bullet moves on its own specific ellipse-shaped path.
+ */
 public class EllipseAttack extends Attack{
 
     private Line startLine;
     private Line stopLine;
     private BulletInfo bulletInfo;
+    /**
+     * "t" used in a parametric equation to set bullet positions.
+     * "t" is the same for all bullets at a given time, but their position will be controlled differently
+     * depending on their horizontal and vertical radius. (bulletInfo.hRadius, bulletInfo.vRadius)
+     */
     private float t_param = (float)Math.toRadians(-90);
     private Point origin;
 
@@ -19,8 +27,9 @@ public class EllipseAttack extends Attack{
     }
     public EllipseAttack(BaseAttackInfo atk_init, List<AttackParameter> params) {
         super(atk_init);
-        this.startLine = AttackParameter.unflattenLine(params.subList(0, 4));
-        this.stopLine = AttackParameter.unflattenLine(params.subList(4, 8));
+        //in Firebase, Lines are stored as 4 numbers
+        this.startLine = AttackParameter.packNumbersToLine(params.subList(0, 4));
+        this.stopLine = AttackParameter.packNumbersToLine(params.subList(4, 8));
         bulletInfo = new BulletInfo(count);
     }
     @Override
@@ -42,7 +51,7 @@ public class EllipseAttack extends Attack{
                 checkAttackOffscreen();
             }
         }
-        t_param +=  (spd * 0.005f);//(spd / (bulletInfo.hRadius[0]));
+        t_param +=  (spd * 0.005f);
         t_param %= (float)Math.toRadians(360);
     }
     private void moveParametric(Point origin, Point pos, float hRad, float vRad) {
@@ -84,8 +93,8 @@ public class EllipseAttack extends Attack{
 
     public static AttackInfo getInitializer(BaseAttackInfo atk_init, Line startLine, Line stopLine) {
         ArrayList<AttackParameter> params = new ArrayList<>();
-        params.addAll(AttackParameter.flattenLine(startLine));
-        params.addAll(AttackParameter.flattenLine(stopLine));
+        params.addAll(AttackParameter.unpackLineToNumbers(startLine));
+        params.addAll(AttackParameter.unpackLineToNumbers(stopLine));
         return new AttackInfo(AttackInfo.ELLIPSE_ATTACK, atk_init, params);
     }
 

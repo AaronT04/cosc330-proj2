@@ -1,16 +1,17 @@
 package com.at04.touchmovetest;
 
-import android.app.Activity;
 import android.graphics.Canvas;
-import android.graphics.PorterDuff;
-import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.TextView;
-import android.view.View;
 
+import java.util.ArrayList;
+
+/**
+ * Runs the game at a certain frame rate by calling model.update() to update the game world
+ * and draw() to render the frame. <br/><br/>
+ * The structure of this class was copied from https://github.com/erz05/JoyStick
+ */
 public class GameLoop extends Thread {
-    TextView testDisplay;
-    TextView hitTimerDisplay;
     private SurfaceView view;
     Canvas canvas;
     public static final long FPS = 45;
@@ -20,9 +21,10 @@ public class GameLoop extends Thread {
     //dt_sec: This is the time in seconds that passes each frame
     public static final float dt_sec = (float)1000 / FPS / 1000;
 
-    public static final long hitbuffer_ms = 500;
-    private CountdownTimer hitTimer = new CountdownTimer(hitbuffer_ms);
-    private Timer profileTimer = new Timer();
+    private static ArrayList<CountdownTimer> timers = new ArrayList<>();
+
+    //profileTimer can be used to log the amount of time spent in a method
+    //private Timer profileTimer = new Timer();
     private long startTime;
     private long sleepTime;
     GameModel model;
@@ -46,25 +48,21 @@ public class GameLoop extends Thread {
     public void run() {
         while(running) {
             startTime = System.currentTimeMillis();
-            //start
             //profileTimer.start();
-            //handleCollision();
             model.update();
             //profileTimer.debugStop("game Logic");
             //profileTimer.start();
             draw();
             //profileTimer.debugStop("draw()");
 
-            //end
             long time_elapsed = System.currentTimeMillis() - startTime;
-            hitTimer.update((1000 / FPS));
             sleepTime = ticksPS - time_elapsed;
             //Log.d("frame length", String.valueOf(time_elapsed));
             //Log.d("lag amt", String.valueOf((time_elapsed - ticksPS)) + " ms");
 
             totalMs += ticksPS + Math.max(0, time_elapsed - ticksPS);
             laggedMs += Math.max(0, time_elapsed - ticksPS);
-            if(totalMs > 10000) {
+            if(totalMs > 10000) { //reset the lag percentage calculation every ten seconds
                 totalMs = 1;
                 laggedMs = 0;
             }
@@ -82,14 +80,16 @@ public class GameLoop extends Thread {
 
     private void draw() {
         try {
+            //canvas is locked - cannot be accessed from other threads while drawing
             canvas = view.getHolder().lockCanvas();
-            synchronized (view.getHolder()) {
-
-                model.draw(canvas);
-
+            synchronized (view.getHolder()) { //???
+                model.draw(canvas); /*TODO: ideally, all graphic elements would be stored in
+                a GameView class for faster drawing, similar to how AttackManager stores
+                matrices and bitmaps for every bullet*/
             }
         } finally {
             if (canvas != null) {
+                //without this, the game can crash when you press the home button
                 view.getHolder().unlockCanvasAndPost(canvas);
             }
         }

@@ -8,9 +8,11 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Activity for the start menu and submenus. The actual menu contents are stored in Fragments.
+ */
+
 public class LevelMenuActivity extends AppCompatActivity {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,4 @@ public class LevelMenuActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container, new RootMenuFragment())
                 .commit();
     }
-
-
 }

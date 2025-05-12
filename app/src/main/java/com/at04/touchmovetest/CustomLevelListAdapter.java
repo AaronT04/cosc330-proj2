@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+/**
+ * Custom ArrayAdapter for CustomLevelListEntry objects. It also handles expansion of objects when clicked.
+ */
 public class CustomLevelListAdapter extends ArrayAdapter<CustomLevelListEntry> {
     public CustomLevelListAdapter(Context context, List<CustomLevelListEntry> levelList) {
         super(context, 0, levelList);

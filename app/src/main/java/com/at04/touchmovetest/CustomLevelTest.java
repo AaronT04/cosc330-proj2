@@ -4,6 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Used to add custom levels to the database before a LevelCreator activity has been made.
+ * This is used to make sure that saving/loading levels to Firebase works properly.
+ */
 public class CustomLevelTest {
     public static void testmethod_add03todatabase() {
         AttackInfoList atkInfoList = new AttackInfoList();

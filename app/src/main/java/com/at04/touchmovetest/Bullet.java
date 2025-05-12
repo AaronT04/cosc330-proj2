@@ -5,18 +5,21 @@ import static java.lang.Math.sin;
 
 import android.graphics.Bitmap;
 
+/**
+ * Stores physics for a bullet, as well as the bitmap information (Sprite).
+ * Also handles "loading" and "unloading". By default, all bullets are already allocated
+ * but not "loaded". Unloaded means that they are stopped and stored somewhere far offscreen.
+ */
 public class Bullet extends PhysicsSprite {
-    private static final int SPEED_MULTIPLIER = 200;
-    private float rotationSpeed = 0;
+    private static final int SPEED_MULTIPLIER = 200; //Convert spd from Attacks into a usable value
+    private float rotationSpeed = 0; //Refers to bitmap rotation speed (rotation of the image)
+
+    /**
+     * By default, all bullets are already allocated but not "loaded". Unloaded means that
+     * they are stopped and stored somewhere far offscreen.
+     */
 
     public boolean isLoaded = false;
-    public Bullet(Bitmap bitmap, Point p, float spd) {//, Path bp) {
-        super(bitmap, p);
-        this.spd = spd;
-    }
-    public Bullet(Bitmap bitmap) {
-        super(bitmap, true);
-    }
     public Bullet() {
         super();
     }
@@ -24,7 +27,6 @@ public class Bullet extends PhysicsSprite {
     public void update() {
         sprite.rotateBitmap(rotationSpeed);
         super.update();
-        //Log.d("bullet.update", pos.toString());
     }
     public void setBitmapRotationSpeed(float anglePerFrame) {
         this.rotationSpeed = anglePerFrame;

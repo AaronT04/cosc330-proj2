@@ -9,6 +9,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Holds bitmap, matrix and paint - what's required to draw to a Canvas.
+ * Organizes graphics information for Player and Bullets
+ */
 public class Sprite {
     protected Bitmap bitmap;
     protected float skinWidth;

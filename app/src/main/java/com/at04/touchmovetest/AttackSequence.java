@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import android.util.Log;
 
+/**
+ * Usually represents the list of Attacks in a level, for use by the AttackManager.
+ * AttackSequences can also be combined together to form a larger sequence using polymorphic add() methods.
+ */
 public class AttackSequence implements Serializable {
     private ArrayList<Attack> sequence;
     private boolean looped = false;
@@ -62,19 +66,5 @@ public class AttackSequence implements Serializable {
     }
     public boolean isEmpty() {
         return sequence.isEmpty();
-    }
-
-
-    public ArrayList<Attack> getSequence() {
-        return sequence;
-    }
-    public boolean getLooped() {
-        return looped;
-    }
-
-
-    public void remove(Attack atk) {
-        sequence.remove(atk);
-        Log.d("atkSeq.remove()", String.valueOf(sequence.size()));
     }
 }

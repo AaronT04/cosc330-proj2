@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
+/**
+ * Combines graphics info (Sprite) and movement info (Physics).
+ */
 public class PhysicsSprite extends Physics {
     private int percentage = 50;
     protected Sprite sprite;
@@ -17,13 +20,6 @@ public class PhysicsSprite extends Physics {
         this.sprite = new Sprite(b, isBullet);
         initBounds();
         applyMovement();
-    }
-    public PhysicsSprite(Bitmap b, Point p) {
-        this.sprite = new Sprite(b, true);
-        pos.x = p.x;
-        pos.y = p.y;
-        initBounds();
-        applyMovement(); //this moves the sprite to the initial position
     }
 
     public void initBounds() {
@@ -45,7 +41,7 @@ public class PhysicsSprite extends Physics {
 
     public void update() {
         //at this point, "pos" has already been set
-        applyMovement(); // apply pos, angle information to the sprite
+        applyMovement(); // apply pos, angle information to the sprite's matrix for drawing
         updateBounds(); // bounds will be used for collision detection
     }
     public void draw(Canvas canvas) {
@@ -55,15 +51,14 @@ public class PhysicsSprite extends Physics {
     }
 
 
+    /**
+     * This updates the sprite's matrix to reflect changes in position and angle.
+     * The matrix controls position, rotation and size of how the sprite is drawn on the canvas.
+     */
     protected void applyMovement() {
         sprite.matrix.reset();
         sprite.matrix.postTranslate(-radius, -radius);
         sprite.matrix.postRotate(sprite.bitmapAngle);
         sprite.matrix.postTranslate(pos.x + radius, pos.y + radius);
-    }
-
-    public void setPosition(Point p) {
-        pos.x = p.x;
-        pos.y = p.y;
     }
 }

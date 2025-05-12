@@ -1,5 +1,12 @@
 package com.at04.touchmovetest;
 
+/**
+ * Used to count down time. <br/>
+ * TODO: Currently, the timer must be updated manually. However, it could be made
+ * an observer to GameLoop, or to a universal Clock class if timers are needed outside of a Level activity.
+ * In addition, classes could implement a TimerListener interface to take action on a timer's completion,
+ * or a Runnable object could be stored here to automatically run code when the timer completes.
+ */
 public class CountdownTimer {
     private static long length_ms;
     private long time_ms;
@@ -14,12 +21,12 @@ public class CountdownTimer {
         timerActive = false;
         time_ms = length_ms;
     }
-    public void setActive() {
+    public void startTimer() {
         time_ms = length_ms;
         timerActive = true;
     }
 
-    public void update(long time_elapsed){
+    public void updateTimeElapsed(long time_elapsed){
         if(timerActive) {
             time_ms -= time_elapsed;
             if(time_ms <= 0) {
@@ -35,6 +42,10 @@ public class CountdownTimer {
         return length_ms - time_ms;
     }
 
+    /**
+     * TODO: instead of "isActive", use something like "isOver"
+     * @return true if the timer has not expired yet.
+     */
     public boolean isActive() {
         return timerActive;
     }

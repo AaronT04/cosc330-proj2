@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
 *   AttackParameter stores the list of parameters for an attack.
 *   It also forces Firebase to serialize/deserialize everything as a "double".
 *   Otherwise, it sometimes saves numbers as "long", which cannot be cast to "float", causing an error.
 */
-
 public class AttackParameter implements Serializable {
     public String type;
     public String objectType = "Object";
@@ -29,6 +28,11 @@ public class AttackParameter implements Serializable {
         this(type, value);
         this.description = description;
     }
+
+    /**
+     * Ensure that all numbers are stored in Firebase as Double, not Long
+     * @param num - number to wrap for Firebase storage
+     */
     private void wrapNumber(Number num) {
         objectType = "Number";
         if (num instanceof Integer) {numValue = num.doubleValue();}
@@ -50,7 +54,7 @@ public class AttackParameter implements Serializable {
         }
         return value;
     }
-    public static ArrayList<AttackParameter> flattenLine(Line line) {
+    public static ArrayList<AttackParameter> unpackLineToNumbers(Line line) {
         ArrayList<AttackParameter> result = new ArrayList<>();
         result.add(new AttackParameter("float", line.x.min, "xmin"));
         result.add(new AttackParameter("float", line.x.max, "xmax"));
@@ -58,7 +62,7 @@ public class AttackParameter implements Serializable {
         result.add(new AttackParameter("float", line.y.max, "ymax"));
         return result;
     }
-    public static Line unflattenLine(List<AttackParameter> nums) {
+    public static Line packNumbersToLine(List<AttackParameter> nums) {
         return new Line(new Range((float)nums.get(0).unwrap(), (float)nums.get(1).unwrap()),
                         new Range((float)nums.get(2).unwrap(), (float)nums.get(3).unwrap()));
     }

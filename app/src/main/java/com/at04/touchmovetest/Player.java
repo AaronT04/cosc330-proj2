@@ -5,10 +5,6 @@ import static com.at04.touchmovetest.GameLoop.dt_sec;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -23,10 +19,10 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
     boolean isGrabbed = false;
     private GestureDetector gestureDetector;
     private RectF touchBounds;
-    private CountdownTimer hitTimer;
+    private CountdownTimer invincibilityTimer;
 
-    private AnimatedColorFilter hitFilter =
-            new AnimatedColorFilter(0f,new Range(0.5f, 0.5f), new Range(1f, 1f),  3, 0.3f);
+    private AnimatedColorFilter hitAnimation =
+            new AnimatedColorFilter(0f,new Range(0.5f, 1), new Range(1f, 1f),  10, 0.3f);
 
 
     DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
@@ -40,6 +36,8 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
     public Player(Bitmap b) {
         super(b, false);
 
+        //the normal bounds rectangle for collision detection is very small
+        //a larger rectangle has to be used for touch detection
         touchBounds = new RectF(centerX - radius, centerY + radius,
                 centerX + radius, centerY - radius);
 
@@ -58,32 +56,51 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
     public void update() {
         touchBounds.set(centerX - radius, centerY + radius,
                 centerX + radius, centerY - radius);
-        float dy = pos.y - oldY;
-        float dx = pos.x - oldX;
-        if(!((dy == 0) && (dx == 0))) {
-            float facingAngle =(float)Math.copySign(Math.max(Math.min(Math.toDegrees(Math.atan((dy) / (dx))) + 90, 45), -45), dx);
-            angV = facingAngle - sprite.bitmapAngle;
-            float angA = 1;
-            sprite.bitmapAngle += angV * angA * dt_sec;
-        }
-        else {
-            sprite.bitmapAngle = 0;
-        }
-
-        Log.d("bitmap angle", String.valueOf(sprite.bitmapAngle));
+        setFacingAngle();
         oldX = pos.x;
         oldY = pos.y;
 
         super.update();
     }
+
+    /**
+     * Controls the animation of the head turning when moving horizontally
+     */
+    private void setFacingAngle() {
+        float dy = pos.y - oldY;
+        float dx = pos.x - oldX;
+        if(!((dy == 0) && (dx == 0))) { //If moving
+            float facingAngle =(float)Math.copySign(
+                    Math.max(                               //Angle can't be less than -45
+                            Math.min(                           //Angle can't be greater than 45
+                                    Math.toDegrees(Math.atan((dy) / (dx)))  //atan gets angle from y and x
+                                            //convert from "unit circle" angle to "directional" angle:
+                                            //we want 0 degrees to mean up, not left, so +90
+                                            + 90,
+                                    45),
+                            -45),
+                    dx);//Set the sign of the angle to direction of x movement (is this necessary?)
+            angV = facingAngle - sprite.bitmapAngle; //Angular velocity - change in angle
+            float angA = 1; //Angular acceleration - makes the animation smoother
+            sprite.bitmapAngle += angV * angA * dt_sec;
+        }
+        else {
+            sprite.bitmapAngle = 0; //Snap to 0 degrees if not moving
+        }
+    }
+
+
+    /**
+     * GameView dispatches touch events to Player via this method
+     */
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 isGrabbed = (checkIfTouched(e.getX(), e.getY()));
             case MotionEvent.ACTION_MOVE:
-                if (isGrabbed) {
+                if (isGrabbed) {    //Don't move if not grabbed
                     pos.x = e.getX() - radius;
-                    pos.y = e.getY() - radius - 150;
+                    pos.y = e.getY() - radius - 150; //Set player above finger
                 }
                 return true;
             case MotionEvent.ACTION_UP:
@@ -92,18 +109,20 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
         return false;
     }
 
-    public void registerHitTimer(CountdownTimer hitTimer) {
-        this.hitTimer = hitTimer;
+    public void registerInvincibilityTimer(CountdownTimer iTimer) {
+        this.invincibilityTimer = iTimer;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        if(hitTimer.isActive()) {
+        if(invincibilityTimer.isActive()) { //Play the hit animation
 
-            sprite.paint.setAlpha(5);
-            sprite.paint.setColorFilter(hitFilter.getColor(hitTimer));
-            if(hitTimer.getTimeElapsed() % 100 < 90) {
-                sprite.paint.setAlpha(255);
+            sprite.paint.setAlpha(5); //Make the sprite transparent
+            //Update color using hitAnimation
+            sprite.paint.setColorFilter(hitAnimation.getColor(invincibilityTimer));
+            //9/10 of frames, the sprite is opaque. Otherwise, mostly transparent
+            if(invincibilityTimer.getTimeElapsed() % 100 < 90) {
+                sprite.paint.setAlpha(255); //Make the sprite opaque
             }
         }
         else {
@@ -119,6 +138,8 @@ public class Player extends PhysicsSprite implements GestureDetector.OnGestureLi
             return true;
         return false;
     }
+
+    //Unused methods from GestureDetector.OnGestureListener interface
 
     @Override
     public boolean onDown(@NonNull MotionEvent e) {

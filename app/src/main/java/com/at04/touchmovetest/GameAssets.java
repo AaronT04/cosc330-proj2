@@ -5,6 +5,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+/**
+ * Provides a global point of access to all bitmaps used.
+ * Bitmaps can also be scaled here. <br/><br/>
+ * The Level activity calls GameAssets.init(getResources()) to initialize the Bitmap references.
+ */
 public class GameAssets {
     public static Bitmap playerSprite;
     public static Bitmap shruikenA;

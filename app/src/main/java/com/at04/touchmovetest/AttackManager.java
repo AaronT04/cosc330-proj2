@@ -7,11 +7,14 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+/**
+ * Used to load and unload bullets from an object pool.
+ * It also directly stores the bitmap and matrix for each bullet to make drawing faster.
+ * To load a bullet, attacks must call AttackManager.initializeBullet()
+ */
 public class AttackManager {
     private AttackSequence sequence;
     private GameModel model;
-    private Point playerPosition;
-    private ArrayList<Bullet> activeBullets = new ArrayList<>();
     private ArrayList<Attack> activeAttacks = new ArrayList<>();
     private int currentAttackIndex = 0;
     public static final int MAX_BULLETS = 512;
@@ -48,7 +51,6 @@ public class AttackManager {
     }
 
     public void registerPlayerPosition(Point p) {
-        playerPosition = p;
         for(int i = 0; i < sequence.size(); i++) {
             sequence.get(i).registerPlayerPosition(p);
         }

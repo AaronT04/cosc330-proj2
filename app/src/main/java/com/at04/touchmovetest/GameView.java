@@ -15,6 +15,10 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * Holds the SurfaceView, which holds the Canvas on which everything is drawn.
+ * Also handles all in-game touch events (and dispatches them to Player)
+ */
 public class GameView extends SurfaceView implements GestureDetector.OnGestureListener, SurfaceHolder.Callback {
     GestureDetector gestureDetector;
     GameModel model;

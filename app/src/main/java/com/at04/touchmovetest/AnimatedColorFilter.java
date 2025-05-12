@@ -5,6 +5,12 @@ import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.util.Log;
 
+/**
+ *
+ * Used to animate a bitmap's color. Specifically, it's used for the hit animation.
+ * It works by storing an array of color filters. which is accessed based on the value of a
+ * CountdownTimer passed to getColor(), which controls the animation.
+ */
 public class AnimatedColorFilter {
     private LightingColorFilter[] colorFilters;
     private float timePerSwitchMs;

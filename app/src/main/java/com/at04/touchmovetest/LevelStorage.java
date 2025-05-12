@@ -37,6 +37,22 @@ public class LevelStorage {
         mDatabase.child("LevelContents").child(newEntry.id).setValue(atkInfoList);
     }
 
+    public static AttackSequence createSequenceFromInfoList(AttackInfoList atkList) {
+        AttackSequence main = new AttackSequence();
+        if(atkList != null) {
+            for (int i = 0; i < atkList.size(); i++) {
+                AttackInfo thisAtk = atkList.get(i);
+                main.add(Attack.make(thisAtk));
+            }
+        }
+        else {
+            Log.d("createSequenceFromInfoList", "atkList is null");
+        }
+        return main;
+    }
+
+    //TODO: Get rid of these static classes, move them somewhere else or replace with
+    //AttackSequence array
     static class Level00Initializer extends LevelInitializer {
         @Override
         public AttackSequence getAttackSequence() {
@@ -124,19 +140,5 @@ public class LevelStorage {
             AttackSequence main = new AttackSequence();
             return main;
         }
-    }
-
-    public static AttackSequence createSequenceFromInfoList(AttackInfoList atkList) {
-        AttackSequence main = new AttackSequence();
-        if(atkList != null) {
-            for (int i = 0; i < atkList.size(); i++) {
-                AttackInfo thisAtk = atkList.get(i);
-                main.add(Attack.make(thisAtk));
-            }
-        }
-        else {
-            Log.d("createSequenceFromInfoList", "atkList is null");
-        }
-        return main;
     }
 }

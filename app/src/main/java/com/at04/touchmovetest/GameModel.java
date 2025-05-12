@@ -3,10 +3,6 @@ import static com.at04.touchmovetest.GameLoop.FPS;
 
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
-import android.view.View;
-import android.util.Log;
-
-import java.util.ArrayList;
 
 public class GameModel {
     public Player player;
@@ -17,18 +13,24 @@ public class GameModel {
     private HealthBar healthBar;
 
     public static final long hitbuffer_ms = 500;
-    public int hitsLeft;
+    public int playerHealth;
     public int hitCount = 6;
-    private CountdownTimer hitTimer = new CountdownTimer(hitbuffer_ms);
+    private CountdownTimer invincibilityTimer = new CountdownTimer(hitbuffer_ms);
 
     public GameModel(Level l) {
         this.context = l;
         initialize(LevelStorage.getLevelInitializer(l.levelID));
     }
+    /**
+     * TODO: Fix the redundancy between this (Custom level constructor) and the initalize() method
+     * (For local levels)
+     */
+
+
     public GameModel(Level l, AttackInfoList atkList) {
         this.context = l;
         player = new Player(GameAssets.playerSprite);
-        player.registerHitTimer(this.hitTimer);
+        player.registerInvincibilityTimer(this.invincibilityTimer);
         AttackSequence mainSequence = LevelStorage.createSequenceFromInfoList(atkList);
         if(mainSequence.isEmpty()) {
             context.end();
@@ -37,18 +39,18 @@ public class GameModel {
         attackManager.setSequence(mainSequence);
         attackManager.registerPlayerPosition(player.pos);
         attackManager.registerModel(this);
-        hitsLeft = hitCount;
+        playerHealth = hitCount;
         healthBar = new HealthBar(30, 30, 100, hitCount);
     }
 
     public void startGame() {
         attackManager.startAttacks();
-        context.startGame();
+        context.startGame(); //Has to be called *after* startAttacks -
+                            //Otherwise, there's a small random chance of a nullPointerException
     }
-
     private void initialize(LevelInitializer li) {
         player = new Player(GameAssets.playerSprite);
-        player.registerHitTimer(this.hitTimer);
+        player.registerInvincibilityTimer(this.invincibilityTimer);
         attackManager = new AttackManager();
         AttackSequence mainSequence = li.getAttackSequence();
         //If a level has not been properly downloaded from the database,
@@ -60,44 +62,53 @@ public class GameModel {
         attackManager.setSequence(mainSequence);
         attackManager.registerPlayerPosition(player.pos);
         attackManager.registerModel(this);
-        hitsLeft = hitCount;
+        playerHealth = hitCount;
         healthBar = new HealthBar(30, 30, 100, hitCount);
     }
     public void update() {
         //Log.d("gameModel.update()", "");
         handleCollision();
-        healthBar.update(hitsLeft);
+        healthBar.update(playerHealth);
         player.update();
         attackManager.update();
     }
     public void draw(Canvas canvas) {
 
         if(canvas!= null) {
-            canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-            canvas.drawBitmap(GameAssets.bg_sky, 0, 0, null);
-            healthBar.draw(canvas);
+            canvas.drawColor(0, PorterDuff.Mode.CLEAR); //Erases the entire canvas
+            canvas.drawBitmap(GameAssets.bg_sky, 0, 0, null); //BG is drawn first
             player.draw(canvas);
             //profileTimer.start();
             attackManager.draw(canvas);
+            healthBar.draw(canvas); //Draw on top layer
             //profileTimer.debugStop("attackManager.draw(canvas)");
         }
     }
 
+    /**
+     * Checks for collision between player and bullets on every frame.
+     * It only reduces the hit count (health) if the hitTimer (invincibility frames) is not active
+     */
     public void handleCollision() {
-        hitTimer.update((1000 / FPS));
+        invincibilityTimer.updateTimeElapsed((1000 / FPS));
         boolean collision = checkCollision();
         if(collision) {
-            Log.d("Collision", "HitsLeft: " + hitsLeft);
-            if(!(hitTimer.isActive())) {
-                hitsLeft--;
-                hitTimer.setActive();
+            //Log.d("Collision", "HitsLeft: " + hitsLeft);
+            if(!(invincibilityTimer.isActive())) {
+                playerHealth--;
+                invincibilityTimer.startTimer();
             }
-            if(hitsLeft == 0) {
-                Log.d("hitsLeft < 0", "end()");
+            if(playerHealth == 0) {
+                //Log.d("hitsLeft < 0", "end()");
                 this.context.end();
             }
         }
     }
+
+    /**
+     * Checks for collision between the player and all bullets
+     * @return true if the player is touching a bullet
+     */
     private boolean checkCollision() {
 
         for(int i = 0; i < AttackManager.MAX_BULLETS; i++) {

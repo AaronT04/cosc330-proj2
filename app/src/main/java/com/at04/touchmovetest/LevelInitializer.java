@@ -4,11 +4,10 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+/**
+ * TODO: Get rid of this class and replace it with an array of AttackSequences
+ */
 public abstract class LevelInitializer {
-    public Player setPlayer(Level context) {
-        Player player = new Player(GameAssets.playerSprite);// = context.findViewById(R.id.square);
-        return player;
-    }
     public abstract AttackSequence getAttackSequence();
 
 }

@@ -8,6 +8,9 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 
+/**
+ * Draws the health bar.
+ */
 public class HealthBar {
     RectF innerBounds;
     RectF drawArea;

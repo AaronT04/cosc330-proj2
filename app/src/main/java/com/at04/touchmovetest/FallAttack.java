@@ -5,13 +5,16 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Creates a group of bullets that fall from the top of the screen and are aimed at the player.
+ */
 public class FallAttack extends Attack {
     private final BulletInfo bulletInfo;
     private final boolean wrapEnabled;
     private static final int offsetSizeX = 500;
     private static final int offsetSizeY = 200;
     private final int offsetYDir;
-    private Point playerPos; //set at runtime (after constructor)
+    private Point playerPos;
     public FallAttack(BaseAttackInfo atk_init, boolean wrapEnabled, int offsetYDir) {
         super(atk_init);
         this.wrapEnabled = wrapEnabled;
@@ -40,18 +43,26 @@ public class FallAttack extends Attack {
             bullets.add(b);
 
             //Apply setup to bullet
-            b.pos.y += offsetYDir * bulletInfo.offsetAmtY[i];
+            b.pos.y += offsetYDir * bulletInfo.offsetAmtY[i]; //TODO: This should be handled in calcInitialPosition
             setAngleToTarget(i);
-            if(count < 10) {
+            if(count < 10) { //Rotation of bitmaps causes a lot of lag if the bullet count is high
                 b.setBitmapRotationSpeed(15f);
             }
         }
     }
 
+    /**
+     * Sets bullets in a small group of fixed horizontal size along the top of the screen. <br/>
+     * see offsetSizeX
+     */
     public Point calcInitialPosition(int idx, int count) {
         return new Point(idx * ((float)DisplaySize.screenWidth - 200) / count, 0 - GameAssets.pinkStar.getHeight());
     }
 
+    /**
+     * The reference to player position is established outside of the constructor.
+     * It happens in AttackManager.registerPlayerPosition(), after AttackManager.setSequence() is called
+     */
     @Override
     public void registerPlayerPosition(Point p) {
         this.playerPos = p;

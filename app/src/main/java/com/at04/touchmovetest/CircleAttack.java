@@ -7,6 +7,9 @@ import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Sets bullets in a circle pattern just off the top of the screen, which moves straight down across the screen.
+ */
 public class CircleAttack extends Attack{
     //radius is the distance from the center point to the edges
     public float radius;
@@ -18,10 +21,13 @@ public class CircleAttack extends Attack{
     //this keeps track of the angle between points based on count
     public double degreesBetween;
 
-    public float offsetCenter;
-    public float inputRadius;
+    /**
+     * -1 = left edge of screen, 0 = center, 1 = right
+     */
+    public float offsetCenter; //Only used in the constructor, but needs to be stored for copy()
+    public float inputRadius; //Only used in the constructor, but needs to be stored for copy()
 
-    //offsetCenter: -1 = left edge of screen, 0 = center, 1 = right
+
     public CircleAttack(BaseAttackInfo atk_init, float inputRadius, float offsetCenter){
         super(atk_init);
         this.inputRadius = inputRadius; //stored to allow for copying
@@ -45,6 +51,10 @@ public class CircleAttack extends Attack{
         bullets = new ArrayList<>();
     }
 
+    /**
+     * getInitializer() methods are like constructors that create AttackInfo objects instead of an actual
+     * Attack. This is used when creating an AttackInfoList to store to Firebase.
+     */
     public static AttackInfo getInitializer(BaseAttackInfo atkInit, float inputRadius, float offsetCenter) {
         ArrayList<AttackParameter> params = new ArrayList<>();
         params.add(new AttackParameter("float", inputRadius));

@@ -3,6 +3,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Stores constructor information for all Attacks. This is a simpler way of representing Attacks
+ * for Firebase storage.
+ */
 public class AttackInfo implements Serializable {
     public static final int FALL_ATTACK = 0;
     public static final int LINE_ATTACK = 1;

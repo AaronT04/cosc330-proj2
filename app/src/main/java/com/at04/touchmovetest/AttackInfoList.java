@@ -3,6 +3,10 @@ package com.at04.touchmovetest;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Stores a list of AttackInfo objects. In Firebase, this is used to represent all of the Attacks
+ * in a level (similar to AttackSequence). It includes methods for adding multiple objects at once.
+ */
 public class AttackInfoList implements Serializable {
     public ArrayList<AttackInfo> attackInfoList;
     public AttackInfoList() {
