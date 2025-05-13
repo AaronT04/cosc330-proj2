@@ -47,7 +47,7 @@ public class AttackManager {
         activeAttacks.add(sequence.get(0));
     }
 
-    public void registerPlayerPosition(Point p) {
+    public void registerPlayerPositionWithAttacks(Point p) {
         for(int i = 0; i < sequence.size(); i++) {
             sequence.get(i).registerPlayerPosition(p);
         }

@@ -29,7 +29,6 @@ public class LevelCreator extends AppCompatActivity {
         TextView inc=findViewById(tvID[item]);
         int downOne=Integer.valueOf(inc.getText().toString())-1;
         inc.setText(String.valueOf(downOne));
-
     }
 
     public void onIncrease(View view) {
@@ -81,9 +80,6 @@ public class LevelCreator extends AppCompatActivity {
         RadioGroup slantView=findViewById(R.id.slant);
         RadioButton slantBut=findViewById(slantView.getCheckedRadioButtonId());
         int slant=Integer.valueOf(slantBut.getContentDescription().toString());
-
-
-
         subList.add(1,new AttackInfo[]{FallAttack.getInitializer(new BaseAttackInfo(count,speed,cooldown),false,slant  )});
         finalSequence.add(1,new AttackInfoList[]{subList});
     }
@@ -104,28 +100,7 @@ public class LevelCreator extends AppCompatActivity {
         subList.add(1,new AttackInfo[]{EllipseAttack.getInitializer(new BaseAttackInfo(count,speed,cooldown),startLine,endLine )});
         finalSequence.add(1,new AttackInfoList[]{subList});
     }
-
-
     public void onSubmit(View view) {
         LevelStorage.saveToDatabase(finalSequence,"circle button test","username","3");
     }
 }
-
-
-/*
-AttackInfoList atkInfoList = new AttackInfoList();
-        AttackInfoList subList = new AttackInfoList();
-        subList.add(5, new AttackInfo[]{
-                LineAttack.getInitializer(new BaseAttackInfo(2, 5, 0.3f), 0),
-                LineAttack.getInitializer(new BaseAttackInfo(3, 10, 0.3f), 0.1f)
-        });
-        subList.add(FallAttack.getInitializer(new BaseAttackInfo(2, 10, 0.5f),false, 1));
-        subList.add(FallAttack.getInitializer(new BaseAttackInfo(3, 15, 0.5f), false, -1));
-
-        atkInfoList.add(5, new AttackInfoList[]{subList});
-        LevelStorage.saveToDatabase(atkInfoList, "Line test", "Aaron", "0");
-
-
-
-
-*/

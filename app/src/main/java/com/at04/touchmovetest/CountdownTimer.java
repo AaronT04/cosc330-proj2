@@ -47,11 +47,6 @@ public class CountdownTimer {
     public long getTimeElapsed() {
         return length_ms - time_ms;
     }
-
-    /**
-     * TODO: instead of "isActive", use something like "isOver"
-     * @return true if the timer has not expired yet.
-     */
     public boolean isActive() {
         return timerActive;
     }

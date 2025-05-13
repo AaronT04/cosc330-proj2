@@ -20,32 +20,40 @@ public class GameModel {
 
     public GameModel(Level l) {
         this.context = l;
-        initialize(LevelStorage.getLevelInitializer(l.levelID));
-    }
-    /**
-     * TODO: Fix the redundancy between this (Custom level constructor) and the initalize() method
-     * (For local levels)
-     */
-
-
-    public GameModel(Level l, AttackInfoList atkList) {
-        this.context = l;
-        player = new Player(GameAssets.playerSprite);
-        player.registerInvincibilityTimer(this.invincibilityTimer);
-        AttackSequence mainSequence = LevelStorage.createSequenceFromInfoList(atkList);
-        if(mainSequence.isEmpty()) {
-            context.end();
-        }
-        attackManager = new AttackManager();
-        attackManager.setSequence(mainSequence);
-        attackManager.registerPlayerPosition(player.pos);
-        attackManager.registerModel(this);
-        playerHealth = hitCount;
-        healthBar = new HealthBar(30, 30, 100, hitCount);
+        createPlayer();
+        createHealthBar();
+        LevelInitializer li = LevelStorage.getLevelInitializer(l.levelID);
+        getBackground(li);
+        AttackSequence mainSequence = li.getAttackSequence();
+        setupAttackManager(mainSequence);
     }
 
     public GameModel(Level l, AttackInfoList atkList, int bgID) {
-        this(l, atkList);
+        this.context = l;
+        createPlayer();
+        createHealthBar();
+        getBackground(bgID);
+        AttackSequence mainSequence = LevelStorage.createSequenceFromInfoList(atkList);
+        setupAttackManager(mainSequence);
+    }
+    private void setupAttackManager(AttackSequence mainSequence) {
+        attackManager = new AttackManager();
+        if(mainSequence.isEmpty()) {
+            context.end();
+        }
+        attackManager.setSequence(mainSequence);
+        attackManager.registerPlayerPositionWithAttacks(player.pos);
+        attackManager.registerModel(this);
+    }
+    private void createPlayer() {
+        player = new Player(GameAssets.playerSprite);
+        player.registerInvincibilityTimer(this.invincibilityTimer);
+    }
+    private void createHealthBar() {
+        playerHealth = hitCount;
+        healthBar = new HealthBar(75, 75, 100, hitCount);
+    }
+    private void getBackground(int bgID) {
         switch(bgID) {
             case CustomLevelListEntry.BG_LIGHT:
                 GameAssets.bg = GameAssets.bg_sky;
@@ -58,29 +66,14 @@ public class GameModel {
                 break;
         }
     }
+    private void getBackground(LevelInitializer li) {
+        li.setBackground();
+    }
 
     public void startGame() {
         attackManager.startAttacks();
         context.startGame(); //Has to be called *after* startAttacks -
                             //Otherwise, there's a small random chance of a nullPointerException
-    }
-    private void initialize(LevelInitializer li) {
-        li.setBackground();
-        player = new Player(GameAssets.playerSprite);
-        player.registerInvincibilityTimer(this.invincibilityTimer);
-        attackManager = new AttackManager();
-        AttackSequence mainSequence = li.getAttackSequence();
-        //If a level has not been properly downloaded from the database,
-        //"li.getAttackSequence()" may return an empty ArrayList
-        //in that case, quit and go back to level menu
-        if(mainSequence.isEmpty()) {
-            context.end();
-        }
-        attackManager.setSequence(mainSequence);
-        attackManager.registerPlayerPosition(player.pos);
-        attackManager.registerModel(this);
-        playerHealth = hitCount;
-        healthBar = new HealthBar(75, 75, 100, hitCount);
     }
     public void update() {
         //Log.d("gameModel.update()", "");
@@ -95,10 +88,8 @@ public class GameModel {
             canvas.drawColor(0, PorterDuff.Mode.CLEAR); //Erases the entire canvas
             canvas.drawBitmap(GameAssets.bg, 0, 0, null); //BG is drawn first
             player.draw(canvas);
-            //profileTimer.start();
             attackManager.draw(canvas);
             healthBar.draw(canvas); //Draw on top layer
-            //profileTimer.debugStop("attackManager.draw(canvas)");
         }
     }
 
