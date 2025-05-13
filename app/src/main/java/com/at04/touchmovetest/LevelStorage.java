@@ -3,8 +3,13 @@ package com.at04.touchmovetest;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,15 +32,27 @@ public class LevelStorage {
         return initializers[levelID % initializers.length];
     }
 
-    public static void saveToDatabase(AttackInfoList atkInfoList, String levelName, String username, String id) {
+    public static void saveToDatabase(AttackInfoList atkInfoList, String levelName, String username) {
         CustomLevelListEntry newEntry = new CustomLevelListEntry();
-        newEntry.id = id;
-        newEntry.levelName = levelName;
-        newEntry.username = username;
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy  - hh:mm:ss a", Locale.getDefault());
-        newEntry.timestamp = sdf.format(new Date());
-        mDatabase.child("LevelEntries").child(newEntry.id).setValue(newEntry);
-        mDatabase.child("LevelContents").child(newEntry.id).setValue(atkInfoList);
+        DatabaseReference availableIDRef = mDatabase.child("AvailableID");
+        availableIDRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                newEntry.id = String.valueOf(snapshot.getValue());
+                newEntry.levelName = levelName;
+                newEntry.username = username;
+                SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy  - hh:mm:ss a", Locale.getDefault());
+                newEntry.timestamp = sdf.format(new Date());
+                mDatabase.child("LevelEntries").child(newEntry.id).setValue(newEntry);
+                mDatabase.child("LevelContents").child(newEntry.id).setValue(atkInfoList);
+                mDatabase.child("AvailableID").setValue(String.valueOf(Integer.valueOf(newEntry.id) + 1));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public static AttackSequence createSequenceFromInfoList(AttackInfoList atkList) {

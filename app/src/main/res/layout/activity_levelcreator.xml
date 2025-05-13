@@ -5,576 +5,103 @@
     android:id="@+id/CreatorMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/bg_dark2"
     android:orientation="vertical"
     tools:context=".LevelCreator"
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal"
     >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/list_entry_border">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Level Name:"
+            android:fontFamily="@font/new_rodin_pro_light"
+            android:textColor="@color/white"
+            android:labelFor="@id/et_levelname"/>
+        <EditText
+            android:id="@+id/et_levelname"
+            android:layout_width="wrap_content"
+            android:width="100dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/new_rodin_pro_light"
+            android:text="Username"
+            android:labelFor="@id/et_username"/>
+        <EditText
+            android:id="@+id/et_username"
+            android:width="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="5dp"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/select_circle"
+            android:background="@drawable/button_white_border"
+            android:textColor="@color/white"
+            android:fontFamily="@font/new_rodin_pro_db"
+            android:text="Circle"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/select_fall"
+
+            android:background="@drawable/button_white_border"
+            android:textColor="@color/white"
+            android:fontFamily="@font/new_rodin_pro_db"
+            android:text="Fall"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/select_line"
+            android:background="@drawable/button_white_border"
+            android:textColor="@color/white"
+            android:fontFamily="@font/new_rodin_pro_db"
+            android:text="Line"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/select_ellipse"
+            android:background="@drawable/button_white_border"
+            android:textColor="@color/white"
+            android:fontFamily="@font/new_rodin_pro_db"
+            android:text="Ellipse"/>
+    </LinearLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
         android:onClick="onSubmit"
-        android:gravity="center"
-        />
-    <!--
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Cooldown" />
-
-    <LinearLayout
-        android:id="@+id/CircleCenterSetter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        tools:context=".LevelCreator"
-        android:gravity="center"
-        >
-
-        <Button
-            android:id="@+id/minus0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="0"
-            android:onClick="onDecrease"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/tv0"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:contentDescription="sets the cooldown"
-            android:text="1"
-            android:gravity="center"
-            />
-
-        <Button
-            android:id="@+id/plus0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="0"
-            android:onClick="onIncrease"
-            android:text="+" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Projectile count" />
-
-    <LinearLayout
-        android:id="@+id/CircleCountSetter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        tools:context=".LevelCreator"
-        android:gravity="center"
-        >
-
-        <Button
-            android:id="@+id/minus1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="1"
-            android:onClick="onDecrease"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/tv1"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:contentDescription="sets circle count"
-            android:gravity="center"
-            />
-
-        <Button
-            android:id="@+id/plus1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="1"
-            android:onClick="onIncrease"
-            android:text="+"
-            />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Projectile speed"
-        android:gravity="center"
+        android:background="@drawable/button_white_border"
+        android:textColor="@color/white"
+        android:fontFamily="@font/new_rodin_pro"
+        android:layout_marginVertical="5dp"
         />
 
     <LinearLayout
-        android:id="@+id/CircleSpeedSetter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        tools:context=".LevelCreator"
-        android:gravity="center"
-        >
-
-        <Button
-            android:id="@+id/minus2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="2"
-            android:onClick="onDecrease"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/tv2"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:contentDescription="sets Circle speed"
-            android:gravity="center"
-            />
-
-        <Button
-            android:id="@+id/plus2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="2"
-            android:onClick="onIncrease"
-            android:text="+" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Circle Radius" />
-
-    <LinearLayout
-        android:id="@+id/CircleRadiusSetter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        tools:context=".LevelCreator"
-        android:gravity="center"
-        >
-
-        <Button
-            android:id="@+id/minus3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="3"
-            android:onClick="onDecrease"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/tv3"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:contentDescription="sets the radius"
-            android:gravity="center"
-            />
-
-        <Button
-            android:id="@+id/plus3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="3"
-            android:onClick="onIncrease"
-            android:text="+"
-            />
-
-
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Middle of circle Left(0-2)Right"
-        android:gravity="center"
-        />
-    <EditText
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:id="@+id/Center"
-        android:contentDescription="set center"
+        android:layout_height="match_parent"
+        android:id="@+id/attacktype_fragment_container"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        />
+        android:background="@drawable/list_entry_border"/>
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="CircleAtack"
-        android:onClick="AddCircle"
-        android:text="add to sequence"
-        android:gravity="center"
-        />
-    -->
-    <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
-    <!--                                  bellow for line attack                                     -->
-    <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
-
-    <!--
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Projectile count"
-            android:gravity="center"
-            />
-        <LinearLayout
-            android:id="@+id/LineCount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            tools:context=".LevelCreator"
-            android:gravity="center"
-            >
-
-            <Button
-                android:id="@+id/minus3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="3"
-                android:onClick="onDecrease"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/tv3"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:contentDescription="Line count"
-                android:gravity="center"
-                />
-
-            <Button
-                android:id="@+id/plus3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="3"
-                android:onClick="onIncrease"
-                android:text="+"
-                />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Projectile speed"
-            android:gravity="center"
-            />
-
-        <LinearLayout
-            android:id="@+id/FallSpeedSetter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            tools:context=".LevelCreator"
-            android:gravity="center"
-            >
-
-            <Button
-                android:id="@+id/minus4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="4"
-                android:onClick="onDecrease"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/tv4"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:contentDescription="Line Projectile Speed"
-                android:gravity="center"
-                />
-
-            <Button
-                android:id="@+id/plus4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="4"
-                android:onClick="onIncrease"
-                android:text="+" />
-        </LinearLayout>
-
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Cooldown time"
-    android:gravity="center"
-        />
-    <EditText
-    android:layout_width="50dp"
-    android:layout_height="wrap_content"
-    android:text="0"
-    android:id="@+id/LineCooldown"
-        />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="scale down"
-            android:gravity="center"
-            />
-        <EditText
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:id="@+id/LineSquish"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="add line"
-            android:onClick="AddLine"
-            />
-        -->
-    <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
-    <!--                                  bellow for fall attack                                     -->
-    <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Projectile count"
-        android:gravity="center"
-        />
-    <LinearLayout
-        android:id="@+id/FallCount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        tools:context=".LevelCreator"
-        android:gravity="center"
-        >
-
-        <Button
-            android:id="@+id/minus5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="5"
-            android:onClick="onDecrease"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/tv5"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:contentDescription="Fall Count"
-            android:text="1"
-            android:gravity="center"
-            />
-
-        <Button
-            android:id="@+id/plus5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="5"
-            android:onClick="onIncrease"
-            android:text="+"
-            />
-    </LinearLayout>
-    <!-- line attack speed below -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Projectile speed"
-        android:gravity="center"
-        />
-
-    <LinearLayout
-        android:id="@+id/fallSpeedSetter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        tools:context=".LevelCreator"
-        android:gravity="center"
-        >
-
-        <Button
-            android:id="@+id/minus6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="6"
-            android:onClick="onDecrease"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/tv6"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:contentDescription="fall speed"
-            android:text="1"
-            android:gravity="center"
-            />
-
-        <Button
-            android:id="@+id/plus6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="6"
-            android:onClick="onIncrease"
-            android:text="+" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cooldown time"
-        android:gravity="center"
-        />
-    <EditText
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:id="@+id/fallCooldown"
-        />
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/slant"
-        >
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="forward slant"
-            android:contentDescription="1"
-            />
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="backwards slant"
-            android:contentDescription="-1"
-            />
-    </RadioGroup>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="add shooting stars"
-        android:contentDescription="adds a falling attack"
-        android:onClick="AddFall"
-        />
-    <!-- above is the fall attack cooldown enter -->
-
-    <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
-    <!--                                  bellow for ellipse attack                                     -->
-    <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Projectile count"
-        android:gravity="center"
-        />
-    <LinearLayout
-        android:id="@+id/EllipseCount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        tools:context=".LevelCreator"
-        android:gravity="center"
-        >
-
-        <Button
-            android:id="@+id/minus7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="7"
-            android:onClick="onDecrease"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/tv7"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:gravity="center"
-            />
-
-        <Button
-            android:id="@+id/plus7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="7"
-            android:onClick="onIncrease"
-            android:text="+"
-            />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Projectile speed"
-        android:gravity="center"
-        />
-
-    <LinearLayout
-        android:id="@+id/ellipseSpeedSetter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        tools:context=".LevelCreator"
-        android:gravity="center"
-        >
-
-        <Button
-            android:id="@+id/minus8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="8"
-            android:onClick="onDecrease"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/tv8"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:gravity="center"
-            />
-
-        <Button
-            android:id="@+id/plus8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="8"
-            android:onClick="onIncrease"
-            android:text="+" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cooldown time"
-        android:gravity="center"
-        />
-    <EditText
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:id="@+id/ellipseCooldown"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add meteor shower"
-        android:onClick="AddEllipse"
-        />
 </LinearLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ellipse_fragment"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Projectile count"
+        android:gravity="center"
+        />
+    <LinearLayout
+        android:id="@+id/EllipseCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/minus7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="7"
+            android:onClick="onDecrease"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv7"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/plus7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="7"
+            android:onClick="onIncrease"
+            android:text="+"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Projectile speed"
+        android:gravity="center"
+        />
+
+    <LinearLayout
+        android:id="@+id/ellipseSpeedSetter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/minus8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="8"
+            android:onClick="onDecrease"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv8"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/plus8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="8"
+            android:onClick="onIncrease"
+            android:text="+" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cooldown time"
+        android:gravity="center"
+        />
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/ellipseCooldown"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add meteor shower"
+        android:onClick="AddEllipse"
+        />
+
+</LinearLayout>

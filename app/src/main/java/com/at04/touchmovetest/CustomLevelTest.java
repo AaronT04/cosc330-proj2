@@ -17,7 +17,7 @@ public class CustomLevelTest {
         atkInfoList.add(CircleAttack.getInitializer(simult_atk1, 1f/2, 0f));
         atkInfoList.add(CircleAttack.getInitializer(simult_atk1, 1f/4, 0f));
 
-        LevelStorage.saveToDatabase(atkInfoList, "Level03 test", "Aaron", "1");
+        LevelStorage.saveToDatabase(atkInfoList, "Level03 test", "Aaron");
     }
     public static void testmethod_addlinetesttodatabase() {
         AttackInfoList atkInfoList = new AttackInfoList();
@@ -30,7 +30,7 @@ public class CustomLevelTest {
         subList.add(FallAttack.getInitializer(new BaseAttackInfo(3, 15, 0.5f), false, -1));
 
         atkInfoList.add(5, new AttackInfoList[]{subList});
-        LevelStorage.saveToDatabase(atkInfoList, "Line test", "Aaron", "0");
+        LevelStorage.saveToDatabase(atkInfoList, "Line test", "Aaron");
     }
     public static void testmethod_addellipsetesttodatabase() {
         AttackInfoList atkInfoList = new AttackInfoList();
@@ -40,6 +40,6 @@ public class CustomLevelTest {
                         new Line((float)(Screen.middleX) - 100, new Range(0, 0)),
                         new Line(new Range(0, (Screen.middleX) + 200), Screen.height))});
 
-        LevelStorage.saveToDatabase(atkInfoList, "Ellipse test", "Aaron", "2");
+        LevelStorage.saveToDatabase(atkInfoList, "Ellipse test", "Aaron");
     }
 }

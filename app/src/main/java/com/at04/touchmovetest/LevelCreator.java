@@ -15,12 +15,50 @@ import android.widget.TextView;
 public class LevelCreator extends AppCompatActivity {
     int tvID[];
     AttackInfoList finalSequence;
+    Button selectCircle;
+    Button selectFall;
+    Button selectEllipse;
+    Button selectLine;
+    EditText usernameInput;
+    EditText levelnameInput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levelcreator);
-        tvID=new int[]{/*R.id.tv0,R.id.tv1,R.id.tv2,R.id.tv3*/0,0,0,/*R.id.tv3,R.id.tv4*/0,0,R.id.tv5,R.id.tv6,R.id.tv7,R.id.tv8};
+        tvID=new int[]{R.id.tv0,R.id.tv1,R.id.tv2,R.id.tv3,R.id.tv4,R.id.tv5,R.id.tv6,R.id.tv7,R.id.tv8};
         finalSequence=new AttackInfoList();
+        usernameInput = findViewById(R.id.et_username);
+        levelnameInput = findViewById(R.id.et_levelname);
+        selectCircle = findViewById(R.id.select_circle);
+        selectCircle.setOnClickListener(v -> {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.attacktype_fragment_container, new CircleEditorFragment())
+                    .commit();
+        });
+        selectFall = findViewById(R.id.select_fall);
+        selectFall.setOnClickListener(v -> {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.attacktype_fragment_container, new FallEditorFragment())
+                    .commit();
+        });
+        selectLine = findViewById(R.id.select_line);
+        selectLine.setOnClickListener(v -> {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.attacktype_fragment_container, new LineEditorFragment())
+                    .commit();
+        });
+        selectEllipse = findViewById(R.id.select_ellipse);
+        selectEllipse.setOnClickListener(v -> {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.attacktype_fragment_container, new EllipseEditorFragment())
+                    .commit();
+        });
+
+
     };
 
     public void onDecrease(View view) {
@@ -39,23 +77,22 @@ public class LevelCreator extends AppCompatActivity {
         inc.setText(String.valueOf(upOne));
     }
     public void AddCircle(View view){
-/*
         AttackInfoList subList=new AttackInfoList();
-        TextView countView=findViewById(R.id.tv1);
+        TextView countView=findViewById(R.id.tv0);
         int count=Integer.valueOf(countView.getText().toString());
-        TextView speedView=findViewById(R.id.tv2);
+        TextView speedView=findViewById(R.id.tv1);
         float speed=Float.valueOf(speedView.getText().toString());
-        TextView radView=findViewById(R.id.tv3);
+        TextView radView=findViewById(R.id.tv2);
         float inputRad=Float.valueOf(radView.getText().toString())/6f;
-        TextView coolView=findViewById(R.id.tv0);
+        TextView coolView=findViewById(R.id.CircleCooldown);
         float cooldown=Float.valueOf(coolView.getText().toString());
         EditText etOffset=findViewById(R.id.Center);
         float offsetCenter=Float.valueOf(etOffset.getText().toString())-1f;
         subList.add(1,new AttackInfo[]{CircleAttack.getInitializer(new BaseAttackInfo(count,speed,cooldown),inputRad,offsetCenter )});
-        finalSequence.add(1,new AttackInfoList[]{subList});*/
+        finalSequence.add(1,new AttackInfoList[]{subList});
     }
     public void AddLine(View view){
-        /*AttackInfoList repetitionList=new AttackInfoList();
+        AttackInfoList repetitionList=new AttackInfoList();
         AttackInfoList subList=new AttackInfoList();
         TextView countView=findViewById(R.id.tv3);
         int count=Integer.valueOf(countView.getText().toString());//plus minus
@@ -66,14 +103,15 @@ public class LevelCreator extends AppCompatActivity {
         EditText squishEdit=findViewById(R.id.LineSquish);
         float squish=Float.valueOf(squishEdit.getText().toString());//enter
         subList.add(1,new AttackInfo[]{LineAttack.getInitializer(new BaseAttackInfo(count,speed,cooldown),squish  )});
-        finalSequence.add(1,new AttackInfoList[]{subList});*/
+        finalSequence.add(1,new AttackInfoList[]{subList});
     }
     public void AddFall(View view){
+
         AttackInfoList repetitionList=new AttackInfoList();
         AttackInfoList subList=new AttackInfoList();
-        TextView countView=findViewById(R.id.tv7);
+        TextView countView=findViewById(R.id.tv5);
         int count=Integer.valueOf(countView.getText().toString());//plus minus
-        TextView speedView=findViewById(R.id.tv8);
+        TextView speedView=findViewById(R.id.tv6);
         float speed=Float.valueOf(speedView.getText().toString());//plus minus
         EditText coolEdit=findViewById(R.id.fallCooldown);
         float cooldown=Float.valueOf(coolEdit.getText().toString());//enter
@@ -84,23 +122,26 @@ public class LevelCreator extends AppCompatActivity {
         finalSequence.add(1,new AttackInfoList[]{subList});
     }
     public void AddEllipse(View view){
+
         AttackInfoList repetitionList=new AttackInfoList();
         AttackInfoList subList=new AttackInfoList();
         TextView countView=findViewById(R.id.tv7);
         int count=Integer.valueOf(countView.getText().toString());//plus minus
         TextView speedView=findViewById(R.id.tv8);
         float speed=Float.valueOf(speedView.getText().toString());//plus minus
-        EditText coolEdit=findViewById(R.id.fallCooldown);
+        EditText coolEdit=findViewById(R.id.ellipseCooldown);
         float cooldown=Float.valueOf(coolEdit.getText().toString());//enter
         Float height=10f;
-        Line startLine= new Line(new Range(0, Screen.middleX), Screen.bottom);
-        Line endLine=new Line(Screen.middleX, new Range(Screen.middleY, Screen.top));
-
+        Line startLine= new Line(new Range(0, Screen.middleX), Screen.top);
+        Line endLine=new Line(Screen.middleX, Screen.bottom);
 
         subList.add(1,new AttackInfo[]{EllipseAttack.getInitializer(new BaseAttackInfo(count,speed,cooldown),startLine,endLine )});
         finalSequence.add(1,new AttackInfoList[]{subList});
+
     }
     public void onSubmit(View view) {
-        LevelStorage.saveToDatabase(finalSequence,"circle button test","username","3");
+        LevelStorage.saveToDatabase(finalSequence,
+                String.valueOf(usernameInput.getText()),
+                String.valueOf(levelnameInput.getText()));
     }
 }

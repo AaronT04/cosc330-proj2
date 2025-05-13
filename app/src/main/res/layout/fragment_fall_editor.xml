@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fall_fragment"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Projectile count"
+        android:gravity="center"
+        />
+    <LinearLayout
+        android:id="@+id/FallCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/minus5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="5"
+            android:onClick="onDecrease"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="Fall Count"
+            android:text="1"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/plus5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="5"
+            android:onClick="onIncrease"
+            android:text="+"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Projectile speed"
+        android:gravity="center"
+        />
+
+    <LinearLayout
+        android:id="@+id/fallSpeedSetter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/minus6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="6"
+            android:onClick="onDecrease"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv6"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="fall speed"
+            android:text="1"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/plus6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="6"
+            android:onClick="onIncrease"
+            android:text="+" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cooldown time"
+        android:gravity="center"
+        />
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/fallCooldown"
+        />
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/slant"
+        android:checkedButton="@id/forward_slant"
+        >
+        <RadioButton
+            android:id="@+id/forward_slant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="forward slant"
+            android:contentDescription="1"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="backwards slant"
+            android:contentDescription="-1"
+            />
+    </RadioGroup>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add shooting stars"
+        android:contentDescription="adds a falling attack"
+        android:onClick="AddFall"
+        />
+
+
+</LinearLayout>

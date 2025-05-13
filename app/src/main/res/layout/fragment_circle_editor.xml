@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/circle_fragment"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Projectile count" />
+
+    <LinearLayout
+        android:id="@+id/CircleCountSetter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:context=".LevelCreator"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/minus0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="0"
+            android:onClick="onDecrease"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv0"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:contentDescription="sets circle count"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/plus0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="0"
+            android:onClick="onIncrease"
+            android:text="+"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Projectile speed"
+        android:gravity="center"
+        />
+
+    <LinearLayout
+        android:id="@+id/CircleSpeedSetter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:context=".LevelCreator"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/minus1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="1"
+            android:onClick="onDecrease"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:contentDescription="sets Circle speed"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/plus1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="1"
+            android:onClick="onIncrease"
+            android:text="+" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Circle Radius" />
+
+    <LinearLayout
+        android:id="@+id/CircleRadiusSetter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:context=".LevelCreator"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/minus2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="2"
+            android:onClick="onDecrease"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:contentDescription="sets the radius"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/plus2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="2"
+            android:onClick="onIncrease"
+            android:text="+"
+            />
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Middle of circle Left(0-2)Right"
+        android:gravity="center"
+        />
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/Center"
+        android:contentDescription="set center"
+        android:gravity="center_horizontal"
+        />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cooldown time"
+        android:gravity="center"
+        />
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/CircleCooldown"
+        android:gravity="center_horizontal"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="CircleAtack"
+        android:onClick="AddCircle"
+        android:text="add to sequence"
+        android:gravity="center"
+        />
+</LinearLayout>
