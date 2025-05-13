@@ -49,8 +49,8 @@ public class FallAttack extends Attack {
             Point p = calcInitialPosition(i, count);
             bulletInfo.wrapped[i] = false;
             bulletInfo.removed[i] = false;
-            bulletInfo.offsetAmtX[i] = Math.copySign(((float)i / count) * offsetSizeX, i - (count / 2));
-            bulletInfo.offsetAmtY[i] = ((float)Math.abs((count / 2) - i) / (count / 2) * offsetSizeY);
+            bulletInfo.offsetAmtX[i] = Math.copySign(((float)i / count) * offsetSizeX, i - (count / 2f));
+            bulletInfo.offsetAmtY[i] = ((float)Math.abs((count / 2f) - i) / (count / 2f) * offsetSizeY);
 
             //Load bullet and add it to the array
             Bullet b = AttackManager.initializeBullet(GameAssets.pinkStar, p, spd, 0);

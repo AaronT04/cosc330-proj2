@@ -20,5 +20,6 @@ public class Screen {
     final static int bottomVisible = bottom - 450;
     final static Point topMiddlePoint = new Point(width / 2f, 0);
     final static int middleX = width / 2;
+    final static int middleY = height / 2;
     final static Range xRange = new Range(0, width);
 }

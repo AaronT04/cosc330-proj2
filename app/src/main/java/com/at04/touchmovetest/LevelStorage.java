@@ -1,5 +1,6 @@
 package com.at04.touchmovetest;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
@@ -107,6 +108,10 @@ public class LevelStorage {
         }
     }
     static class Level02Initializer extends LevelInitializer {
+        public void setBackground() {
+            GameAssets.bg = GameAssets.bg_sky_dark;
+            GameAssets.health_border = GameAssets.health_border_dark;
+        }
         @Override
         public AttackSequence getAttackSequence() {
             AttackSequence main = new AttackSequence();

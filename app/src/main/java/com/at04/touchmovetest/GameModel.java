@@ -44,12 +44,28 @@ public class GameModel {
         healthBar = new HealthBar(30, 30, 100, hitCount);
     }
 
+    public GameModel(Level l, AttackInfoList atkList, int bgID) {
+        this(l, atkList);
+        switch(bgID) {
+            case CustomLevelListEntry.BG_LIGHT:
+                GameAssets.bg = GameAssets.bg_sky;
+                break;
+            case CustomLevelListEntry.BG_DARK:
+                GameAssets.bg = GameAssets.bg_sky_dark;
+                GameAssets.health_border = GameAssets.health_border_dark;
+                break;
+            default: //By default, the background is already set to "bg_sky"
+                break;
+        }
+    }
+
     public void startGame() {
         attackManager.startAttacks();
         context.startGame(); //Has to be called *after* startAttacks -
                             //Otherwise, there's a small random chance of a nullPointerException
     }
     private void initialize(LevelInitializer li) {
+        li.setBackground();
         player = new Player(GameAssets.playerSprite);
         player.registerInvincibilityTimer(this.invincibilityTimer);
         attackManager = new AttackManager();
@@ -64,7 +80,7 @@ public class GameModel {
         attackManager.registerPlayerPosition(player.pos);
         attackManager.registerModel(this);
         playerHealth = hitCount;
-        healthBar = new HealthBar(30, 30, 100, hitCount);
+        healthBar = new HealthBar(75, 75, 100, hitCount);
     }
     public void update() {
         //Log.d("gameModel.update()", "");
@@ -77,7 +93,7 @@ public class GameModel {
 
         if(canvas!= null) {
             canvas.drawColor(0, PorterDuff.Mode.CLEAR); //Erases the entire canvas
-            canvas.drawBitmap(GameAssets.bg_sky, 0, 0, null); //BG is drawn first
+            canvas.drawBitmap(GameAssets.bg, 0, 0, null); //BG is drawn first
             player.draw(canvas);
             //profileTimer.start();
             attackManager.draw(canvas);

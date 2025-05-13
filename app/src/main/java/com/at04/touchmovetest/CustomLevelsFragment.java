@@ -91,7 +91,7 @@ public class CustomLevelsFragment extends Fragment{
             public void onDataChange(@NonNull DataSnapshot snapshot) { //
                 //snapshot stores "AttackInfoList" for the selected level
                 AttackInfoList atkList = snapshot.getValue(AttackInfoList.class);
-                switchActivities(atkList, context);
+                switchActivities(atkList, context, selectedLevel.bg_id);
             }
 
             @Override
@@ -100,11 +100,12 @@ public class CustomLevelsFragment extends Fragment{
             }
         });
     }
-    private static void switchActivities(AttackInfoList atkInfoList, Context context) {
+    private static void switchActivities(AttackInfoList atkInfoList, Context context, String bgID) {
         Intent intent;
         intent = new Intent(context, Level.class);
         intent.putExtra("LEVEL_TYPE", "remote");
         intent.putExtra("ATK_LIST", atkInfoList);
+        intent.putExtra("BG_ID", bgID);
         context.startActivity(intent);
     }
 }

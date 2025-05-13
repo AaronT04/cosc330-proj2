@@ -2,6 +2,7 @@ package com.at04.touchmovetest;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Color;
@@ -24,7 +25,10 @@ public class HealthBar {
     int vInset;
     int height;
     Range healthBarWidth;
+    Matrix matrix;
     public HealthBar(int hzInset, int vInset, int height, int maxHitCount) {
+        matrix = new Matrix();
+        matrix.postTranslate(0, 6);
         this.hzInset = hzInset;
         this.vInset = vInset;
         this.height = height;
@@ -65,7 +69,7 @@ public class HealthBar {
     }
 
     public void draw(Canvas canvas) {
-        //canvas.drawBitmap(...)
+        canvas.drawBitmap(GameAssets.health_border, matrix, null);
         canvas.drawRect(innerBounds, emptyPaint);
         canvas.drawRect(drawArea, healthPaint);
     }

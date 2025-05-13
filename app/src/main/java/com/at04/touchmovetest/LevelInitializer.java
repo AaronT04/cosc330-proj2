@@ -1,5 +1,6 @@
 package com.at04.touchmovetest;
 
+import android.graphics.Bitmap;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -9,4 +10,8 @@ import java.util.ArrayList;
  */
 public abstract class LevelInitializer {
     public abstract AttackSequence getAttackSequence();
+    public void setBackground() {
+        GameAssets.bg = GameAssets.bg_sky;
+        GameAssets.health_border = GameAssets.health_border_light;
+    }
 }

@@ -53,7 +53,8 @@ public abstract class Attack implements Serializable {
     protected void initialize() {
         if(initialTimer != null)
             initialTimer.startTimer();
-        nextTimer.startTimer();
+        if(nextTimer != null)
+            nextTimer.startTimer();
     }
 
     public void update() {

@@ -33,7 +33,12 @@ public class Level extends AppCompatActivity {
         if(levelType.equals("remote")) { //Custom Level
             //Custom Levels are initialized via "AttackInfoList"
             AttackInfoList atkList = (AttackInfoList)getIntent().getSerializableExtra("ATK_LIST");
-            gameModel = new GameModel(this, atkList);
+            String bgID_string = getIntent().getStringExtra("BG_ID");
+            int bgID = 0;
+            if(bgID_string != null) {
+                bgID = Integer.parseInt(bgID_string);
+            }
+            gameModel = new GameModel(this, atkList, bgID);
         }
         else { //Local/Demo level
             //Demo levels are initialized via LevelInitializers in LevelStorage
